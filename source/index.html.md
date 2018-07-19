@@ -4,10 +4,14 @@ title: The Namara API
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell: cURL
   - python
-  - javascript
+  # - javascript: JS
 
 toc_footers:
-  - <a href='https://app.namara.io/' target='_blank' rel='noreferrer noopener'>Go to Namara</a>
+  - <span class="view-format">View format:</span>
+  - <button class="see-json">json</button> 
+  - <button class="see-csv">csv</button> 
+  - <button class="see-geojson">geojson</button> 
+  - <a href='https://app.namara.io/#/' target='_blank' rel='noreferrer noopener'>Go to Namara</a>
 
 includes:
   # - errors
@@ -21,19 +25,19 @@ If you're looking to manipulate the Namara API, you've come to the right place. 
 
 ### Our REST API
 
-The Namara API is a REST-based service that accepts and returns JSON (with some minor exceptions). Requests should be made to:
+The Namara API is a REST-based service that accepts and returns `json` in most cases (we'll cover response format later). Requests should be made to:
 
 <code>https://{namara api host}/v0/{endpoint}</code>
 
 Unless instructed otherwise, the Namara API host is `api.namara.io`, which will be used for the duration of the documentation. 
 
-The response will be outlined for each endpoint.
+The responses will be outlined for each endpoint.
 
-## <span class="get">GET</span> Generic Endpoint
+##<div class="colour-pill"><span class="get">GET</span> Generic Endpoint</div>
 
 >https://api.namara.io/v0/:endpoint
 
-Generic endpoint. Chart displays standard response codes:
+This is a generic endpoint, and the foundation of almost every typical call to our API. The chart below displays standard response codes:
 
 Request | Response | Description
 ------- | -------- | -----------
@@ -42,7 +46,7 @@ Request | Response | Description
  | 401: Unauthorized | The API key you provided doesn't correspond to any user.
  | 403: Forbidden | User is not authorized to make that request.
  | 422: Unprocessable Entity | The server was unable to save the document. There will be more details in the full response body.
-
+ | 429: Too Many Requests | User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>).
 
 ## API Keys
 
@@ -60,11 +64,13 @@ For any project, visit the "Settings" tab and create API Keys for yourself for t
 
 The personal Namara API Key can be obtained by clicking on the Organization tab at the bottom of the left sidebar, then clicking "Account Settings". Copy this from the "API Key" tab and use it for any API calls.
 
-<aside class="warning">This key gives API access to the entire Namara account. If you are planning on giving your API Key to another user, we would recommend providing them with an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
+<aside class="warning">Your Personal Key gives API access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
 
 ### Rate Limiting
 
-Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`
+<!-- check to see if this should go to an email or to the contact page on namara marketing -->
+
+Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`. If you find yourself meeting the limits, <a href="mailto:sales@thinkdataworks.com" target="_blank" rel="noreferrer noopener">VERIFY THIS EMAIL</a> to find a solution.
  
 # Making Requests
 
@@ -91,7 +97,7 @@ Append the key to the headers by adding `"X-API-Key":"YOUR_API_KEY"`
 
 Here's how to verify your API Key
 
-### <span class="get">GET</span> Verify API Key
+###<div class="colour-pill"><span class="get">GET</span> Verify API Key</div>
 
 Ping the API at `http://api.namara.io/v0/users/verify_token` to ensure that the API token is valid for the user. You don't have to pass `api_key` into the URL - you can pass it in through the headers.
 
@@ -112,7 +118,7 @@ Response | Description
 
 Here, we'll outline the specifications for accessing the Data API. Each data set Each data set can be accessed at the API URL. In Namara, click on the "API Info" tab when viewing a data set to see all information regarding ID, version, and properties.
 
-## <span class="get">GET</span> Data Query
+##<div class="colour-pill"><span class="get">GET</span> Data Query</div>
 
 > https://api.namara.io/v0/data_sets/:data_set_id/data/:version
 
@@ -163,48 +169,44 @@ IN |  | Works for values in a specified list of items. | `p0 IN (100, 'foo', tru
 
 <aside class="notice">Note the spaces around the aliases in the queries.</aside>
 
-## Geospatial Operators
-
-Data Sets will commonly contain latitude and longitude as properties.
-
-The `where` condition query parameter supports some geospatial functions for querying data sets.
-
-><code>nearby(Column <column>, Float longitude, Float latitude, String radius)</code>
-
-This function will return all rows whose specified column is within radius distance of the point specified by latitude and longitude.
-
-><code>bbox(Column <column>, Float longitude_1, Float latitude_1, Float longitude_2, Float latitude_2)</code>
-
-This function will return all rows whose specified column lies within the bounding box created by the two coordinates.
-
 ## Operator Examples
 
->1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km lt 200</code><br/><br/>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make IN ("CHEVROLET","CADILLAC")</code><br/>**or with boolean operators**:<br/>
-<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
+>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make IN ("CHEVROLET","CADILLAC")</code><br/><br/>
+<code>2b)https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
 
   1. List all vehicles with CO<sub>2</sub> emissions less than 200g/km
 
-  2. Get fuel consumption ratings for all Cadillac and Chevrolet vehicles
+  2. a) Get fuel consumption ratings for all Cadillac and Chevrolet vehicles
+  
+      b) the same operation with boolean operators
   
   3. List all Cadillac and Chevrolet vehicles with good city and highway mileage
 
   *Example 3* is a more complex query with multiple conditions while explicitly specifying the evaluation order.
 
+## Geospatial Operators
+
+Data Sets will commonly contain `latitude` and `longitude` as properties.
+
+The `where` condition query parameter supports some geospatial functions for querying data sets.
+
 ## Geospatial Operator Examples
 
-```shell
-...&where=nearby(p3, 43.653226, -79.3831843, 10km)
+```
+1) ...&where=nearby(p3, 43.653226, -79.3831843, 10km)
 
-...&where=bbox(p3, 43.5810245, -79.639219, 43.8554579, -79.11689699)
+2) ...&where=bbox(p3, 43.5810245, -79.639219, 43.8554579, -79.11689699)
 ```
 
-Needs some 'splaining, just to take up the empty space down here
+*Example 1* will return all rows whose specified column is within `radius` distance of the point specified by `latitude` and `longitude`. 
+
+*Example 2* will return all rows whose specified column lies within the bounding box created by the two coordinates.
 
 # Export
 
 Exporting is almost identical the Data Query endpoint, with the exception that the complete result of the query will be saved to a file, and that file will be served up.
 
-## <span class="get">GET</span> Export
+##<div class="colour-pill"><span class="get">GET</span> Export</div>
 
 ### Request
 
@@ -228,23 +230,25 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
 
 ### Response
 
-Here are the responses you can expect:
-
->1)
-`{
+```
+1)
+  {
     "message": "Exported",
     "url": "<url to file>",
     "compressed_with": "none"
-}`
+  }
 
->2)
-`{ "message": "Pending" }`
+2)
+  { "message": "Pending" }
 
->3)
-`{
+3)
+  {
     "message": "Failed",
     "error_message": "<reason for error>"
-}`
+  }
+```
+
+Here are the responses you can expect:
 
 Response | Description
 -------- | -----------
@@ -254,17 +258,17 @@ Response | Description
 
 ## Compression Options
 
-Supports `gzip` and `zip` compression from levels 1-9. Specify parameters this way:
+Our API supports `gzip` and `zip` compression from levels 1-9. Specify parameters this way:
 
 <code>...&compress_with=gzip-9</code>
 
-Default compression level is 6 and default compression type `zip`.
+The default compression level is 6 and the default compression type `zip`.
 
-# Aggretation
+# Aggregation
 
-Use aggregation functions to retrieve data set-level information
+Use aggregation functions to retrieve data set-level information.
 
-## <span class="get">GET</span> Aggregate
+##<div class="colour-pill"><span class="get">GET</span> Aggregate</div>
 
 >https://api.namara.io/v0/data_sets/:data_set_id/data/:version/aggregation
 
@@ -276,8 +280,6 @@ data_set_id (required) | `string` | UUID for accessing the data set
 version (required) | `string` | Version identifier, eg. `en-0`
 operation (required) | `string` | Operation function to perform (see <a href="#operations">Operations</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
-
-<aside class="notice">The only optional parameter here is the `where` - all others are mandatory</aside>
 
 ## Response
 
@@ -313,25 +315,29 @@ max | The maximum value in a column | `max(p0)`
 
 While the Data API allows query behaviour over a single data set, the Query API allow broader control over the Namara data catalog.
 
-This API supports NiQL (the Namara io Query Language), a language for viewing, aggregating, and joining data sets. It's very similar to SQL, so don't worry - no new textbooks.
+This API supports **NiQL** (the Namara io Query Language), a language for viewing, aggregating, and joining data sets. It's very similar to SQL, so don't worry - no new textbooks.
 
-##<span class="get">GET</span> Meta
+##<div class="colour-pill"><span class="get">GET</span> Meta</div>
 
 >https://api.namara.io/v0/query/meta
 
+```
+{
+  "query_limit_maximum": 250,
+  "formats": ["geojson", "csv", "json"],
+  "default_format": "json"
+}
+```
+
 This endpoint provides the meta information for querying this Namara instance. It includes the maximum limit per query, the supported formats, and the default format if none is specified. This information may differ, depending on which deployment of Namara you're using. 
 
-*then maybe a chart? req res?*
-
-##<span class="post">POST</span> Query
+##<div class="colour-pill"><span class="post">POST</span> Query</div>
 
 >https://api.namara.io/v0/query.:format
 
-Dispatches a query and returns the result
+A call here dispatches a query and returns the result.
 
 ### Request
-
-In these requests, the `query` paramter is required, and if the format is `geojson`, the `geojson_feature_key` is required as well - the others are optional.
 
 Parameter | Type | Description
 --------- | ---- | -----------
@@ -341,20 +347,80 @@ organization_id | `string` | Organization ID to use for subscription lookup. If 
 query (required) | `string` | NiQL query string
 geojson_feature_key (may be required) | `string` | Property name to use as geometry when rendering `geojson`
 
+The <code>geojson_feature_key</code> is required if the requested format is <code>geojson</code> - otherwise, it is not needed.
+
 ### Response
 
->1) EXAMPLE MISSING because showing things in three different formats. FIGURE IT OUT
+<aside class="notice">Click `json`, `csv`, or `geojson` in the side menu to view the response in different formats</aside>
 
->2) `{ "error": <Error message> }`
+### 200: OK
 
-Response | Description
--------- | -----------
-200: OK | Query executed successfully (*example 1*)
-422: Unprocessable Entity | Something went wrong (*example 2*)
+Query executed successfully.
 
+<div class="center-column response-json"></div>
+```
+json 
+  {
+    "results":[
+      {
+        "c0":"foo",
+        "c1":22,
+        "c2":"xx",
+        "c3":"POINT (-79.4 43.7)"
+      },
+      ...
+    ]
+  }
+```
+
+<div class="center-column response-csv"></div>
+```
+csv
+  c0,c1,c2,c3
+  foo,22,xx,POINT (-79.4 43.7)
+  bar,66,yy,POINT (-78.4 42.7)
+  baz,11,xx,POINT (-70.4 35.7)
+```
+
+<div class="center-column response-geojson"></div>
+```
+geojson
+  {
+    "type":"FeatureCollection",
+    "features":[
+      {
+        "type":"Feature",
+        "geometry":{
+          "type":"Point",
+          "coordinates": [ -79.4, 43.7 ]
+        },
+        "properties":{
+          "c0":"foo",
+          "c1":22,
+          "c2":"xx"
+        }
+      },
+      ...
+    ]
+  }
+```
+
+<!-- placeholder to stop divs from colliding -->
+<div class="response-json"></div>
+<div></div>
+<!-- end placeholder -->
+
+### 422: Unprocessable Entity
+
+Something went wrong with the request.
+
+<div class="center-column"></div>
+```
+{ "error": <Error message> }
+```
 # Query Specification
 
-NiQL is modelled after standard SQL, but only supports read-only `SELECT` statements. A traditional query must at minimum have a `SELECT` and `FROM` clause in order to execute. While the `SELECT` clause can be anything, the `FROM` clause must specify a data set and version to query. 
+**NiQL** is modelled after standard SQL, but only supports read-only `SELECT` statements. A traditional query must at minimum have a `SELECT` and `FROM` clause in order to execute. While the `SELECT` clause can be anything, the `FROM` clause must specify a data set and version to query. 
 
 For example, if we were looking to query a data set with an id of `2a6412c0-b3c9-420e-9487-abd21b664ac1` and the version `en-1`, our minimum query would be:
 
@@ -370,29 +436,66 @@ Below is a summary of supported features:
 
 ### COUNT
 
-<code>SELECT COUNT(* | column1)<br/>FROM data-set-id/en-0</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT COUNT(* | column1)
+  FROM data-set-id/en-0
+}
+```
 
 ### DISTINCT
 
-<code>SELECT DISTINCT column1, column2<br/>FROM data-set-id/en-0</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT DISTINCT column1, column2
+  FROM data-set-id/en-0
+}
+```
 
 ### COUNT DISTINCT
 
-<code>SELECT COUNT(DISTINCT column1)</br>FROM data-set-id/en-0</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT COUNT(DISTINCT column1)
+  FROM data-set-id/en-0
+}
+```
 
 ### MIN AND MAX
 
-<code>SELECT MIN(column1) AS minColumn1, MAX(column2) AS maxColumn2</br>FROM data-set-id/en-0</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT MIN(column1) AS minColumn1, MAX(column2) AS maxColumn2
+  FROM data-set-id/en-0
+}
+```
 
 ### AVG AND SUM
 
-<code>SELECT AVG(column1) AS avgColumn1, SUM(column1) AS sumColumn1</br>FROM data-set-id/en-0</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT AVG(column1) AS avgColumn1, SUM(column1) AS sumColumn1
+  FROM data-set-id/en-0
+}
+```
 
 ## FROM Features
 
 ### JOINS
 
-<code>SELECT DataSet1.id, DataSet1.city, DataSet2.country<br/>FROM data-set-id/en-0 AS DataSet1 INNER JOIN data-set-id2/en-1 AS DataSet2<br/>ON DataSet1.foreign_id = DataSet2.external_id</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT DataSet1.id, DataSet1.city, DataSet2.country
+  FROM data-set-id/en-0 AS DataSet1 INNER JOIN data-set-id2/en-1 AS DataSet2
+  ON DataSet1.foreign_id = DataSet2.external_id
+}
+```
 
 Supports:
 
@@ -403,48 +506,117 @@ Supports:
 
 ### UNIONS
 
-<code>SELECT id<br/>FROM data-set-id/en-0<br/>UNION [ALL]<br/>SELECT objectid<br/>FROM data-set-id2/en-1</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT id
+  FROM data-set-id/en-0
+  UNION [ALL]
+  SELECT objectid
+  FROM data-set-id2/en-1
+}
+```
 
 ## WHERE Features
 
 
 ### Conditions
 
-<code>SELECT id, address, city, province, country<br/>FROM data-set-id/en-0</br/>WHERE (country = 'Canada' AND province = 'Manitoba' AND NOT city = 'Winnipeg') OR country ='Mexico'</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT id, address, city, province, country
+  FROM data-set-id/en-0
+  WHERE (country = 'Canada' AND province = 'Manitoba' AND NOT city = 'Winnipeg') OR country ='Mexico'
+}
+```
 
 ### LIKE
 
-<code>SELECT *<br/>FROM data-set-id/en-0<br/>WHERE country LIKE 'C_%'</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT *
+  FROM data-set-id/en-0
+  WHERE country LIKE 'C_%'
+}
+```
 
 ### ORDER BY
 
-<code>SELECT *<br/>FROM data-set-id/en-0<br/>ORDER BY country, province, ... [ASC|DESC]</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT *
+  FROM data-set-id/en-0
+  ORDER BY country, province, ... [ASC|DESC]
+}
+```
 
 ### IN
 
-<code>SELECT *<br/>FROM data-set-id/en-0<br/>WHERE country IN ('Mexico', 'Canada', ...)</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT *
+  FROM data-set-id/en-0
+  WHERE country IN ('Mexico', 'Canada', ...)
+}
+```
 
 ### BETWEEN
 
-<code>SELECT *<br/>FROM data-set-id/en-0<br/>WHERE liquidation_date BETWEEN 2016-01-01 AND 2018-01-01</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT *
+  FROM data-set-id/en-0
+  WHERE liquidation_date BETWEEN 2016-01-01 AND 2018-01-01
+}
+```
 
 ## GROUP BY and HAVING
 
-<code>SELECT COUNT(customer_id), country<br/>FROM data-set-id/en-0<br/>GROUP BY country<br/>HAVING COUNT(customer_id) > 100 </code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT COUNT(customer_id), country
+  FROM data-set-id/en-0
+  GROUP BY country
+  HAVING COUNT(customer_id) > 100 
+}
+```
 
 ### Subselects
 
-<code>SELECT *<br/>FROM data-set-id/en-0<br/>WHERE total_count = [ANY|ALL] (SELECT COUNT(customer_id) FROM data-set-id2/en-1)</code>
+<div class="center-column"></div>
+```sql
+{
+  SELECT *
+  FROM data-set-id/en-0
+  WHERE total_count = [ANY|ALL] (SELECT COUNT(customer_id) FROM data-set-id2/en-1)
+}
+```
 
-<code>SELECT *<br/>FROM (SELECT customer_id, parent_account_id, purchase_total FROM data-set-id2/en-1)<br/>AS subSelect<br/>WHERE purchase_total > 1500</code>
-
-### Geospatial Features
+<div class="center-column"></div>
+```sql
+{
+  SELECT *
+  FROM (SELECT customer_id, parent_account_id, purchase_total FROM data-set-id2/en-1)
+  AS subSelect
+  WHERE purchase_total > 1500
+}
+```
+  
+## Geospatial Features
 
 Geometry properties for data sets are stored as `geojson`, and will be rendered as that unless specified. You can do this using the transformation functions `ST_GeomFromText` to create geometry objects, which can then be manipulated and transformed. Use `ST_AsGeoJSON` or `ST_AsText` in order to turn the final result back to text from binary.  
 
 Example (where `geometry_property` is a property from the data set of type geometry. This information can be obtained in the API Info tab when viewing a data set):
 
 <code>SELECT ST_AsGeoJSON(ST_GeomFromText(geometry_property))<br/>FROM data-set-id/en-0</code>
+
+### Supported Functions:
 
 >`ST_AsGeoJSON`<br/>
 >`ST_AsJson`<br/>
@@ -476,9 +648,7 @@ Example (where `geometry_property` is a property from the data set of type geome
 >`ST_YMax`<br/>
 >`ST_YMin`<br/>
 
-### Supported Functions:
-
-We are very interested in expanding the geospatial capabilities of NiQL. If there is additional functionalities, or issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out</a> to us.
+We are very interested in expanding the geospatial capabilities of **NiQL**. If there is additional functionalities, or issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.
 
 <aside class="notice">Please refer to the <a href="https://postgis.net/docs/" target="_blank" rel="noreferrer noopener">PostGIS documentation</a> for the functional specifics</aside>
 
@@ -495,10 +665,10 @@ The default maximum limit is `250` rows, but this may vary depending on which de
 
 It's easy to get in contact with us. Visit our <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">contact page</a>, or directly within the app by using the button in the bottom right. Please get in touch with us if you:
 
-*are experiencing any problems with the API;
-*would like to increase your request or download limit;
-*are looking for clarifications on the instructions;
-*notice any mistakes in our documentation; or 
-*would like to send us any feedback.
+* are experiencing any problems with the API;
+* would like to increase your request or download limit;
+* are looking for clarifications on the instructions;
+* notice any mistakes in our documentation; or 
+* would like to send us any feedback.
 
 We would love to hear from you!

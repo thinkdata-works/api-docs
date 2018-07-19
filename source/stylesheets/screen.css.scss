@@ -196,6 +196,17 @@ html, body {
       font-size: 0.8em;
       line-height: 1.7;
       text-decoration: none;
+
+      .view-format {
+        font-weight: 100;
+        font-size: 1.2em;
+      }
+    }
+
+    button {
+      background: none;
+      border: none;
+      line-height: 1.7;
     }
   }
 }
@@ -398,7 +409,7 @@ html, body {
   }
 
   h4, h5, h6 {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   hr {
@@ -519,13 +530,25 @@ html, body {
     word-break: keep-all;
   }
 
+  blockquote code {
+    word-break: break-all;
+  }
+
+  .colour-pill {
+    display: flex;
+    align-items: center;
+  }
+  
   .get, .post {
-    border-radius: 1em;
+    margin-right: 5px;
+    border-radius: 1.5em;
     text-transform: uppercase;
-    padding: 3px 6px 3px 8px;
+    padding: 3px 8px 3px 10px;
     color: $nav-text;
-    font-size: 0.6em;
+    font-size: 0.7em;
+    font-weight: 100;
     letter-spacing: 1.5px;
+    height: 1.1em;
   }
   
   .get {
@@ -534,6 +557,16 @@ html, body {
 
   .post {
     background-color: $post-background;
+  }
+
+  // preformatted code blocks in centre column:
+  .center-column + pre {    
+    position: static;
+    float: none;
+    clear: none;
+    margin: 0;
+    left: 0;
+    background: #2f3336;
   }
 }
 
