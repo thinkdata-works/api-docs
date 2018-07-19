@@ -20,31 +20,32 @@ $(document).ready(() => {
   $(".response-csv").next().css({"display": 'none'});
   $(".response-geojson").next().css({"display": 'none'});
 
-  $(".see-geojson").parent().css({"margin-bottom":"25px", "padding-bottom": "10px", "border-bottom": "1px solid #FFF"})
-  $(".see-json").parent().css({"background-color": "rgba(255,255,255,0.2"})
+  $(".see-json").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
+  $(".see-csv").css({"opacity": "0.75"})
+  $(".see-geojson").css({"opacity": "0.75"})
   
   $(".see-json").click( () => {
-    $(".see-json").parent().css({"background-color": "rgba(255,255,255,0.2"})
-    $(".see-csv").parent().css({"background-color": "rgba(255,255,255,0"})
-    $(".see-geojson").parent().css({"background-color": "rgba(255,255,255,0"})
+    $(".see-json").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
+    $(".see-csv").css({"opacity": "0.75", "box-shadow": "none"})
+    $(".see-geojson").css({"opacity": "0.75", "box-shadow": "none"})
     $(".response-json").next().css({"display": 'block'});
     $(".response-csv").next().css({"display": 'none'});
     $(".response-geojson").next().css({"display": 'none'});
   });
   
   $(".see-csv").click( () => {
-    $(".see-json").parent().css({"background-color": "rgba(255,255,255,0"})
-    $(".see-csv").parent().css({"background-color": "rgba(255,255,255,0.2"})
-    $(".see-geojson").parent().css({"background-color": "rgba(255,255,255,0"})
+    $(".see-json").css({"opacity": "0.75", "box-shadow": "none"})
+    $(".see-csv").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
+    $(".see-geojson").css({"opacity": "0.75", "box-shadow": "none"})
     $(".response-json").next().css({"display": 'none'});
     $(".response-csv").next().css({"display": 'block'});
     $(".response-geojson").next().css({"display": 'none'});
   })
   
   $(".see-geojson").click( () => {
-    $(".see-json").parent().css({"background-color": "rgba(255,255,255,0"})
-    $(".see-csv").parent().css({"background-color": "rgba(255,255,255,0"})
-    $(".see-geojson").parent().css({"background-color": "rgba(255,255,255,0.2"})
+    $(".see-json").css({"opacity": "0.75", "box-shadow": "none"})
+    $(".see-csv").css({"opacity": "0.75", "box-shadow": "none"})
+    $(".see-geojson").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
     $(".response-json").next().css({"display": 'none'});
     $(".response-csv").next().css({"display": 'none'});
     $(".response-geojson").next().css({"display": 'block'});

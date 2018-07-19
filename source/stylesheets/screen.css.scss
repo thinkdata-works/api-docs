@@ -202,12 +202,6 @@ html, body {
         font-size: 1.2em;
       }
     }
-
-    button {
-      background: none;
-      border: none;
-      line-height: 1.7;
-    }
   }
 }
 
@@ -557,6 +551,13 @@ html, body {
 
   .post {
     background-color: $post-background;
+  }
+
+  .see-json, .see-csv, .see-geojson {
+    background: none;
+    border: none;
+    color: $link-text;
+    outline: none;
   }
 
   // preformatted code blocks in centre column:

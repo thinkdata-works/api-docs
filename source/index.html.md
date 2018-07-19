@@ -7,10 +7,6 @@ language_tabs: # must be one of https://git.io/vQNgJ
   # - javascript: JS
 
 toc_footers:
-  - <span class="view-format">View format:</span>
-  - <button class="see-json">json</button> 
-  - <button class="see-csv">csv</button> 
-  - <button class="see-geojson">geojson</button> 
   - <a href='https://app.namara.io/#/' target='_blank' rel='noreferrer noopener'>Go to Namara</a>
 
 includes:
@@ -39,18 +35,18 @@ The responses will be outlined for each endpoint.
 
 This is a generic endpoint, and the foundation of almost every typical call to our API. The chart below displays standard response codes:
 
-Request | Response | Description
-------- | -------- | -----------
- | 200: OK | Success
- | 202: Accepted | A background job has successfully been triggered. Continue polling for details.
- | 401: Unauthorized | The API key you provided doesn't correspond to any user.
- | 403: Forbidden | User is not authorized to make that request.
- | 422: Unprocessable Entity | The server was unable to save the document. There will be more details in the full response body.
- | 429: Too Many Requests | User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>).
+Response | Description
+-------- | -----------
+200: OK | Success
+202: Accepted | A background job has successfully been triggered. Continue polling for details.
+401: Unauthorized | The API key you provided doesn't correspond to any user.
+403: Forbidden | User is not authorized to make that request.
+422: Unprocessable Entity | The server was unable to save the document. There will be more details in the full response body.
+429: Too Many Requests | User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>).
 
 ## API Keys
 
-Three kinds of API Keys can be created for accessing the Namara API - Organization Keys, Project Keys, and Personal Keys. This is an overview of managing all three types, and we'll outline the different use cases for each.
+Three kinds of API Keys can be created for accessing the Namara API - *Organization Keys*, *Project Keys*, and *Personal Keys*. This is an overview of managing all three types, and we'll outline the different use cases for each.
 
 ### Organization API Keys
 
@@ -62,7 +58,7 @@ For any project, visit the "Settings" tab and create API Keys for yourself for t
 
 ### Personal API Keys
 
-The personal Namara API Key can be obtained by clicking on the Organization tab at the bottom of the left sidebar, then clicking "Account Settings". Copy this from the "API Key" tab and use it for any API calls.
+The Personal Namara API Key can be obtained by clicking on the Organization tab at the bottom of the left sidebar, then clicking "Account Settings". Copy this from the "API Key" tab and use it for any API calls.
 
 <aside class="warning">Your Personal Key gives API access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
 
@@ -70,7 +66,7 @@ The personal Namara API Key can be obtained by clicking on the Organization tab 
 
 <!-- check to see if this should go to an email or to the contact page on namara marketing -->
 
-Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`. If you find yourself meeting the limits, <a href="mailto:sales@thinkdataworks.com" target="_blank" rel="noreferrer noopener">VERIFY THIS EMAIL</a> to find a solution.
+Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`. If you find yourself meeting the limits, <a href="mailto:sales@namara.io" target="_blank" rel="noreferrer noopener">VERIFY THIS EMAIL</a> to find a solution.
  
 # Making Requests
 
@@ -87,7 +83,8 @@ curl -i \
 https://api.namara.io/v0/query
 ```
 
-Append the key as `api_key` to any request body (either `GET` or `POST`) as long as it can be read from the base level params
+Append the key as `api_key` to any request body (either `GET` or `POST`) as long as it can be read from the base level params.
+<!-- I'm unclear on what this means and therefore it might warrant explanation -->
 
 ## Header Authentication
 
@@ -95,7 +92,7 @@ Append the key to the headers by adding `"X-API-Key":"YOUR_API_KEY"`
 
 ## Testing Authentication
 
-Here's how to verify your API Key
+Here's how to verify your API Key:
 
 ###<div class="colour-pill"><span class="get">GET</span> Verify API Key</div>
 
@@ -116,7 +113,7 @@ Response | Description
 
 > https://:namara_api_host/v0/data_sets/:data_set_id/data/:version
 
-Here, we'll outline the specifications for accessing the Data API. Each data set Each data set can be accessed at the API URL. In Namara, click on the "API Info" tab when viewing a data set to see all information regarding ID, version, and properties.
+Here, we'll outline the specifications for accessing the Data API. Each data set can be accessed at the API URL. In Namara, click on the "API Info" tab when viewing a data set to see all information regarding ID, version, and properties.
 
 ##<div class="colour-pill"><span class="get">GET</span> Data Query</div>
 
@@ -147,7 +144,7 @@ Each query response is limited to 250 results. To view entire response either us
 
 > ...&order=p0 ASC
 
-String for specifying the order of the results (halp)
+Pass in either `ASC` or `DESC` after specifying a column to see results in ascending or descending order, respectively.
 
 ## Conditions
 
@@ -172,13 +169,14 @@ IN |  | Works for values in a specified list of items. | `p0 IN (100, 'foo', tru
 ## Operator Examples
 
 >1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make IN ("CHEVROLET","CADILLAC")</code><br/><br/>
-<code>2b)https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
+2b)
+<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
 
   1. List all vehicles with CO<sub>2</sub> emissions less than 200g/km
 
   2. a) Get fuel consumption ratings for all Cadillac and Chevrolet vehicles
   
-      b) the same operation with boolean operators
+      b) The same operation with boolean operators
   
   3. List all Cadillac and Chevrolet vehicles with good city and highway mileage
 
@@ -204,7 +202,7 @@ The `where` condition query parameter supports some geospatial functions for que
 
 # Export
 
-Exporting is almost identical the Data Query endpoint, with the exception that the complete result of the query will be saved to a file, and that file will be served up.
+Exporting is almost identical the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.
 
 ##<div class="colour-pill"><span class="get">GET</span> Export</div>
 
@@ -315,7 +313,7 @@ max | The maximum value in a column | `max(p0)`
 
 While the Data API allows query behaviour over a single data set, the Query API allow broader control over the Namara data catalog.
 
-This API supports **NiQL** (the Namara io Query Language), a language for viewing, aggregating, and joining data sets. It's very similar to SQL, so don't worry - no new textbooks.
+This API supports **NiQL** (the **N**amara **i**o **Q**uery **L**anguage), a language for viewing, aggregating, and joining data sets. It's very similar to SQL, so don't worry - no new textbooks.
 
 ##<div class="colour-pill"><span class="get">GET</span> Meta</div>
 
@@ -351,11 +349,13 @@ The <code>geojson_feature_key</code> is required if the requested format is <cod
 
 ### Response
 
-<aside class="notice">Click `json`, `csv`, or `geojson` in the side menu to view the response in different formats</aside>
-
 ### 200: OK
 
 Query executed successfully.
+
+<button class="see-json">json</button> 
+<button class="see-csv">csv</button> 
+<button class="see-geojson">geojson</button> 
 
 <div class="center-column response-json"></div>
 ```
@@ -616,7 +616,7 @@ Example (where `geometry_property` is a property from the data set of type geome
 
 <code>SELECT ST_AsGeoJSON(ST_GeomFromText(geometry_property))<br/>FROM data-set-id/en-0</code>
 
-### Supported Functions:
+### Supported Functions
 
 >`ST_AsGeoJSON`<br/>
 >`ST_AsJson`<br/>
@@ -663,7 +663,7 @@ The default maximum limit is `250` rows, but this may vary depending on which de
 
 # Get In Touch
 
-It's easy to get in contact with us. Visit our <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">contact page</a>, or directly within the app by using the button in the bottom right. Please get in touch with us if you:
+It's easy to get in contact with us. Visit our <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">contact page</a>, or from within <a href="https://app.namara.io/#/" target="_blank" rel="noreferrer noopener">Namara</a> by using the button in the bottom right. Please get in touch with us if you:
 
 * are experiencing any problems with the API;
 * would like to increase your request or download limit;
