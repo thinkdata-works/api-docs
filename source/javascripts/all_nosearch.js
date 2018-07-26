@@ -16,38 +16,32 @@ window.onpopstate = function() {
 };
 
 $(document).ready(() => {
-  $(".response-json").next().css({"display": 'block'});
-  $(".response-csv").next().css({"display": 'none'});
-  $(".response-geojson").next().css({"display": 'none'});
-
-  $(".see-json").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
-  $(".see-csv").css({"opacity": "0.75"})
-  $(".see-geojson").css({"opacity": "0.75"})
+  $(".see-json").addClass("selected-format")
+  $(".see-csv").addClass("unselected-format")
+  $(".see-geojson").addClass("unselected-format")
   
+  $(".response-json").next().addClass("show-codeblock")
+  $(".response-csv").next().addClass("hide-codeblock")
+  $(".response-geojson").next().addClass("hide-codeblock")
+
   $(".see-json").click( () => {
-    $(".see-json").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
-    $(".see-csv").css({"opacity": "0.75", "box-shadow": "none"})
-    $(".see-geojson").css({"opacity": "0.75", "box-shadow": "none"})
-    $(".response-json").next().css({"display": 'block'});
-    $(".response-csv").next().css({"display": 'none'});
-    $(".response-geojson").next().css({"display": 'none'});
+    $(".see-json").removeClass("unselected-format").addClass("selected-format")
+    $(".see-csv, .see-geojson").removeClass("selected-format").addClass("unselected-format")
+    $(".response-json").next().removeClass("hide-codeblock").addClass("show-codeblock")
+    $(".response-csv, .response-geojson").next().removeClass("show-codeblock").addClass("hide-codeblock")
   });
   
   $(".see-csv").click( () => {
-    $(".see-json").css({"opacity": "0.75", "box-shadow": "none"})
-    $(".see-csv").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
-    $(".see-geojson").css({"opacity": "0.75", "box-shadow": "none"})
-    $(".response-json").next().css({"display": 'none'});
-    $(".response-csv").next().css({"display": 'block'});
-    $(".response-geojson").next().css({"display": 'none'});
+    $(".see-csv").removeClass("unselected-format").addClass("selected-format")
+    $(".see-json, .see-geojson").removeClass("selected-format").addClass("unselected-format")
+    $(".response-csv").next().removeClass("hide-codeblock").addClass("show-codeblock")
+    $(".response-json, .response-geojson").next().removeClass("show-codeblock").addClass("hide-codeblock")
   })
   
   $(".see-geojson").click( () => {
-    $(".see-json").css({"opacity": "0.75", "box-shadow": "none"})
-    $(".see-csv").css({"opacity": "0.75", "box-shadow": "none"})
-    $(".see-geojson").css({"opacity": "1", "box-shadow": "2px 2px 4px #ddd"})
-    $(".response-json").next().css({"display": 'none'});
-    $(".response-csv").next().css({"display": 'none'});
-    $(".response-geojson").next().css({"display": 'block'});
+    $(".see-geojson").removeClass("unselected-format").addClass("selected-format")
+    $(".see-json, .see-csv").removeClass("selected-format").addClass("unselected-format")
+    $(".response-geojson").next().removeClass("hide-codeblock").addClass("show-codeblock")
+    $(".response-csv, .response-json").next().removeClass("show-codeblock").addClass("hide-codeblock")
   })
 });

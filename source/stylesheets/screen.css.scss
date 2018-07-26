@@ -558,6 +558,25 @@ html, body {
     border: none;
     color: $link-text;
     outline: none;
+    padding: 5px 15px;
+  }
+
+  .selected-format {
+    opacity: 1;
+    box-shadow: 2px 2px 4px #ddd;
+  }
+
+  .unselected-format {
+    opacity: 0.5;
+    box-shadow: none;
+  }
+
+  .show-codeblock {
+    display: block;
+  }
+
+  .hide-codeblock {
+    display: none;
   }
 
   // preformatted code blocks in centre column:
