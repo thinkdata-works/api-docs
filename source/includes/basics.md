@@ -45,7 +45,7 @@ The Personal Namara API Key can be obtained by clicking on the Organization tab 
 
 <!-- check to see if this should go to an email or to the contact page on namara marketing -->
 
-Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`. If you find yourself meeting the limits, <a href="mailto:sales@namara.io" target="_blank" rel="noreferrer noopener">VERIFY THIS EMAIL</a> to find a solution.
+Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.
  
 # Making Requests
 
