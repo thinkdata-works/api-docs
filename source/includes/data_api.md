@@ -98,8 +98,8 @@ Symbol | Alias | Description | Use
 \<= | lte | Works for numerical, date and datetime values | `p0<=150` `p0 lte '2017-11-01'`
 IS |  | Only works for boolean values | `p1 IS true` `p1 IS NULL`
 IS NOT |  | Only works for boolean values | `p1 IS NOT true` `p1 IS NOT NULL`
-LIKE |  | `%` = wildcard. Case-insensitive | `p2 LIKE '%foo%'`
-NOT LIKE |  | `%` = wildcard. Case-insensitive | `p2 NOT LIKE '%foo%'`
+LIKE |  | `%` = wildcard, case-insensitive | `p2 LIKE '%foo%'`
+NOT LIKE |  | `%` = wildcard case-insensitive | `p2 NOT LIKE '%foo%'`
 IN |  | Works for values in a specified list of items | `p0 IN (100, 'foo', true)`
 
 <aside class="notice">Note the spaces around the aliases in the queries.</aside>
