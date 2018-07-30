@@ -3,7 +3,7 @@ title: The Namara API
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell: cURL
-  - python
+  # - python
   # - javascript: JS
 
 toc_footers:

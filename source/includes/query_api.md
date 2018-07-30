@@ -1,6 +1,6 @@
 # Query API
 
-While the Data API allows query behaviour over a single data set, the Query API allow broader control over the Namara data catalog.
+While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog.
 
 This API supports **NiQL** (the **N**amara **i**o **Q**uery **L**anguage), a language for viewing, aggregating, and joining data sets. It's very similar to SQL, so don't worry - no new textbooks.
 
@@ -16,7 +16,7 @@ This API supports **NiQL** (the **N**amara **i**o **Q**uery **L**anguage), a lan
 }
 ```
 
-This endpoint provides the meta information for querying this Namara instance. It includes the maximum limit per query, the supported formats, and the default format if none is specified. This information may differ, depending on which deployment of Namara you're using. 
+This endpoint provides the meta information for querying this Namara instance. It includes the limit per query, the supported formats, and the default format if none is specified. This information may differ, depending on which deployment of Namara you're using. 
 
 ##<div class="colour-pill"><span class="post">POST</span> Query</div>
 
@@ -36,7 +36,7 @@ geojson_feature_key (may be required) | `string` | Property name to use as geome
 
 The <code>geojson_feature_key</code> is required if the requested format is <code>geojson</code> - otherwise, it is not needed.
 
-### Response
+### Responses
 
 ### 200: OK
 
@@ -178,6 +178,7 @@ Below is a summary of supported features:
 }
 ```
 
+<br />
 Supports:
 
 * INNER JOIN
@@ -291,11 +292,17 @@ Supports:
   
 ## Geospatial Features
 
-Geometry properties for data sets are stored as `geojson`, and will be rendered as that unless specified. You can do this using the transformation functions `ST_GeomFromText` to create geometry objects, which can then be manipulated and transformed. Use `ST_AsGeoJSON` or `ST_AsText` in order to turn the final result back to text from binary.  
+Geometry properties for data sets are stored as `geojson`, and will be rendered as that unless instructed otherwise. You can do this using the transformation functions `ST_GeomFromText` to create geometry objects, which can then be manipulated and transformed. Use `ST_AsGeoJSON` or `ST_AsText` in order to turn the final result back to text from binary.  
 
-Example (where `geometry_property` is a property from the data set of type geometry. This information can be obtained in the API Info tab when viewing a data set):
+Here's an example in which `geometry_property` is a property from the data set of type geometry (this information can be obtained in the API Info tab when viewing a data set):
 
-<code>SELECT ST_AsGeoJSON(ST_GeomFromText(geometry_property))<br/>FROM data-set-id/en-0</code>
+<div class="center-column"></div>
+```
+{
+  SELECT ST_AsGeoJSON(ST_GeomFromText(geometry_property))
+  FROM data-set-id/en-0
+}
+```
 
 ### Supported Functions
 
@@ -329,7 +336,7 @@ Example (where `geometry_property` is a property from the data set of type geome
 >`ST_YMax`<br/>
 >`ST_YMin`<br/>
 
-We are very interested in expanding the geospatial capabilities of **NiQL**. If there is additional functionalities, or issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.
+We are very interested in expanding the geospatial capabilities of **NiQL**. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.
 
 <aside class="notice">Please refer to the <a href="https://postgis.net/docs/reference.html" target="_blank" rel="noreferrer noopener">PostGIS documentation</a> for the functional specifics</aside>
 
@@ -337,6 +344,6 @@ We are very interested in expanding the geospatial capabilities of **NiQL**. If 
 
 Like the Data API, a maximum number of rows will be returned on each query. If the query string does not contain `LIMIT X OFFSET Y`, the parser will append the maximum number of allowable rows in order to enforce the limit.
 
-For results, larger than the allowed amount, manual pagination in subsequent requests will have to be used.
+For results larger than the allowed amount, manual pagination in subsequent requests will have to be used.
 
-The default maximum limit is `250` rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.
+The default limit is `250` rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.

@@ -1,6 +1,6 @@
 ### Our REST API
 
-The Namara API is a REST-based service that accepts and returns `json` in most cases (we'll cover response format later). Requests should be made to:
+The Namara API is a REST-based service that accepts and returns `json` in most cases (we'll cover response formats later). Requests should be made to:
 
 <code>https://{namara api host}/v0/{endpoint}</code>
 
@@ -12,7 +12,7 @@ The responses will be outlined for each endpoint.
 
 >https://api.namara.io/v0/:endpoint
 
-This is a generic endpoint, and the foundation of almost every typical call to our API. The chart below displays standard response codes:
+In the column on the right is a generic endpoint, and the foundation of almost every call to our API. The chart below displays standard response codes:
 
 Response | Description
 -------- | -----------
@@ -26,6 +26,8 @@ Response | Description
 ## API Keys
 
 Three kinds of API Keys can be created for accessing the Namara API - *Organization Keys*, *Project Keys*, and *Personal Keys*. This is an overview of managing all three types, and we'll outline the different use cases for each.
+
+<!-- we don't actually outline use cases here -->
 
 ### Organization API Keys
 
@@ -42,8 +44,6 @@ The Personal Namara API Key can be obtained by clicking on the Organization tab 
 <aside class="warning">Your Personal Key gives its user access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
 
 ### Rate Limiting
-
-<!-- check to see if this should go to an email or to the contact page on namara marketing -->
 
 Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.
  
@@ -62,7 +62,7 @@ curl -i \
 https://api.namara.io/v0/query
 ```
 
-Append the key as `api_key` to any request body (either `GET` or `POST`) as long as it is included in the paramters.
+Append the key as `api_key` to any request body (either `GET` or `POST`) as long as it is included in the parameters.
 
 ## Header Authentication
 

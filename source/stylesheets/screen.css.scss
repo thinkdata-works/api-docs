@@ -181,7 +181,6 @@ html, body {
   .toc-footer {
     padding: 1em 0;
     margin-top: 1em;
-    border-top: 1px dashed $nav-footer-border-color;
 
     li,a {
       color: $nav-text;
@@ -587,6 +586,10 @@ html, body {
     margin: 0;
     left: 0;
     background: #2f3336;
+  }
+
+  .scroll-space {
+    height: 50vh;
   }
 }
 

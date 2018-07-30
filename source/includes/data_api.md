@@ -28,15 +28,55 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
 
 ## Result Formats
 
-The Namara Data API produces results in different formats, `json`, `csv`, or `geojson`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format.
+The Namara Data API produces results in different formats, `json`, `csv`, or `geojson`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format. Here's how they look:
 
 <button class="see-json">json</button> 
 <button class="see-csv">csv</button> 
 <button class="see-geojson">geojson</button> 
 
+<div class="center-column response-json"></div>
+```
+  {
+    "results":[
+      {
+        "c0":"format",
+        "c1":"example"
+      },
+      ...
+    ]
+  }
+```
+
+<div class="center-column response-csv"></div>
+```
+  c0,c1
+  format,example
+```
+
+<div class="center-column response-geojson"></div>
+```
+  {
+    "type":"GeojsonResponseFormat",
+    "features":[
+      {
+        "type":"Feature",
+        "geometry":{
+          "type":"Point",
+          "coordinates": [ -79.4, 43.7 ]
+        },
+        "properties":{
+          "c0":"format",
+          "c1":"example"
+        }
+      },
+      ...
+    ]
+  }
+```
+
 ## Pagination
 
-Each query response is limited to 250 results. To view entire response either use the `export` endpoint to render the results of the query, or use `limit` and `offset` arguments to paginate over results, until no more values are found. 
+Each query response is limited to 250 results. To view the entire response, either use the `export` endpoint to render the results of the query, or use `limit` and `offset` arguments to paginate over results, until no more values are found. 
 
 ## Ordering
 
@@ -82,7 +122,7 @@ IN |  | Works for values in a specified list of items | `p0 IN (100, 'foo', true
 
 ## Geospatial Operators
 
-Data Sets will commonly contain `latitude` and `longitude` as properties.
+Data sets will commonly contain `latitude` and `longitude` as properties.
 
 The `where` condition query parameter supports some geospatial functions for querying data sets.
 
@@ -94,13 +134,13 @@ The `where` condition query parameter supports some geospatial functions for que
 2) ...&where=bbox(p3, 43.5810245, -79.639219, 43.8554579, -79.11689699)
 ```
 
-*Example 1* will return all rows whose specified column is within `radius` distance of the point specified by `latitude` and `longitude`. 
+*Example 1* will return all rows in which the value in the specified column is within `radius` distance of the point specified by `latitude` and `longitude`. 
 
-*Example 2* will return all rows whose specified column lies within the bounding box created by the two coordinates.
+*Example 2* will return all rows in which the value in the specified column lies within the bounding box created by the two coordinates.
 
 # Export
 
-Exporting is almost identical the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.
+Exporting is almost identical to the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.
 
 ##<div class="colour-pill"><span class="get">GET</span> Export</div>
 
@@ -110,21 +150,24 @@ Exporting is almost identical the Data Query endpoint, with the difference being
 
 Export path and query parameters look a lot like the parameters for accessing the data set. Let's look at the requests you can make:
 
-Parameters | Type | Description
----------- | ---- | -----------
+Path Parameters | Type | Description
+--------------- | ---- | -----------
 data_set_id (required) | `string` | UUID for accessing the data set
 version (required) | `string` | Version identifier, eg: `en-0`
+
+Query Parameters | Type | Description
+---------------- | ---- | -----------
 result_format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
 geometry_format | `string` | Either `wkt` or `geojson` for all geometry values (default is `geojson`)
 geojson_feature_key | `string` | Property name to use as geometry when rendering `geojson`
-compress_with | `string` | Compression options for final export (<a href="#compression-options">Compression Options</a>)
+compress_with | `string` | Compression options for final export (see <a href="#compression-options">Compression Options</a>)
 limit | `integer` | Number of rows to export
 offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination<a/>)
 select | `string` | Comma-separated list of column names to return
 order | `string` | Specify the order of the returned results (see <a href="#ordering">Ordering</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
 
-### Response
+### Responses
 
 ```
 1)
@@ -143,8 +186,6 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
     "error_message": "<reason for error>"
   }
 ```
-
-Here are the responses you can expect:
 
 Response | Description
 -------- | -----------
@@ -177,11 +218,11 @@ version (required) | `string` | Version identifier, eg. `en-0`
 operation (required) | `string` | Operation function to perform (see <a href="#operations">Operations</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
 
-## Response
+## Responses
 
 Response | Description
 -------- | -----------
-200: OK |
+200: OK | Success
 
 ## Operations
 
