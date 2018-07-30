@@ -17,11 +17,11 @@ In the column on the right is a generic endpoint, and the foundation of almost e
 Response | Description
 -------- | -----------
 200: OK | Success
-202: Accepted | A background job has successfully been triggered. Continue polling for details.
-401: Unauthorized | The API key you provided doesn't correspond to any user.
-403: Forbidden | User is not authorized to make that request.
-422: Unprocessable Entity | The server was unable to save the document. There will be more details in the full response body.
-429: Too Many Requests | User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>).
+202: Accepted | A background job has successfully been triggered - continue polling for details
+401: Unauthorized | The API key you provided doesn't correspond to any user
+403: Forbidden | User is not authorized to make that request
+422: Unprocessable Entity | The server was unable to save the document; there will be more details in the full response body
+429: Too Many Requests | User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>)
 
 ## API Keys
 
