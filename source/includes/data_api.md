@@ -134,9 +134,9 @@ The `where` condition query parameter supports some geospatial functions for que
 2) ...&where=bbox(p3, 43.5810245, -79.639219, 43.8554579, -79.11689699)
 ```
 
-*Example 1* will return all rows in which the value in the specified column is within `radius` distance of the point specified by `latitude` and `longitude`. 
+1. Returns all rows in which the value in the specified column is within `radius` distance of the point specified by `latitude` and `longitude`. 
 
-*Example 2* will return all rows in which the value in the specified column lies within the bounding box created by the two coordinates.
+2. Returns all rows in which the value in the specified column lies within the bounding box created by the two coordinates.
 
 # Export
 
@@ -246,4 +246,4 @@ max | The maximum value in a column | `max(p0)`
 
 2. Reveals the Cadillac vehicle with the least CO<sub>2</sub> emission
 
-3. Reveals the Cadillac vehicles that have emissions data
+3. Reveals all the Cadillac vehicles

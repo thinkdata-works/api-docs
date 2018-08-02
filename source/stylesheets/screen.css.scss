@@ -61,6 +61,7 @@ html, body {
   background-color: $nav-bg;
   font-size: 15px;
   font-weight: bold;
+  box-shadow: 1px 0 2px #ddd;
 
   // language selector for mobile devices
   .lang-selector {
@@ -74,8 +75,8 @@ html, body {
   // This is the logo at the top of the ToC
   .logo {
     display: block;
-    max-width: 100%;
-    margin: $logo-margin auto;
+    max-width: 126px;
+    margin: $logo-margin 36px $logo-margin 16px;
   }
 
   &>.search {
@@ -553,21 +554,22 @@ html, body {
   }
 
   .see-json, .see-csv, .see-geojson {
-    background: none;
-    border: none;
-    color: $link-text;
+    color: #fff;
     outline: none;
     padding: 5px 15px;
+    margin: 0 -4px;
+    border: none;
   }
 
   .selected-format {
     opacity: 1;
-    box-shadow: 2px 2px 4px #ddd;
+    background: #2f3336;
   }
 
   .unselected-format {
-    opacity: 0.5;
+    // opacity: 0.5;
     box-shadow: none;
+    background: #000;
   }
 
   .show-codeblock {

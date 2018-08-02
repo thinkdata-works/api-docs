@@ -16,6 +16,9 @@ window.onpopstate = function() {
 };
 
 $(document).ready(() => {
+
+  $(".see-json").parent().css("margin-bottom", 0)
+
   $(".see-json").addClass("selected-format")
   $(".see-csv").addClass("unselected-format")
   $(".see-geojson").addClass("unselected-format")
