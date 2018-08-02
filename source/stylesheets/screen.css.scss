@@ -61,7 +61,7 @@ html, body {
   background-color: $nav-bg;
   font-size: 15px;
   font-weight: bold;
-  box-shadow: 1px 0 2px #ddd;
+  box-shadow: 1px 0 2px rgba(0,0,0,0.25);
 
   // language selector for mobile devices
   .lang-selector {
@@ -555,6 +555,7 @@ html, body {
 
   .see-json, .see-csv, .see-geojson {
     color: #fff;
+    font-weight: 600;
     outline: none;
     padding: 5px 15px;
     margin: 0 -4px;
