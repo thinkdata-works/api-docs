@@ -18,6 +18,3 @@ includes:
 search: true
 ---
 
-# Introduction
-
-If you're looking to interact with the Namara API, you've come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.

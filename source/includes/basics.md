@@ -1,3 +1,7 @@
+# API Introduction
+
+If you're looking to interact with the Namara API, you've come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.
+
 ### Our REST API
 
 The Namara API is a REST-based service that accepts and returns `json` in most cases (we'll cover response formats later). Requests should be made to:
@@ -47,7 +51,7 @@ The Personal Namara API Key can be obtained by clicking on the Organization tab 
 
 Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return `status: 429`. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.
  
-# Making Requests
+## Making Requests
 
 ## Parameter Authentication
 

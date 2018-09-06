@@ -1,8 +1,6 @@
-# Query API
+# Query API (beta)
 
-While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog.
-
-This API supports **NiQL** (the **N**amara **i**o **Q**uery **L**anguage), a language for viewing, aggregating, and joining data sets. It's very similar to SQL, so don't worry - no new textbooks.
+While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the data API. We wrote **NiQL** (**N**amara **i**o **Q**uery **L**anguage) to view, aggregate, and join data sets. It's very similar to SQL, so it's easy to manipulate.
 
 ##<div class="colour-pill"><span class="get">GET</span> Meta</div>
 
@@ -99,7 +97,7 @@ Something went wrong with the request.
 ```
 { "error": <Error message> }
 ```
-# Query Specification
+## Query Specification
 
 **NiQL** is modelled after standard SQL, but only supports read-only `SELECT` statements. A traditional query must at minimum have a `SELECT` and `FROM` clause in order to execute. While the `SELECT` clause can be anything, the `FROM` clause must specify a data set and version to query. 
 

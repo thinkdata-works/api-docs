@@ -5,7 +5,7 @@ We're easy to reach - visit our <a href="https://namara.io/contact" target="_bla
 * are experiencing any problems with the API;
 * would like to increase your request or download limit;
 * are looking for clarifications on the instructions;
-* notice any mistakes in our documentation; or 
+* notice any mistakes in our documentation (or create your own PR on Github); or 
 * would like to send us any feedback.
 
 We would love to hear from you!

@@ -104,7 +104,7 @@ IN |  | Works for values in a specified list of items | `p0 IN (100, 'foo', true
 
 <aside class="notice">Note the spaces around the aliases in the queries.</aside>
 
-## Operator Examples
+### Operator Examples
 
 >1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make IN ("CHEVROLET","CADILLAC")</code><br/><br/>
 2b)
@@ -126,7 +126,7 @@ Data sets will commonly contain `latitude` and `longitude` as properties.
 
 The `where` condition query parameter supports some geospatial functions for querying data sets.
 
-## Geospatial Operator Examples
+### Geospatial Operator Examples
 
 ```
 1) ...&where=nearby(p3, 43.653226, -79.3831843, 10km)
@@ -138,7 +138,7 @@ The `where` condition query parameter supports some geospatial functions for que
 
 2. Returns all rows in which the value in the specified column lies within the bounding box created by the two coordinates.
 
-# Export
+## Export
 
 Exporting is almost identical to the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.
 
@@ -162,7 +162,7 @@ geometry_format | `string` | Either `wkt` or `geojson` for all geometry values (
 geojson_feature_key | `string` | Property name to use as geometry when rendering `geojson`
 compress_with | `string` | Compression options for final export (see <a href="#compression-options">Compression Options</a>)
 limit | `integer` | Number of rows to export
-offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination<a/>)
+offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)
 select | `string` | Comma-separated list of column names to return
 order | `string` | Specify the order of the returned results (see <a href="#ordering">Ordering</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
@@ -193,23 +193,15 @@ Response | Description
 202: Accepted | When the export has begun (*example 2*)
 422: Unprocessable Entity | Failed to export (*example 3*)
 
-## Compression Options
-
-Our API supports `gzip` and `zip` compression from levels 1-9. Specify parameters this way:
-
-<code>...&compress_with=gzip-9</code>
-
-The default compression level is 6 and the default compression type `zip`.
-
-# Aggregation
+## Aggregation
 
 Use aggregation functions to retrieve data set-level information.
 
 ##<div class="colour-pill"><span class="get">GET</span> Aggregate</div>
 
->https://api.namara.io/v0/data_sets/:data_set_id/data/:version/aggregation
-
 ### Request
+
+>https://api.namara.io/v0/data_sets/:data_set_id/data/:version/aggregation
 
 Parameter | Type | Description
 --------- | ---- | -----------
@@ -218,23 +210,17 @@ version (required) | `string` | Version identifier, eg. `en-0`
 operation (required) | `string` | Operation function to perform (see <a href="#operations">Operations</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
 
-## Responses
-
-Response | Description
--------- | -----------
-200: OK | Success
-
-## Operations
+### Operations
 
 Function | Description | Use
 -------- | ----------- | ---
-count | The number of rows of data. If a property key is specified instead of *, this will only count the rows where the given property is not null. | `count(*)` `count(p0)`
+count | The number of rows of data. Using `*` will count all rows - specifying a property will only count non-null rows for that property. | `count(*)` `count(p0)`
 sum | The sum of all values in a column | `sum(p0)`
 avg | The average of all values in a column | `avg(p0)`
 min | The minimum value in a column | `min(p0)`
 max | The maximum value in a column | `max(p0)`
 
-## Operator Examples
+### Operator Examples
 
 >1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key={YOUR_API_KEY}&operation=avg(co2_emissions_g_km)&where=make="CADILLAC"</code>
 
