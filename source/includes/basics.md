@@ -53,7 +53,7 @@ Users are limited to 10,000 requests per month, as well as 100 data set download
  
 ## Making Requests
 
-## Parameter Authentication
+### Parameter Authentication
 
 ```shell
 curl -XGET https://api.namara.io/v0/data_sets/:data_set_id?api_key=YOUR_API_KEY
@@ -68,11 +68,11 @@ https://api.namara.io/v0/query
 
 Append the key as `api_key` to any request body (either `GET` or `POST`) as long as it is included in the parameters.
 
-## Header Authentication
+### Header Authentication
 
 The API Key can be sent in the request headers as `X-API-Key`. Append the key to the headers by adding `"X-API-Key":"YOUR_API_KEY"`
 
-## Testing Authentication
+### Testing Authentication
 
 Here's how to verify your API Key:
 

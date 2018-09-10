@@ -26,7 +26,9 @@ select | `string` | Comma-separated list of column names to return
 order | `string` | Specify the order of the returned results (see <a href="#ordering">Ordering</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
 
-## Result Formats
+## Formats, Pagination, & Ordering
+
+### Results Format
 
 The Namara Data API produces results in different formats, `json`, `csv`, or `geojson`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format. Here's how they look:
 
@@ -74,11 +76,11 @@ The Namara Data API produces results in different formats, `json`, `csv`, or `ge
   }
 ```
 
-## Pagination
+### Pagination
 
 Each query response is limited to 250 results. To view the entire response, either use the `export` endpoint to render the results of the query, or use `limit` and `offset` arguments to paginate over results, until no more values are found. 
 
-## Ordering
+### Ordering
 
 > ...&order=p0 ASC
 
@@ -138,11 +140,10 @@ The `where` condition query parameter supports some geospatial functions for que
 
 2. Returns all rows in which the value in the specified column lies within the bounding box created by the two coordinates.
 
-## Export
+##<div class="colour-pill"><span class="get">GET</span> Export</div>
 
 Exporting is almost identical to the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.
 
-##<div class="colour-pill"><span class="get">GET</span> Export</div>
 
 ### Request
 
@@ -193,11 +194,10 @@ Response | Description
 202: Accepted | When the export has begun (*example 2*)
 422: Unprocessable Entity | Failed to export (*example 3*)
 
-## Aggregation
+##<div class="colour-pill"><span class="get">GET</span> Aggregate</div>
 
 Use aggregation functions to retrieve data set-level information.
 
-##<div class="colour-pill"><span class="get">GET</span> Aggregate</div>
 
 ### Request
 
