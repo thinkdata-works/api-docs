@@ -338,7 +338,7 @@ We are very interested in expanding the geospatial capabilities of **NiQL**. If 
 
 <aside class="notice">Please refer to the <a href="https://postgis.net/docs/reference.html" target="_blank" rel="noreferrer noopener">PostGIS documentation</a> for the functional specifics</aside>
 
-## Pagination
+## Pagination with **NiQL**
 
 Like the Data API, a maximum number of rows will be returned on each query. If the query string does not contain `LIMIT X OFFSET Y`, the parser will append the maximum number of allowable rows in order to enforce the limit.
 

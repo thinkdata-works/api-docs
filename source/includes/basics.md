@@ -4,7 +4,7 @@ If you're looking to interact with the Namara API, you've come to the right plac
 
 ### Our REST API
 
-The Namara API is a REST-based service that accepts and returns `json` in most cases (we'll cover response formats later). Requests should be made to:
+The Namara API is a REST-based service that accepts and returns `json` in most cases (we'll cover [response formats](#formats-pagination-amp-ordering) later). Requests should be made to:
 
 <code>https://{namara api host}/v0/{endpoint}</code>
 
