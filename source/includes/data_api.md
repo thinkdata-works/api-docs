@@ -17,9 +17,9 @@ version (required) | `string` | Version identifier, eg: `en-0`
 
 Query Parameters | Type | Description
 ---------------- | ---- | -----------
-result_format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
-geometry_format | `string` | Either `wkt` or `geojson` for all geometry values (default is `geojson`)
-geojson_feature_key | `string` | Property name to use as geometry when rendering `geojson`
+result_format | `string` | Query response format: `CSV`, `JSON`, or `GeoJSON` (default is `JSON`)
+geometry_format | `string` | Either `WKT` or `GeoJSON` for all geometry values (default is `GeoJSON`)
+geojson_feature_key | `string` | Property name to use as geometry when rendering `GeoJSON`
 limit | `integer` | Number of rows to return - the default value is also the maximum: 250 (see <a href="#pagination">Pagination</a>)
 offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)
 select | `string` | Comma-separated list of column names to return
@@ -30,11 +30,11 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
 
 ### Results Format
 
-The Namara Data API produces results in different formats, `json`, `csv`, or `geojson`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format. Here's how they look:
+The Namara Data API produces results in different formats, `JSON`, `CSV`, or `GeoJSON`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format. Here's how they look:
 
-<button class="see-json">json</button> 
-<button class="see-csv">csv</button> 
-<button class="see-geojson">geojson</button> 
+<button class="see-json">JSON</button> 
+<button class="see-csv">CSV</button> 
+<button class="see-geojson">GeoJSON</button> 
 
 <div class="center-column response-json"></div>
 ```
@@ -108,9 +108,9 @@ IN |  | Works for values in a specified list of items | `p0 IN (100, 'foo', true
 
 ### Operator Examples
 
->1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make IN ("CHEVROLET","CADILLAC")</code><br/><br/>
+>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&where=make IN ("CHEVROLET","CADILLAC")</code><br/><br/>
 2b)
-<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
+<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
 
   1. List all vehicles with CO<sub>2</sub> emissions less than 200g/km
 
@@ -158,9 +158,9 @@ version (required) | `string` | Version identifier, eg: `en-0`
 
 Query Parameters | Type | Description
 ---------------- | ---- | -----------
-result_format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
-geometry_format | `string` | Either `wkt` or `geojson` for all geometry values (default is `geojson`)
-geojson_feature_key | `string` | Property name to use as geometry when rendering `geojson`
+result_format | `string` | Query response format: `CSV`, `JSON`, or `GeoJSON` (default is `JSON`)
+geometry_format | `string` | Either `WKT` or `GeoJSON` for all geometry values (default is `GeoJSON`)
+geojson_feature_key | `string` | Property name to use as geometry when rendering `GeoJSON`
 compress_with | `string` | Compression options for final export (see <a href="#compression-options">Compression Options</a>)
 limit | `integer` | Number of rows to export
 offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)
@@ -222,11 +222,11 @@ max | The maximum value in a column | `max(p0)`
 
 ### Operator Examples
 
->1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key={YOUR_API_KEY}&operation=avg(co2_emissions_g_km)&where=make="CADILLAC"</code>
+>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&operation=avg(co2_emissions_g_km)&where=make="CADILLAC"</code>
 
->2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key={YOUR_API_KEY}&operation=min(co2_emissions_g_km)&where=make="CADILLAC"</code>
+>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&operation=min(co2_emissions_g_km)&where=make="CADILLAC"</code>
 
->3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key={YOUR_API_KEY}&operation=count(*)&where=make="CADILLAC"</code>
+>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&operation=count(*)&where=make="CADILLAC"</code>
 
 1. Reveals the average CO<sub>2</sub> emissions of Cadillac vehicles
 

@@ -4,11 +4,11 @@ If you're looking to interact with the Namara API, you've come to the right plac
 
 ### Our REST API
 
-The Namara API is a REST-based service that accepts and returns `json` in most cases (we'll cover [response formats](#formats-pagination-amp-ordering) later). Requests should be made to:
+The Namara API is a REST-based service that accepts and returns `JSON` in most cases (we'll cover [response formats](#formats-pagination-amp-ordering) later). Requests should be made to:
 
-<code>https://{namara api host}/v0/{endpoint}</code>
+<code>https://:namara_api_host/v0/:endpoint</code>
 
-Unless instructed otherwise, the Namara API host is `api.namara.io`, which will be used for the duration of the documentation. 
+Unless indicated otherwise, the Namara API host is `api.namara.io`, which will be used throughout the documentation. 
 
 The responses will be outlined for each endpoint.
 
@@ -16,7 +16,7 @@ The responses will be outlined for each endpoint.
 
 >https://api.namara.io/v0/:endpoint
 
-In the column on the right is a generic endpoint, and the foundation of almost every call to our API. The chart below displays standard response codes:
+In the code column on the right is a generic endpoint, and the foundation of almost every call to our API. The chart below displays standard response codes:
 
 Response | Description
 -------- | -----------
@@ -56,21 +56,23 @@ Users are limited to 10,000 requests per month, as well as 100 data set download
 ### Parameter Authentication
 
 ```shell
-curl -XGET https://api.namara.io/v0/data_sets/:data_set_id?api_key=YOUR_API_KEY
+curl -XGET https://api.namara.io/v0/data_sets/:data_set_id?api_key=:YOUR_API_KEY
 
   or
 
 curl -i \
--H "Accept: application/json" \
--X POST -d "api_key":"YOUR_API_KEY","query":"..." \
-https://api.namara.io/v0/query
+-H "Content-Type: application/json" \
+-H "X-API-Key: {YOUR_API_KEY}" \
+-X POST \
+-d '{"query":"..."}' \
+https://api.namara.io/v0/query.:format
 ```
 
 Append the key as `api_key` to any request body (either `GET` or `POST`) as long as it is included in the parameters.
 
 ### Header Authentication
 
-The API Key can be sent in the request headers as `X-API-Key`. Append the key to the headers by adding `"X-API-Key":"YOUR_API_KEY"`
+The API Key can be sent in the request headers as `X-API-Key`. Append the key to the headers by adding `"X-API-Key: {YOUR_API_KEY}"`
 
 ### Testing Authentication
 

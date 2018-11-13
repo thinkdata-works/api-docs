@@ -1,6 +1,8 @@
 # Query API (beta)
 
-While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the data API. We wrote **NiQL** (**N**amara **i**o **Q**uery **L**anguage) to view, aggregate, and join data sets. It's very similar to SQL, so it's easy to manipulate.
+While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the Data API. We wrote **NiQL** (**N**amara.<strong>i</strong>o **Q**uery **L**anguage) to view, aggregate, and join data sets. It's very similar to SQL, so it's easy to manipulate.
+
+<aside class="notice">This feature is currently in beta - to request early access, <a href="https://namara.io/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
 
 ##<div class="colour-pill"><span class="get">GET</span> Meta</div>
 
@@ -26,13 +28,13 @@ A call here dispatches a query and returns the result.
 
 Parameter | Type | Description
 --------- | ---- | -----------
-format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
+format | `string` | Query response format: `CSV`, `JSON`, or `GeoJSON` (default is `JSON`)
 project_id | `string` | Project ID to use for subscription lookup. If not provided, it is inferred from API Key
 organization_id | `string` | Organization ID to use for subscription lookup. If not provided, it is inferred from API Key
 query (required) | `string` | NiQL query string
-geojson_feature_key (may be required) | `string` | Property name to use as geometry when rendering `geojson`
+geojson_feature_key (may be required) | `string` | Property name to use as geometry when rendering `GeoJSON`
 
-The <code>geojson_feature_key</code> is required if the requested format is <code>geojson</code> - otherwise, it is not needed.
+The <code>geojson_feature_key</code> is required if the requested format is <code>GeoJSON</code> - otherwise, it is not needed.
 
 ### Responses
 
@@ -40,9 +42,9 @@ The <code>geojson_feature_key</code> is required if the requested format is <cod
 
 Query executed successfully.
 
-<button class="see-json">json</button> 
-<button class="see-csv">csv</button> 
-<button class="see-geojson">geojson</button> 
+<button class="see-json">JSON</button> 
+<button class="see-csv">CSV</button> 
+<button class="see-geojson">GeoJSON</button> 
 
 <div class="center-column response-json"></div>
 ```
@@ -101,10 +103,16 @@ Something went wrong with the request.
 
 **NiQL** is modelled after standard SQL, but only supports read-only `SELECT` statements. A traditional query must at minimum have a `SELECT` and `FROM` clause in order to execute. While the `SELECT` clause can be anything, the `FROM` clause must specify a data set and version to query. 
 
-For example, if we were looking to query a data set with an id of `2a6412c0-b3c9-420e-9487-abd21b664ac1` and the version `en-1`, our minimum query would be:
+```shell
+curl -i \
+-H "Content-Type: application/json" \ 
+-H "X-API-Key: {YOUR_API_KEY}" \ 
+-X POST \ 
+-d '{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1/en-1 AS BramptonHomes"}' \ 
+https://api.namara.io/v0/query.json
+```
 
-<code>SELECT *<br/>
-FROM "2a6412c0-b3c9-420e-9487-abd21b664ac1/en-1" AS BramptonHomes</code>
+For example, if we were looking to query a data set with an id of `2a6412c0-b3c9-420e-9487-abd21b664ac1` and the version `en-1`, our minimum query would look like the example in the code column.
 
 The parser will verify the table name and handle queries that reference it, but using aliases and quotes whenever possible is recommended.
 
@@ -116,51 +124,44 @@ Below is a summary of supported features:
 ### COUNT
 
 <div class="center-column"></div>
-```
-{
-  SELECT COUNT(* | column1)
-  FROM data-set-id/en-0
-}
+```sql
+  SELECT COUNT(*)
+  FROM "data-set-id/en-0"
+
+  SELECT COUNT(column1)
+  FROM "data-set-id/en-0"
 ```
 
 ### DISTINCT
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT DISTINCT column1, column2
-  FROM data-set-id/en-0
-}
+  FROM "data-set-id/en-0"
 ```
 
 ### COUNT DISTINCT
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT COUNT(DISTINCT column1)
-  FROM data-set-id/en-0
-}
+  FROM "data-set-id/en-0"
 ```
 
 ### MIN AND MAX
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT MIN(column1) AS minColumn1, MAX(column2) AS maxColumn2
-  FROM data-set-id/en-0
-}
+  FROM "data-set-id/en-0"
 ```
 
 ### AVG AND SUM
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT AVG(column1) AS avgColumn1, SUM(column1) AS sumColumn1
-  FROM data-set-id/en-0
-}
+  FROM "data-set-id/en-0"
 ```
 
 ## FROM Features
@@ -168,12 +169,10 @@ Below is a summary of supported features:
 ### JOINS
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT DataSet1.id, DataSet1.city, DataSet2.country
-  FROM data-set-id/en-0 AS DataSet1 INNER JOIN data-set-id2/en-1 AS DataSet2
+  FROM "data-set-id/en-0" AS DataSet1 INNER JOIN "data-set-id2/en-1" AS DataSet2
   ON DataSet1.foreign_id = DataSet2.external_id
-}
 ```
 
 <br />
@@ -187,14 +186,12 @@ Supports:
 ### UNIONS
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT id
-  FROM data-set-id/en-0
-  UNION [ALL]
+  FROM "data-set-id/en-0"
+  UNION
   SELECT objectid
-  FROM data-set-id2/en-1
-}
+  FROM "data-set-id2/en-1"
 ```
 
 ## WHERE Features
@@ -203,103 +200,85 @@ Supports:
 ### Conditions
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT id, address, city, province, country
-  FROM data-set-id/en-0
+  FROM "data-set-id/en-0"
   WHERE (country = 'Canada' AND province = 'Manitoba' AND NOT city = 'Winnipeg') OR country ='Mexico'
-}
 ```
 
 ### LIKE
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT *
-  FROM data-set-id/en-0
+  FROM "data-set-id/en-0"
   WHERE country LIKE 'C_%'
-}
 ```
 
 ### ORDER BY
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT *
-  FROM data-set-id/en-0
+  FROM "data-set-id/en-0"
   ORDER BY country, province, ... [ASC|DESC]
-}
 ```
 
 ### IN
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT *
-  FROM data-set-id/en-0
+  FROM "data-set-id/en-0"
   WHERE country IN ('Mexico', 'Canada', ...)
-}
 ```
 
 ### BETWEEN
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT *
-  FROM data-set-id/en-0
+  FROM "data-set-id/en-0"
   WHERE liquidation_date BETWEEN 2016-01-01 AND 2018-01-01
-}
 ```
 
 ## GROUP BY and HAVING
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT COUNT(customer_id), country
-  FROM data-set-id/en-0
+  FROM "data-set-id/en-0"
   GROUP BY country
   HAVING COUNT(customer_id) > 100 
-}
 ```
 
 ### Subselects
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT *
-  FROM data-set-id/en-0
-  WHERE total_count = [ANY|ALL] (SELECT COUNT(customer_id) FROM data-set-id2/en-1)
-}
+  FROM "data-set-id/en-0"
+  WHERE total_count = [ANY|ALL] (SELECT COUNT(customer_id) FROM "data-set-id2/en-1")
 ```
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT *
-  FROM (SELECT customer_id, parent_account_id, purchase_total FROM data-set-id2/en-1)
+  FROM (SELECT customer_id, parent_account_id, purchase_total FROM "data-set-id2/en-1")
   AS subSelect
   WHERE purchase_total > 1500
-}
 ```
   
 ## Geospatial Features
 
-Geometry properties for data sets are stored as `geojson`, and will be rendered as that unless instructed otherwise. You can do this using the transformation functions `ST_GeomFromText` to create geometry objects, which can then be manipulated and transformed. Use `ST_AsGeoJSON` or `ST_AsText` in order to turn the final result back to text from binary.  
+Geometry properties for data sets are stored as `GeoJSON`, and will be rendered as that unless instructed otherwise. You can do this using the transformation functions `ST_GeomFromText` to create geometry objects, which can then be manipulated and transformed. Use `ST_AsGeoJSON` or `ST_AsText` in order to turn the final result back to text from binary.  
 
 Here's an example in which `geometry_property` is a property from the data set of type geometry (this information can be obtained in the API Info tab when viewing a data set):
 
 <div class="center-column"></div>
-```
-{
+```sql
   SELECT ST_AsGeoJSON(ST_GeomFromText(geometry_property))
-  FROM data-set-id/en-0
-}
+  FROM "data-set-id/en-0"
 ```
 
 ### Supported Functions

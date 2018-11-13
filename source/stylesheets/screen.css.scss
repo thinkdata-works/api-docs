@@ -521,7 +521,7 @@ html, body {
   }
 
   code {
-    word-break: keep-all;
+    word-break: break-word;
   }
 
   blockquote code {
@@ -597,6 +597,14 @@ html, body {
 
   blockquote > p {
     overflow-x: auto;
+  }
+
+  .highlight .k, .highlight .o {
+    color: #ec6d6d;
+  }
+
+  .highlight .mi {
+    color: #8ac7ff;
   }
 }
 
