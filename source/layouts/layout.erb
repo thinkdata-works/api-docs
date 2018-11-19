@@ -29,7 +29,8 @@ under the License.
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title><%= current_page.data.title || "API Documentation" %></title>
+    <%= favicon_tag 'images/Namaradrop.png' %>
+    <title><%= current_page.data.title || "Namara API Documentation" %></title>
 
     <style>
       <%= Rouge::Themes::MonokaiSublime.render(:scope => '.highlight') %>
@@ -44,14 +45,52 @@ under the License.
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
+
+    <script>
+      $(document).ready(() => {
+        $(".see-json").parent().css("margin-bottom", 0)
+
+        $(".see-json").addClass("selected-format")
+        $(".see-csv").addClass("unselected-format")
+        $(".see-geojson").addClass("unselected-format")
+        
+        $(".response-json").next().addClass("show-codeblock")
+        $(".response-csv").next().addClass("hide-codeblock")
+        $(".response-geojson").next().addClass("hide-codeblock")
+
+        $(".see-json").click( () => {
+          $(".see-json").removeClass("unselected-format").addClass("selected-format")
+          $(".see-csv, .see-geojson").removeClass("selected-format").addClass("unselected-format")
+          $(".response-json").next().removeClass("hide-codeblock").addClass("show-codeblock")
+          $(".response-csv, .response-geojson").next().removeClass("show-codeblock").addClass("hide-codeblock")
+        });
+        
+        $(".see-csv").click( () => {
+          $(".see-csv").removeClass("unselected-format").addClass("selected-format")
+          $(".see-json, .see-geojson").removeClass("selected-format").addClass("unselected-format")
+          $(".response-csv").next().removeClass("hide-codeblock").addClass("show-codeblock")
+          $(".response-json, .response-geojson").next().removeClass("show-codeblock").addClass("hide-codeblock")
+        })
+        
+        $(".see-geojson").click( () => {
+          $(".see-geojson").removeClass("unselected-format").addClass("selected-format")
+          $(".see-json, .see-csv").removeClass("selected-format").addClass("unselected-format")
+          $(".response-geojson").next().removeClass("hide-codeblock").addClass("show-codeblock")
+          $(".response-csv, .response-json").next().removeClass("show-codeblock").addClass("hide-codeblock")
+        })
+      });
+    </script>
+
     <a href="#" id="nav-button">
       <span>
-        NAV
+        Table of Contents
         <%= image_tag('navbar.png') %>
       </span>
     </a>
     <div class="toc-wrapper">
-      <%= image_tag "logo.png", class: 'logo' %>
+      <a href="https://app.namara.io/#/" target="_blank" rel="noreferrer noopener">
+        <%= image_tag "logo.png", class: 'logo' %>
+      </a>
       <% if language_tabs.any? %>
         <div class="lang-selector">
           <% language_tabs.each do |lang| %>

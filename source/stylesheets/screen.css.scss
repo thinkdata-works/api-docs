@@ -59,8 +59,9 @@ html, body {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
+  box-shadow: 1px 0 2px rgba(0,0,0,0.25);
 
   // language selector for mobile devices
   .lang-selector {
@@ -74,8 +75,8 @@ html, body {
   // This is the logo at the top of the ToC
   .logo {
     display: block;
-    max-width: 100%;
-    margin-bottom: $logo-margin;
+    max-width: 126px;
+    margin: $logo-margin 36px $logo-margin 16px;
   }
 
   &>.search {
@@ -92,6 +93,10 @@ html, body {
       outline: none;
       color: $nav-text;
       border-radius: 0; /* ios has a default border radius */
+
+      &::placeholder {
+        color: $aside-notice-bg;
+      }
     }
 
     &:before {
@@ -177,7 +182,6 @@ html, body {
   .toc-footer {
     padding: 1em 0;
     margin-top: 1em;
-    border-top: 1px dashed $nav-footer-border-color;
 
     li,a {
       color: $nav-text;
@@ -192,6 +196,11 @@ html, body {
       font-size: 0.8em;
       line-height: 1.7;
       text-decoration: none;
+
+      .view-format {
+        font-weight: 100;
+        font-size: 1.2em;
+      }
     }
   }
 }
@@ -320,6 +329,15 @@ html, body {
   position: relative;
   z-index: 30;
 
+  a {
+    color: $link-text;
+    text-decoration: none;
+
+    &:visited {
+      color: $clicked-link-text;
+    }
+  }
+
   &:after {
     content: '';
     display: block;
@@ -351,9 +369,7 @@ html, body {
     padding-bottom: 0.5em;
     margin-bottom: $h1-margin-bottom;
     margin-top: 2em;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    background-color: #fdfdfd;
+    // background-color: #f9f9f9;
   }
 
   h1:first-child, div:first-child + h1 {
@@ -364,9 +380,9 @@ html, body {
   h2 {
     @extend %header-font;
     font-size: 19px;
-    margin-top: 4em;
+    // margin-top: 4em;
     margin-bottom: 0;
-    border-top: 1px solid #ccc;
+    // border-top: 1px solid #ccc;
     padding-top: 1.2em;
     padding-bottom: 1.2em;
     background-image: linear-gradient(to bottom, rgba(#fff, 0.2), rgba(#fff, 0));
@@ -387,7 +403,7 @@ html, body {
   }
 
   h4, h5, h6 {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   hr {
@@ -502,6 +518,93 @@ html, body {
     border-radius: 4px;
     border: 1px solid #F7E633;
     background: linear-gradient(to top left, #F7E633 0%, #F1D32F 100%);
+  }
+
+  code {
+    word-break: break-word;
+  }
+
+  blockquote code {
+    word-break: break-all;
+  }
+
+  .colour-pill {
+    display: flex;
+    align-items: center;
+  }
+  
+  .get, .post {
+    margin-right: 5px;
+    border-radius: 1.5em;
+    text-transform: uppercase;
+    padding: 3px 8px 3px 10px;
+    color: $nav-text;
+    font-size: 0.7em;
+    font-weight: 100;
+    letter-spacing: 1.5px;
+    height: 1.1em;
+  }
+  
+  .get {
+    background-color: $get-background;
+  }
+
+  .post {
+    background-color: $post-background;
+  }
+
+  .see-json, .see-csv, .see-geojson {
+    color: #fff;
+    font-weight: 600;
+    outline: none;
+    padding: 5px 15px;
+    margin: 0 -4px;
+    border: none;
+  }
+
+  .selected-format {
+    opacity: 1;
+    background: #2f3336;
+  }
+
+  .unselected-format {
+    // opacity: 0.5;
+    box-shadow: none;
+    background: #000;
+  }
+
+  .show-codeblock {
+    display: block;
+  }
+
+  .hide-codeblock {
+    display: none;
+  }
+
+  // preformatted code blocks in centre column:
+  .center-column + pre {    
+    position: static;
+    float: none;
+    clear: none;
+    margin: 0;
+    left: 0;
+    background: #2f3336;
+  }
+
+  .scroll-space {
+    height: 50vh;
+  }
+
+  blockquote > p {
+    overflow-x: auto;
+  }
+
+  .highlight .k, .highlight .o {
+    color: #ec6d6d;
+  }
+
+  .highlight .mi {
+    color: #8ac7ff;
   }
 }
 
