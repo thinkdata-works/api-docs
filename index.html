@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <link href="images/Namaradrop.png" rel="icon" type="image/png" />
+    <title>The Namara API</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -201,20 +202,55 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;]">
+
+    <script>
+      $(document).ready(() => {
+        $(".see-json").parent().css("margin-bottom", 0)
+
+        $(".see-json").addClass("selected-format")
+        $(".see-csv").addClass("unselected-format")
+        $(".see-geojson").addClass("unselected-format")
+        
+        $(".response-json").next().addClass("show-codeblock")
+        $(".response-csv").next().addClass("hide-codeblock")
+        $(".response-geojson").next().addClass("hide-codeblock")
+
+        $(".see-json").click( () => {
+          $(".see-json").removeClass("unselected-format").addClass("selected-format")
+          $(".see-csv, .see-geojson").removeClass("selected-format").addClass("unselected-format")
+          $(".response-json").next().removeClass("hide-codeblock").addClass("show-codeblock")
+          $(".response-csv, .response-geojson").next().removeClass("show-codeblock").addClass("hide-codeblock")
+        });
+        
+        $(".see-csv").click( () => {
+          $(".see-csv").removeClass("unselected-format").addClass("selected-format")
+          $(".see-json, .see-geojson").removeClass("selected-format").addClass("unselected-format")
+          $(".response-csv").next().removeClass("hide-codeblock").addClass("show-codeblock")
+          $(".response-json, .response-geojson").next().removeClass("show-codeblock").addClass("hide-codeblock")
+        })
+        
+        $(".see-geojson").click( () => {
+          $(".see-geojson").removeClass("unselected-format").addClass("selected-format")
+          $(".see-json, .see-csv").removeClass("selected-format").addClass("unselected-format")
+          $(".response-geojson").next().removeClass("hide-codeblock").addClass("show-codeblock")
+          $(".response-csv, .response-json").next().removeClass("show-codeblock").addClass("hide-codeblock")
+        })
+      });
+    </script>
+
     <a href="#" id="nav-button">
       <span>
-        NAV
+        Table of Contents
         <img src="images/navbar.png" alt="Navbar" />
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo.png" class="logo" alt="Logo" />
+      <a href="https://app.namara.io/#/" target="_blank" rel="noreferrer noopener">
+        <img src="images/logo.png" class="logo" alt="Logo" />
+      </a>
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="shell">cURL</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -222,282 +258,916 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#api-introduction" class="toc-h1 toc-link" data-title="API Introduction">API Introduction</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#our-rest-api" class="toc-h2 toc-link" data-title="Our REST API">Our REST API</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#get-generic-endpoint" class="toc-h2 toc-link" data-title="
+GET Generic Endpoint"><div class="colour-pill">
+<span class="get">GET</span> Generic Endpoint</div></a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#api-keys" class="toc-h2 toc-link" data-title="API Keys">API Keys</a>
+                  </li>
+                  <li>
+                    <a href="#making-requests" class="toc-h2 toc-link" data-title="Making Requests">Making Requests</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+            <a href="#data-api" class="toc-h1 toc-link" data-title="Data API">Data API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-data-query" class="toc-h2 toc-link" data-title="
+GET Data Query"><div class="colour-pill">
+<span class="get">GET</span> Data Query</div></a>
+                  </li>
+                  <li>
+                    <a href="#formats-pagination-amp-ordering" class="toc-h2 toc-link" data-title="Formats, Pagination, &amp; Ordering">Formats, Pagination, &amp; Ordering</a>
+                  </li>
+                  <li>
+                    <a href="#conditions" class="toc-h2 toc-link" data-title="Conditions">Conditions</a>
+                  </li>
+                  <li>
+                    <a href="#geospatial-operators" class="toc-h2 toc-link" data-title="Geospatial Operators">Geospatial Operators</a>
+                  </li>
+                  <li>
+                    <a href="#get-export" class="toc-h2 toc-link" data-title="
+GET Export"><div class="colour-pill">
+<span class="get">GET</span> Export</div></a>
+                  </li>
+                  <li>
+                    <a href="#get-aggregate" class="toc-h2 toc-link" data-title="
+GET Aggregate"><div class="colour-pill">
+<span class="get">GET</span> Aggregate</div></a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#query-api-beta" class="toc-h1 toc-link" data-title="Query API (beta)">Query API (beta)</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-meta" class="toc-h2 toc-link" data-title="
+GET Meta"><div class="colour-pill">
+<span class="get">GET</span> Meta</div></a>
+                  </li>
+                  <li>
+                    <a href="#post-query" class="toc-h2 toc-link" data-title="
+POST Query"><div class="colour-pill">
+<span class="post">POST</span> Query</div></a>
+                  </li>
+                  <li>
+                    <a href="#query-specification" class="toc-h2 toc-link" data-title="Query Specification">Query Specification</a>
+                  </li>
+                  <li>
+                    <a href="#select-features" class="toc-h2 toc-link" data-title="SELECT Features">SELECT Features</a>
+                  </li>
+                  <li>
+                    <a href="#from-features" class="toc-h2 toc-link" data-title="FROM Features">FROM Features</a>
+                  </li>
+                  <li>
+                    <a href="#where-features" class="toc-h2 toc-link" data-title="WHERE Features">WHERE Features</a>
+                  </li>
+                  <li>
+                    <a href="#group-by-and-having" class="toc-h2 toc-link" data-title="GROUP BY and HAVING">GROUP BY and HAVING</a>
+                  </li>
+                  <li>
+                    <a href="#geospatial-features" class="toc-h2 toc-link" data-title="Geospatial Features">Geospatial Features</a>
+                  </li>
+                  <li>
+                    <a href="#pagination-with-niql" class="toc-h2 toc-link" data-title="Pagination with NiQL">Pagination with <strong>NiQL</strong></a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#get-in-touch" class="toc-h1 toc-link" data-title="Get In Touch">Get In Touch</a>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://app.namara.io/#/' target='_blank' rel='noreferrer noopener'>Go to Namara</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+        <h1 id='api-introduction'>API Introduction</h1>
+<p>If you&#39;re looking to interact with the Namara API, you&#39;ve come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.</p>
+<h3 id='our-rest-api'>Our REST API</h3>
+<p>The Namara API is a REST-based service that accepts and returns <code>JSON</code> in most cases (we&#39;ll cover <a href="#formats-pagination-amp-ordering">response formats</a> later). Requests should be made to:</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p><code>https://:namara_api_host/v0/:endpoint</code></p>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
+<p>Unless indicated otherwise, the Namara API host is <code>api.namara.io</code>, which will be used throughout the documentation. </p>
+
+<p>The responses will be outlined for each endpoint.</p>
+<h2 id='get-generic-endpoint'><div class="colour-pill"><span class="get">GET</span> Generic Endpoint</div></h2>
 <blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>https://api.namara.io/v0/:endpoint</p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>In the code column on the right is a generic endpoint, and the foundation of almost every call to our API. The chart below displays standard response codes:</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: meowmeowmeow</code></p>
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
+<th>Response</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>200: OK</td>
+<td>Success</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>202: Accepted</td>
+<td>A background job has successfully been triggered - continue polling for details</td>
+</tr>
+<tr>
+<td>401: Unauthorized</td>
+<td>The API key you provided doesn&#39;t correspond to any user</td>
+</tr>
+<tr>
+<td>403: Forbidden</td>
+<td>User is not authorized to make that request</td>
+</tr>
+<tr>
+<td>422: Unprocessable Entity</td>
+<td>The server was unable to save the document; there will be more details in the full response body</td>
+</tr>
+<tr>
+<td>429: Too Many Requests</td>
+<td>User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>)</td>
 </tr>
 </tbody></table>
+<h2 id='api-keys'>API Keys</h2>
+<p>Three kinds of API Keys can be created for accessing the Namara API - <em>Organization Keys</em>, <em>Project Keys</em>, and <em>Personal Keys</em>. This is an overview of managing all three types, and we&#39;ll outline the different use cases for each.</p>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<!-- we don't actually outline use cases here -->
+<h3 id='organization-api-keys'>Organization API Keys</h3>
+<p>For any non-personal Organization, visit the &quot;Settings&quot; tab and create API Keys for that Organization. Calls made with this API Key will be limited to Data Sets and Projects that your Organization has access to.</p>
+<h3 id='project-api-keys'>Project API Keys</h3>
+<p>For any project, visit the &quot;Settings&quot; tab and create API Keys for yourself for that Project. Calls made with this API Key will be limited to Data Sets that your Project has access to.</p>
+<h3 id='personal-api-keys'>Personal API Keys</h3>
+<p>The Personal Namara API Key can be obtained by clicking on the Organization tab at the bottom of the left sidebar, then clicking &quot;Account Settings&quot;. Copy this from the &quot;API Key&quot; tab and use it for any API calls.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<aside class="warning">Your Personal Key gives its user access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
+<h3 id='rate-limiting'>Rate Limiting</h3>
+<p>Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return <code>status: 429</code>. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.</p>
+<h2 id='making-requests'>Making Requests</h2><h3 id='parameter-authentication'>Parameter Authentication</h3><pre class="highlight shell tab-shell"><code>curl -XGET https://api.namara.io/v0/data_sets/:data_set_id?api_key<span class="o">=</span>:YOUR_API_KEY
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+  or
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+curl -i <span class="se">\</span>
+-H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+-H <span class="s2">"X-API-Key: {YOUR_API_KEY}"</span> <span class="se">\</span>
+-X POST <span class="se">\</span>
+-d <span class="s1">'{"query":"..."}'</span> <span class="se">\</span>
+https://api.namara.io/v0/query.:format
 </code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>Append the key as <code>api_key</code> to any request body (either <code>GET</code> or <code>POST</code>) as long as it is included in the parameters.</p>
+<h3 id='header-authentication'>Header Authentication</h3>
+<p>The API Key can be sent in the request headers as <code>X-API-Key</code>. Append the key to the headers by adding <code>&quot;X-API-Key: {YOUR_API_KEY}&quot;</code></p>
+<h3 id='testing-authentication'>Testing Authentication</h3>
+<p>Here&#39;s how to verify your API Key:</p>
+<h3 id='get-verify-api-key'><div class="colour-pill"><span class="get">GET</span> Verify API Key</div></h3>
+<p>Ping the API at <code>http://api.namara.io/v0/users/verify_token</code> to ensure that the API token is valid for the user.</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<blockquote>
+<p>1)
+<code>{ &quot;status&quot;: true }</code></p>
+
+<p>2)
+<code>{ &quot;status&quot;: false }</code></p>
+</blockquote>
+
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Response</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>200: OK</td>
+<td>The API Key is valid (<em>example 1</em>)</td>
+</tr>
+<tr>
+<td>422: Unprocessable Entity</td>
+<td>API does not correspond to any user (<em>example 2</em>)</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
+<h1 id='data-api'>Data API</h1>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>https://:namara_api_host/v0/data_sets/:data_set_id/data/:version</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+
+<p>Each data set can be accessed at the API URL. In Namara, click on the &quot;API Info&quot; tab when viewing a data set to see all information regarding ID, version, and properties.</p>
+<h2 id='get-data-query'><div class="colour-pill"><span class="get">GET</span> Data Query</div></h2>
+<blockquote>
+<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version</p>
+</blockquote>
+
+<p>This endpoint is used for creating selection and aggregation views on a single data set. For full SQL access to the Namara catalog, see the <a href="#query-api">Query API</a>.</p>
+
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Path Parameters</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>data_set_id (required)</td>
+<td><code>string</code></td>
+<td>UUID for accessing the data set</td>
+</tr>
+<tr>
+<td>version (required)</td>
+<td><code>string</code></td>
+<td>Version identifier, eg: <code>en-0</code></td>
 </tr>
 </tbody></table>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
 
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Query Parameters</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
+<td>result_format</td>
+<td><code>string</code></td>
+<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
+<td>geometry_format</td>
+<td><code>string</code></td>
+<td>Either <code>WKT</code> or <code>GeoJSON</code> for all geometry values (default is <code>GeoJSON</code>)</td>
 </tr>
 <tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>geojson_feature_key</td>
+<td><code>string</code></td>
+<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
 </tr>
 <tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
+<td>limit</td>
+<td><code>integer</code></td>
+<td>Number of rows to return - the default value is also the maximum: 250 (see <a href="#pagination">Pagination</a>)</td>
 </tr>
 <tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+<td>offset</td>
+<td><code>integer</code></td>
+<td>Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)</td>
 </tr>
 <tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
+<td>select</td>
+<td><code>string</code></td>
+<td>Comma-separated list of column names to return</td>
 </tr>
 <tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
+<td>order</td>
+<td><code>string</code></td>
+<td>Specify the order of the returned results (see <a href="#ordering">Ordering</a>)</td>
 </tr>
 <tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>where</td>
+<td><code>string</code></td>
+<td>Conditions for performing query (see <a href="#conditions">Conditions</a>)</td>
 </tr>
 </tbody></table>
+<h2 id='formats-pagination-amp-ordering'>Formats, Pagination, &amp; Ordering</h2><h3 id='results-format'>Results Format</h3>
+<p>The Namara Data API produces results in different formats, <code>JSON</code>, <code>CSV</code>, or <code>GeoJSON</code>, depending on the value you pass into the <code>result_format</code> parameter in your query. In examples of results, you&#39;ll see three buttons above the code block which will show example results in your preferred format. Here&#39;s how they look:</p>
+
+<p><button class="see-json">JSON</button> 
+<button class="see-csv">CSV</button> 
+<button class="see-geojson">GeoJSON</button> </p>
+
+<div class="center-column response-json"></div>
+<pre class="highlight plaintext"><code>  {
+    "results":[
+      {
+        "c0":"format",
+        "c1":"example"
+      },
+      ...
+    ]
+  }
+</code></pre>
+<div class="center-column response-csv"></div>
+<pre class="highlight plaintext"><code>  c0,c1
+  format,example
+</code></pre>
+<div class="center-column response-geojson"></div>
+<pre class="highlight plaintext"><code>  {
+    "type":"GeojsonResponseFormat",
+    "features":[
+      {
+        "type":"Feature",
+        "geometry":{
+          "type":"Point",
+          "coordinates": [ -79.4, 43.7 ]
+        },
+        "properties":{
+          "c0":"format",
+          "c1":"example"
+        }
+      },
+      ...
+    ]
+  }
+</code></pre><h3 id='pagination'>Pagination</h3>
+<p>Each query response is limited to 250 results. To view the entire response, either use the <code>export</code> endpoint to render the results of the query, or use <code>limit</code> and <code>offset</code> arguments to paginate over results, until no more values are found. </p>
+<h3 id='ordering'>Ordering</h3>
+<blockquote>
+<p>...&amp;order=p0 ASC</p>
+</blockquote>
+
+<p>Pass in either <code>ASC</code> or <code>DESC</code> after specifying a column to see results in ascending or descending order, respectively.</p>
+<h2 id='conditions'>Conditions</h2>
+<p>The <code>where</code> argument supports a number of comparison operators and geospatial functions:</p>
+
+<table><thead>
+<tr>
+<th>Symbol</th>
+<th>Alias</th>
+<th>Description</th>
+<th>Use</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>=</td>
+<td>eq</td>
+<td>Returns an exact, case-sensitive match of the value</td>
+<td><code>p0=100</code> <code>p3 eq &#39;2015-01-06&#39;</code></td>
+</tr>
+<tr>
+<td>!=</td>
+<td>neq</td>
+<td>Returns an exact, case-sensitive match of the value</td>
+<td><code>p0!=50</code> <code>p3 neq &#39;2016-07-16&#39;</code></td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>gt</td>
+<td>Works for numerical, date and datetime values</td>
+<td><code>p0&gt;100</code> <code>p0 gt &#39;2010-01-01&#39;</code></td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>gte</td>
+<td>Works for numerical, date and datetime values</td>
+<td><code>p0&gt;=75</code> <code>p0 gte &#39;2010-01-01&#39;</code></td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>lt</td>
+<td>Works for numerical, date and datetime values</td>
+<td><code>p0&lt;200</code> <code>p0 lt &#39;2018-04-01&#39;</code></td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>lte</td>
+<td>Works for numerical, date and datetime values</td>
+<td><code>p0&lt;=150</code> <code>p0 lte &#39;2017-11-01&#39;</code></td>
+</tr>
+<tr>
+<td>IS</td>
+<td></td>
+<td>Only works for boolean values</td>
+<td><code>p1 IS true</code> <code>p1 IS NULL</code></td>
+</tr>
+<tr>
+<td>IS NOT</td>
+<td></td>
+<td>Only works for boolean values</td>
+<td><code>p1 IS NOT true</code> <code>p1 IS NOT NULL</code></td>
+</tr>
+<tr>
+<td>LIKE</td>
+<td></td>
+<td><code>%</code> = wildcard, case-insensitive</td>
+<td><code>p2 LIKE &#39;%foo%&#39;</code></td>
+</tr>
+<tr>
+<td>NOT LIKE</td>
+<td></td>
+<td><code>%</code> = wildcard case-insensitive</td>
+<td><code>p2 NOT LIKE &#39;%foo%&#39;</code></td>
+</tr>
+<tr>
+<td>IN</td>
+<td></td>
+<td>Works for values in a specified list of items</td>
+<td><code>p0 IN (100, &#39;foo&#39;, true)</code></td>
+</tr>
+</tbody></table>
+
+<aside class="notice">Note the spaces around the aliases in the queries.</aside>
+<h3 id='operator-examples'>Operator Examples</h3>
+<blockquote>
+<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=co2_emissions_g_km<200</code> <br/><strong>or</strong><br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=make IN (&quot;CHEVROLET&quot;,&quot;CADILLAC&quot;)</code><br/><br/>
+2b)
+<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=(make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;) AND (fuel_consumption_city_l_100km&lt;=12 AND fuel_consumption_hwy_l_100km&lt;=9)</code></p>
+</blockquote>
+
+<ol>
+<li><p>List all vehicles with CO<sub>2</sub> emissions less than 200g/km</p></li>
+<li><p>a) Get fuel consumption ratings for all Cadillac and Chevrolet vehicles</p>
+
+<p>b) The same operation with boolean operators</p></li>
+<li><p>List all Cadillac and Chevrolet vehicles with good city and highway mileage</p></li>
+</ol>
+
+<p><em>Example 3</em> is a more complex query with multiple conditions while explicitly specifying the evaluation order.</p>
+<h2 id='geospatial-operators'>Geospatial Operators</h2>
+<p>Data sets will commonly contain <code>latitude</code> and <code>longitude</code> as properties.</p>
+
+<p>The <code>where</code> condition query parameter supports some geospatial functions for querying data sets.</p>
+<h3 id='geospatial-operator-examples'>Geospatial Operator Examples</h3><pre class="highlight plaintext"><code>1) ...&amp;where=nearby(p3, 43.653226, -79.3831843, 10km)
+
+2) ...&amp;where=bbox(p3, 43.5810245, -79.639219, 43.8554579, -79.11689699)
+</code></pre>
+<ol>
+<li><p>Returns all rows in which the value in the specified column is within <code>radius</code> distance of the point specified by <code>latitude</code> and <code>longitude</code>. </p></li>
+<li><p>Returns all rows in which the value in the specified column lies within the bounding box created by the two coordinates.</p></li>
+</ol>
+<h2 id='get-export'><div class="colour-pill"><span class="get">GET</span> Export</div></h2>
+<p>Exporting is almost identical to the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.</p>
+<h3 id='request'>Request</h3>
+<blockquote>
+<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version/export</p>
+</blockquote>
+
+<p>Export path and query parameters look a lot like the parameters for accessing the data set. Let&#39;s look at the requests you can make:</p>
+
+<table><thead>
+<tr>
+<th>Path Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>data_set_id (required)</td>
+<td><code>string</code></td>
+<td>UUID for accessing the data set</td>
+</tr>
+<tr>
+<td>version (required)</td>
+<td><code>string</code></td>
+<td>Version identifier, eg: <code>en-0</code></td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>Query Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>result_format</td>
+<td><code>string</code></td>
+<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+</tr>
+<tr>
+<td>geometry_format</td>
+<td><code>string</code></td>
+<td>Either <code>WKT</code> or <code>GeoJSON</code> for all geometry values (default is <code>GeoJSON</code>)</td>
+</tr>
+<tr>
+<td>geojson_feature_key</td>
+<td><code>string</code></td>
+<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+</tr>
+<tr>
+<td>compress_with</td>
+<td><code>string</code></td>
+<td>Compression options for final export (see <a href="#compression-options">Compression Options</a>)</td>
+</tr>
+<tr>
+<td>limit</td>
+<td><code>integer</code></td>
+<td>Number of rows to export</td>
+</tr>
+<tr>
+<td>offset</td>
+<td><code>integer</code></td>
+<td>Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)</td>
+</tr>
+<tr>
+<td>select</td>
+<td><code>string</code></td>
+<td>Comma-separated list of column names to return</td>
+</tr>
+<tr>
+<td>order</td>
+<td><code>string</code></td>
+<td>Specify the order of the returned results (see <a href="#ordering">Ordering</a>)</td>
+</tr>
+<tr>
+<td>where</td>
+<td><code>string</code></td>
+<td>Conditions for performing query (see <a href="#conditions">Conditions</a>)</td>
+</tr>
+</tbody></table>
+<h3 id='responses'>Responses</h3><pre class="highlight plaintext"><code>1)
+  {
+    "message": "Exported",
+    "url": "&lt;url to file&gt;",
+    "compressed_with": "none"
+  }
+
+2)
+  { "message": "Pending" }
+
+3)
+  {
+    "message": "Failed",
+    "error_message": "&lt;reason for error&gt;"
+  }
+</code></pre>
+<table><thead>
+<tr>
+<th>Response</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200: OK</td>
+<td>When the export has finished and redirect is not set (<em>example 1</em>)</td>
+</tr>
+<tr>
+<td>202: Accepted</td>
+<td>When the export has begun (<em>example 2</em>)</td>
+</tr>
+<tr>
+<td>422: Unprocessable Entity</td>
+<td>Failed to export (<em>example 3</em>)</td>
+</tr>
+</tbody></table>
+<h2 id='get-aggregate'><div class="colour-pill"><span class="get">GET</span> Aggregate</div></h2>
+<p>Use aggregation functions to retrieve data set-level information.</p>
+<h3 id='request-2'>Request</h3>
+<blockquote>
+<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version/aggregation</p>
+</blockquote>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>data_set_id (required)</td>
+<td><code>string</code></td>
+<td>UUID for accessing the data set</td>
+</tr>
+<tr>
+<td>version (required)</td>
+<td><code>string</code></td>
+<td>Version identifier, eg. <code>en-0</code></td>
+</tr>
+<tr>
+<td>operation (required)</td>
+<td><code>string</code></td>
+<td>Operation function to perform (see <a href="#operations">Operations</a>)</td>
+</tr>
+<tr>
+<td>where</td>
+<td><code>string</code></td>
+<td>Conditions for performing query (see <a href="#conditions">Conditions</a>)</td>
+</tr>
+</tbody></table>
+<h3 id='operations'>Operations</h3>
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+<th>Use</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>count</td>
+<td>The number of rows of data. Using <code>*</code> will count all rows - specifying a property will only count non-null rows for that property.</td>
+<td><code>count(*)</code> <code>count(p0)</code></td>
+</tr>
+<tr>
+<td>sum</td>
+<td>The sum of all values in a column</td>
+<td><code>sum(p0)</code></td>
+</tr>
+<tr>
+<td>avg</td>
+<td>The average of all values in a column</td>
+<td><code>avg(p0)</code></td>
+</tr>
+<tr>
+<td>min</td>
+<td>The minimum value in a column</td>
+<td><code>min(p0)</code></td>
+</tr>
+<tr>
+<td>max</td>
+<td>The maximum value in a column</td>
+<td><code>max(p0)</code></td>
+</tr>
+</tbody></table>
+<h3 id='operator-examples-2'>Operator Examples</h3>
+<blockquote>
+<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=avg(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+
+<p>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=min(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+
+<p>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=count(*)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+</blockquote>
+
+<ol>
+<li><p>Reveals the average CO<sub>2</sub> emissions of Cadillac vehicles</p></li>
+<li><p>Reveals the Cadillac vehicle with the least CO<sub>2</sub> emission</p></li>
+<li><p>Reveals all the Cadillac vehicles</p></li>
+</ol>
+<h1 id='query-api-beta'>Query API (beta)</h1>
+<p>While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the Data API. We wrote <strong>NiQL</strong> (<strong>N</strong>amara.<strong>i</strong>o <strong>Q</strong>uery <strong>L</strong>anguage) to view, aggregate, and join data sets. It&#39;s very similar to SQL, so it&#39;s easy to manipulate.</p>
+
+<aside class="notice">This feature is currently in beta - to request early access, <a href="https://namara.io/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
+<h2 id='get-meta'><div class="colour-pill"><span class="get">GET</span> Meta</div></h2>
+<blockquote>
+<p>https://api.namara.io/v0/query/meta</p>
+</blockquote>
+<pre class="highlight plaintext"><code>{
+  "query_limit_maximum": 250,
+  "formats": ["geojson", "csv", "json"],
+  "default_format": "json"
+}
+</code></pre>
+<p>This endpoint provides the meta information for querying this Namara instance. It includes the limit per query, the supported formats, and the default format if none is specified. This information may differ, depending on which deployment of Namara you&#39;re using. </p>
+<h2 id='post-query'><div class="colour-pill"><span class="post">POST</span> Query</div></h2>
+<blockquote>
+<p>https://api.namara.io/v0/query.:format</p>
+</blockquote>
+
+<p>A call here dispatches a query and returns the result.</p>
+<h3 id='request'>Request</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>format</td>
+<td><code>string</code></td>
+<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+</tr>
+<tr>
+<td>project_id</td>
+<td><code>string</code></td>
+<td>Project ID to use for subscription lookup. If not provided, it is inferred from API Key</td>
+</tr>
+<tr>
+<td>organization_id</td>
+<td><code>string</code></td>
+<td>Organization ID to use for subscription lookup. If not provided, it is inferred from API Key</td>
+</tr>
+<tr>
+<td>query (required)</td>
+<td><code>string</code></td>
+<td>NiQL query string</td>
+</tr>
+<tr>
+<td>geojson_feature_key (may be required)</td>
+<td><code>string</code></td>
+<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+</tr>
+</tbody></table>
+
+<p>The <code>geojson_feature_key</code> is required if the requested format is <code>GeoJSON</code> - otherwise, it is not needed.</p>
+<h3 id='responses'>Responses</h3><h3 id='200-ok'>200: OK</h3>
+<p>Query executed successfully.</p>
+
+<p><button class="see-json">JSON</button> 
+<button class="see-csv">CSV</button> 
+<button class="see-geojson">GeoJSON</button> </p>
+
+<div class="center-column response-json"></div>
+<pre class="highlight plaintext"><code>  {
+    "results":[
+      {
+        "c0":"foo",
+        "c1":22,
+        "c2":"xx",
+        "c3":"POINT (-79.4 43.7)"
+      },
+      ...
+    ]
+  }
+</code></pre>
+<div class="center-column response-csv"></div>
+<pre class="highlight plaintext"><code>  c0,c1,c2,c3
+  foo,22,xx,POINT (-79.4 43.7)
+  bar,66,yy,POINT (-78.4 42.7)
+  baz,11,xx,POINT (-70.4 35.7)
+</code></pre>
+<div class="center-column response-geojson"></div>
+<pre class="highlight plaintext"><code>  {
+    "type":"FeatureCollection",
+    "features":[
+      {
+        "type":"Feature",
+        "geometry":{
+          "type":"Point",
+          "coordinates": [ -79.4, 43.7 ]
+        },
+        "properties":{
+          "c0":"foo",
+          "c1":22,
+          "c2":"xx"
+        }
+      },
+      ...
+    ]
+  }
+</code></pre><h3 id='422-unprocessable-entity'>422: Unprocessable Entity</h3>
+<p>Something went wrong with the request.</p>
+
+<div class="center-column"></div>
+<pre class="highlight plaintext"><code>{ "error": &lt;Error message&gt; }
+</code></pre><h2 id='query-specification'>Query Specification</h2>
+<p><strong>NiQL</strong> is modelled after standard SQL, but only supports read-only <code>SELECT</code> statements. A traditional query must at minimum have a <code>SELECT</code> and <code>FROM</code> clause in order to execute. While the <code>SELECT</code> clause can be anything, the <code>FROM</code> clause must specify a data set and version to query. </p>
+<pre class="highlight shell tab-shell"><code>curl -i <span class="se">\</span>
+-H <span class="s2">"Content-Type: application/json"</span> <span class="se">\ </span>
+-H <span class="s2">"X-API-Key: {YOUR_API_KEY}"</span> <span class="se">\ </span>
+-X POST <span class="se">\ </span>
+-d <span class="s1">'{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1/en-1 AS BramptonHomes"}'</span> <span class="se">\ </span>
+https://api.namara.io/v0/query.json
+</code></pre>
+<p>For example, if we were looking to query a data set with an id of <code>2a6412c0-b3c9-420e-9487-abd21b664ac1</code> and the version <code>en-1</code>, our minimum query would look like the example in the code column.</p>
+
+<p>The parser will verify the table name and handle queries that reference it, but using aliases and quotes whenever possible is recommended.</p>
+
+<p>Below is a summary of supported features:</p>
+<h2 id='select-features'>SELECT Features</h2><h3 id='count'>COUNT</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+
+  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+</code></pre><h3 id='distinct'>DISTINCT</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">column1</span><span class="p">,</span> <span class="n">column2</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+</code></pre><h3 id='count-distinct'>COUNT DISTINCT</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">column1</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+</code></pre><h3 id='min-and-max'>MIN AND MAX</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">minColumn1</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">column2</span><span class="p">)</span> <span class="k">AS</span> <span class="n">maxColumn2</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+</code></pre><h3 id='avg-and-sum'>AVG AND SUM</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avgColumn1</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sumColumn1</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+</code></pre><h2 id='from-features'>FROM Features</h2><h3 id='joins'>JOINS</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">city</span><span class="p">,</span> <span class="n">DataSet2</span><span class="p">.</span><span class="n">country</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span> <span class="k">AS</span> <span class="n">DataSet1</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="nv">"data-set-id2/en-1"</span> <span class="k">AS</span> <span class="n">DataSet2</span>
+  <span class="k">ON</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">foreign_id</span> <span class="o">=</span> <span class="n">DataSet2</span><span class="p">.</span><span class="n">external_id</span>
+</code></pre>
+<p><br />
+Supports:</p>
+
+<ul>
+<li>INNER JOIN</li>
+<li>RIGHT [OUTER] JOIN</li>
+<li>LEFT [OUTER] JOIN</li>
+<li>Implicit joins</li>
+</ul>
+<h3 id='unions'>UNIONS</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">id</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">UNION</span>
+  <span class="k">SELECT</span> <span class="n">objectid</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span>
+</code></pre><h2 id='where-features'>WHERE Features</h2><h3 id='conditions'>Conditions</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">city</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="n">country</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">WHERE</span> <span class="p">(</span><span class="n">country</span> <span class="o">=</span> <span class="s1">'Canada'</span> <span class="k">AND</span> <span class="n">province</span> <span class="o">=</span> <span class="s1">'Manitoba'</span> <span class="k">AND</span> <span class="k">NOT</span> <span class="n">city</span> <span class="o">=</span> <span class="s1">'Winnipeg'</span><span class="p">)</span> <span class="k">OR</span> <span class="n">country</span> <span class="o">=</span><span class="s1">'Mexico'</span>
+</code></pre><h3 id='like'>LIKE</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">WHERE</span> <span class="n">country</span> <span class="k">LIKE</span> <span class="s1">'C_%'</span>
+</code></pre><h3 id='order-by'>ORDER BY</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">country</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="p">...</span> <span class="p">[</span><span class="k">ASC</span><span class="o">|</span><span class="k">DESC</span><span class="p">]</span>
+</code></pre><h3 id='in'>IN</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">WHERE</span> <span class="n">country</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'Mexico'</span><span class="p">,</span> <span class="s1">'Canada'</span><span class="p">,</span> <span class="p">...)</span>
+</code></pre><h3 id='between'>BETWEEN</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">WHERE</span> <span class="n">liquidation_date</span> <span class="k">BETWEEN</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="k">AND</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
+</code></pre><h2 id='group-by-and-having'>GROUP BY and HAVING</h2>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">),</span> <span class="n">country</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">country</span>
+  <span class="k">HAVING</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span> 
+</code></pre><h3 id='subselects'>Subselects</h3>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">WHERE</span> <span class="n">total_count</span> <span class="o">=</span> <span class="p">[</span><span class="k">ANY</span><span class="o">|</span><span class="k">ALL</span><span class="p">]</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span><span class="p">)</span>
+</code></pre>
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">parent_account_id</span><span class="p">,</span> <span class="n">purchase_total</span> <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span><span class="p">)</span>
+  <span class="k">AS</span> <span class="n">subSelect</span>
+  <span class="k">WHERE</span> <span class="n">purchase_total</span> <span class="o">&gt;</span> <span class="mi">1500</span>
+</code></pre><h2 id='geospatial-features'>Geospatial Features</h2>
+<p>Geometry properties for data sets are stored as <code>GeoJSON</code>, and will be rendered as that unless instructed otherwise. You can do this using the transformation functions <code>ST_GeomFromText</code> to create geometry objects, which can then be manipulated and transformed. Use <code>ST_AsGeoJSON</code> or <code>ST_AsText</code> in order to turn the final result back to text from binary.  </p>
+
+<p>Here&#39;s an example in which <code>geometry_property</code> is a property from the data set of type geometry (this information can be obtained in the API Info tab when viewing a data set):</p>
+
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">ST_AsGeoJSON</span><span class="p">(</span><span class="n">ST_GeomFromText</span><span class="p">(</span><span class="n">geometry_property</span><span class="p">))</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+</code></pre><h3 id='supported-functions'>Supported Functions</h3>
+<blockquote>
+<p><code>ST_AsGeoJSON</code><br/>
+<code>ST_AsJson</code><br/>
+<code>ST_AsText</code><br/>
+<code>ST_Buffer</code><br/>
+<code>ST_Contains</code><br/>
+<code>ST_Crosses</code><br/>
+<code>ST_Difference</code><br/>
+<code>ST_Disjoint</code><br/>
+<code>ST_Distance</code><br/>
+<code>ST_DWithin</code><br/>
+<code>ST_Envelope</code><br/>
+<code>ST_Equals</code><br/>
+<code>ST_GeomFromText</code><br/>
+<code>ST_GeomFromTextSrid</code><br/>
+<code>ST_Intersects</code><br/>
+<code>ST_Overlaps</code><br/>
+<code>ST_PointFunc</code><br/>
+<code>ST_Relate</code><br/>
+<code>ST_Touches</code><br/>
+<code>ST_Transform</code><br/>
+<code>ST_Union</code><br/>
+<code>ST_UnionAggregate</code><br/>
+<code>ST_Within</code><br/>
+<code>ST_XFunc</code><br/>
+<code>ST_XMax</code><br/>
+<code>ST_XMin</code><br/>
+<code>ST_YFunc</code><br/>
+<code>ST_YMax</code><br/>
+<code>ST_YMin</code><br/></p>
+</blockquote>
+
+<p>We are very interested in expanding the geospatial capabilities of <strong>NiQL</strong>. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.</p>
+
+<aside class="notice">Please refer to the <a href="https://postgis.net/docs/reference.html" target="_blank" rel="noreferrer noopener">PostGIS documentation</a> for the functional specifics</aside>
+<h2 id='pagination-with-niql'>Pagination with <strong>NiQL</strong></h2>
+<p>Like the Data API, a maximum number of rows will be returned on each query. If the query string does not contain <code>LIMIT X OFFSET Y</code>, the parser will append the maximum number of allowable rows in order to enforce the limit.</p>
+
+<p>For results larger than the allowed amount, manual pagination in subsequent requests will have to be used.</p>
+
+<p>The default limit is <code>250</code> rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.</p>
+<h1 id='get-in-touch'>Get In Touch</h1>
+<p>We&#39;re easy to reach - visit our <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">contact page</a>, or talk directly to us while you use <a href="https://app.namara.io/#/" target="_blank" rel="noreferrer noopener">Namara</a> by clicking the chat button in the bottom right. Please get in touch with us if you:</p>
+
+<ul>
+<li>are experiencing any problems with the API;</li>
+<li>would like to increase your request or download limit;</li>
+<li>are looking for clarifications on the instructions;</li>
+<li>notice any mistakes in our documentation; or </li>
+<li>would like to send us any feedback.</li>
+</ul>
+
+<p>We would love to hear from you!</p>
+
+<div class="scroll-space"></div>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="shell">cURL</a>
           </div>
       </div>
     </div>

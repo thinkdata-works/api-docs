@@ -1,0 +1,104 @@
+<h1 id='api-introduction'>API Introduction</h1>
+<p>If you&#39;re looking to interact with the Namara API, you&#39;ve come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.</p>
+<h3 id='our-rest-api'>Our REST API</h3>
+<p>The Namara API is a REST-based service that accepts and returns <code>JSON</code> in most cases (we&#39;ll cover <a href="#formats-pagination-amp-ordering">response formats</a> later). Requests should be made to:</p>
+
+<p><code>https://:namara_api_host/v0/:endpoint</code></p>
+
+<p>Unless indicated otherwise, the Namara API host is <code>api.namara.io</code>, which will be used throughout the documentation. </p>
+
+<p>The responses will be outlined for each endpoint.</p>
+<h2 id='get-generic-endpoint'><div class="colour-pill"><span class="get">GET</span> Generic Endpoint</div></h2>
+<blockquote>
+<p>https://api.namara.io/v0/:endpoint</p>
+</blockquote>
+
+<p>In the code column on the right is a generic endpoint, and the foundation of almost every call to our API. The chart below displays standard response codes:</p>
+
+<table><thead>
+<tr>
+<th>Response</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200: OK</td>
+<td>Success</td>
+</tr>
+<tr>
+<td>202: Accepted</td>
+<td>A background job has successfully been triggered - continue polling for details</td>
+</tr>
+<tr>
+<td>401: Unauthorized</td>
+<td>The API key you provided doesn&#39;t correspond to any user</td>
+</tr>
+<tr>
+<td>403: Forbidden</td>
+<td>User is not authorized to make that request</td>
+</tr>
+<tr>
+<td>422: Unprocessable Entity</td>
+<td>The server was unable to save the document; there will be more details in the full response body</td>
+</tr>
+<tr>
+<td>429: Too Many Requests</td>
+<td>User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>)</td>
+</tr>
+</tbody></table>
+<h2 id='api-keys'>API Keys</h2>
+<p>Three kinds of API Keys can be created for accessing the Namara API - <em>Organization Keys</em>, <em>Project Keys</em>, and <em>Personal Keys</em>. This is an overview of managing all three types, and we&#39;ll outline the different use cases for each.</p>
+
+<!-- we don't actually outline use cases here -->
+<h3 id='organization-api-keys'>Organization API Keys</h3>
+<p>For any non-personal Organization, visit the &quot;Settings&quot; tab and create API Keys for that Organization. Calls made with this API Key will be limited to Data Sets and Projects that your Organization has access to.</p>
+<h3 id='project-api-keys'>Project API Keys</h3>
+<p>For any project, visit the &quot;Settings&quot; tab and create API Keys for yourself for that Project. Calls made with this API Key will be limited to Data Sets that your Project has access to.</p>
+<h3 id='personal-api-keys'>Personal API Keys</h3>
+<p>The Personal Namara API Key can be obtained by clicking on the Organization tab at the bottom of the left sidebar, then clicking &quot;Account Settings&quot;. Copy this from the &quot;API Key&quot; tab and use it for any API calls.</p>
+
+<aside class="warning">Your Personal Key gives its user access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
+<h3 id='rate-limiting'>Rate Limiting</h3>
+<p>Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return <code>status: 429</code>. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.</p>
+<h2 id='making-requests'>Making Requests</h2><h3 id='parameter-authentication'>Parameter Authentication</h3><pre class="highlight shell tab-shell"><code>curl -XGET https://api.namara.io/v0/data_sets/:data_set_id?api_key<span class="o">=</span>:YOUR_API_KEY
+
+  or
+
+curl -i <span class="se">\</span>
+-H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+-H <span class="s2">"X-API-Key: {YOUR_API_KEY}"</span> <span class="se">\</span>
+-X POST <span class="se">\</span>
+-d <span class="s1">'{"query":"..."}'</span> <span class="se">\</span>
+https://api.namara.io/v0/query.:format
+</code></pre>
+<p>Append the key as <code>api_key</code> to any request body (either <code>GET</code> or <code>POST</code>) as long as it is included in the parameters.</p>
+<h3 id='header-authentication'>Header Authentication</h3>
+<p>The API Key can be sent in the request headers as <code>X-API-Key</code>. Append the key to the headers by adding <code>&quot;X-API-Key: {YOUR_API_KEY}&quot;</code></p>
+<h3 id='testing-authentication'>Testing Authentication</h3>
+<p>Here&#39;s how to verify your API Key:</p>
+<h3 id='get-verify-api-key'><div class="colour-pill"><span class="get">GET</span> Verify API Key</div></h3>
+<p>Ping the API at <code>http://api.namara.io/v0/users/verify_token</code> to ensure that the API token is valid for the user.</p>
+
+<blockquote>
+<p>1)
+<code>{ &quot;status&quot;: true }</code></p>
+
+<p>2)
+<code>{ &quot;status&quot;: false }</code></p>
+</blockquote>
+
+<table><thead>
+<tr>
+<th>Response</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200: OK</td>
+<td>The API Key is valid (<em>example 1</em>)</td>
+</tr>
+<tr>
+<td>422: Unprocessable Entity</td>
+<td>API does not correspond to any user (<em>example 2</em>)</td>
+</tr>
+</tbody></table>
