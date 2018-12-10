@@ -2,7 +2,7 @@
 
 > https://:namara_api_host/v0/data_sets/:data_set_id/data/:version
 
-Each data set can be accessed at the API URL. In Namara, click on the "API Info" tab when viewing a data set to see all information regarding ID, version, and properties.
+Each data set can be accessed at the API URL. In Namara, click on the "API Info" tab when viewing a data set to see all information regarding data set ID, version, and properties.
 
 ##<div class="colour-pill"><span class="get">GET</span> Data Query</div>
 
