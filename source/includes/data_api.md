@@ -161,7 +161,7 @@ Query Parameters | Type | Description
 result_format | `string` | Query response format: `CSV`, `JSON`, or `GeoJSON` (default is `JSON`)
 geometry_format | `string` | Either `WKT` or `GeoJSON` for all geometry values (default is `GeoJSON`)
 geojson_feature_key | `string` | Property name to use as geometry when rendering `GeoJSON`
-compress_with | `string` | Compression options for final export (see <a href="#compression-options">Compression Options</a>)
+compress_with | `string` | Compression options for final export
 limit | `integer` | Number of rows to export
 offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)
 select | `string` | Comma-separated list of column names to return
