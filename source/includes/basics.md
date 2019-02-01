@@ -2,6 +2,18 @@
 
 If you're looking to interact with the Namara API, you've come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.
 
+### API Fundamentals
+
+>https://<span style="text-decoration:underline;text-decoration-color:#b52c2c">api.namara.io</span>/v0/<span style="text-decoration:underline;text-decoration-color:#17609f">data_sets/{DATA_SET_ID}/data/{VERSION}</span>?<span style="text-decoration:underline;text-decoration-color:#f7931d">api_key={YOUR_API_KEY}</span>&<span style="text-decoration:underline;text-decoration-color:#2fa821">query_parameters={VALUE}</span>
+
+On the right is a basic template for a call made to our [Data API](#data-api). If it's confusing at first, don't worry - these docs are here to make sure you understand all the moving parts.
+
+The <a href="#our-rest-api" style="text-decoration:underline;color:#b52c2c">API host</a> is where we serve the data from. The <a href="#data-api" style="text-decoration:underline;color:#17609f">data set and version</a> can be found under the API tab in any data set, and are required for every API call. 
+
+Everything following the question mark (?) is a query parameter. <a href="#api-keys" style="text-decoration:underline;color:#f7931d">Your API key</a> is required to complete a call. <span style="color:#2fa821">Other parameters</span> can be added using an ampersand (&) and give you the ability to filter and refine the results. 
+
+Query parameters change depending on the type of data set and the operation: <a href="#data-api" style="text-decoration:underline;color:#2fa821">basic parameters</a>, <a href="#geospatial-operators" style="text-decoration:underline;color:#2fa821">geospatial parameters</a>, <a href="#get-export" style="text-decoration:underline;color:#2fa821">exports</a>, and <a href="#get-aggregate" style="text-decoration:underline;color:#2fa821">aggregates</a> each show a chart with the different operations.
+
 ### Our REST API
 
 The Namara API is a REST-based service that accepts and returns `JSON` in most cases (we'll cover [response formats](#formats-pagination-amp-ordering) later). Requests should be made to:
