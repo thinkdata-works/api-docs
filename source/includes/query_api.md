@@ -20,7 +20,7 @@ This endpoint provides the meta information for querying this Namara instance. I
 
 ##<div class="colour-pill"><span class="post">POST</span> Query</div>
 
->https://api.namara.io/v0/query.:format
+>https://api.namara.io/v0/query.{FORMAT}
 
 A call here dispatches a query and returns the result.
 
