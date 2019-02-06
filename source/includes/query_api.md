@@ -108,11 +108,11 @@ curl -i \
 -H "Content-Type: application/json" \ 
 -H "X-API-Key: {YOUR_API_KEY}" \ 
 -X POST \ 
--d '{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1/en-1 AS BramptonHomes"}' \ 
+-d '{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1 AS BramptonHomes"}' \ 
 https://api.namara.io/v0/query.json
 ```
 
-For example, if we were looking to query a data set with an id of `2a6412c0-b3c9-420e-9487-abd21b664ac1` and the version `en-1`, our minimum query would look like the example in the code column.
+For example, if we were looking to query a data set with an ID of `2a6412c0-b3c9-420e-9487-abd21b664ac1`, our minimum query would look like the example in the code column.
 
 The parser will verify the table name and handle queries that reference it, but using aliases and quotes whenever possible is recommended.
 
@@ -126,10 +126,10 @@ Below is a summary of supported features:
 <div class="center-column"></div>
 ```sql
   SELECT COUNT(*)
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
 
   SELECT COUNT(column1)
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
 ```
 
 ### DISTINCT
@@ -137,7 +137,7 @@ Below is a summary of supported features:
 <div class="center-column"></div>
 ```sql
   SELECT DISTINCT column1, column2
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
 ```
 
 ### COUNT DISTINCT
@@ -145,7 +145,7 @@ Below is a summary of supported features:
 <div class="center-column"></div>
 ```sql
   SELECT COUNT(DISTINCT column1)
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
 ```
 
 ### MIN AND MAX
@@ -153,7 +153,7 @@ Below is a summary of supported features:
 <div class="center-column"></div>
 ```sql
   SELECT MIN(column1) AS minColumn1, MAX(column2) AS maxColumn2
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
 ```
 
 ### AVG AND SUM
@@ -161,7 +161,7 @@ Below is a summary of supported features:
 <div class="center-column"></div>
 ```sql
   SELECT AVG(column1) AS avgColumn1, SUM(column1) AS sumColumn1
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
 ```
 
 ## FROM Features
@@ -171,7 +171,7 @@ Below is a summary of supported features:
 <div class="center-column"></div>
 ```sql
   SELECT DataSet1.id, DataSet1.city, DataSet2.country
-  FROM "data-set-id/en-0" AS DataSet1 INNER JOIN "data-set-id2/en-1" AS DataSet2
+  FROM "data-set-id" AS DataSet1 INNER JOIN "data-set-id2" AS DataSet2
   ON DataSet1.foreign_id = DataSet2.external_id
 ```
 
@@ -188,10 +188,10 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT id
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
   UNION
   SELECT objectid
-  FROM "data-set-id2/en-1"
+  FROM "data-set-id2"
 ```
 
 ## WHERE Features
@@ -202,7 +202,7 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT id, address, city, province, country
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
   WHERE (country = 'Canada' AND province = 'Manitoba' AND NOT city = 'Winnipeg') OR country ='Mexico'
 ```
 
@@ -211,7 +211,7 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT *
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
   WHERE country LIKE 'C_%'
 ```
 
@@ -220,7 +220,7 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT *
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
   ORDER BY country, province, ... [ASC|DESC]
 ```
 
@@ -229,7 +229,7 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT *
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
   WHERE country IN ('Mexico', 'Canada', ...)
 ```
 
@@ -238,7 +238,7 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT *
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
   WHERE liquidation_date BETWEEN 2016-01-01 AND 2018-01-01
 ```
 
@@ -247,7 +247,7 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT COUNT(customer_id), country
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
   GROUP BY country
   HAVING COUNT(customer_id) > 100 
 ```
@@ -257,14 +257,14 @@ Supports:
 <div class="center-column"></div>
 ```sql
   SELECT *
-  FROM "data-set-id/en-0"
-  WHERE total_count = [ANY|ALL] (SELECT COUNT(customer_id) FROM "data-set-id2/en-1")
+  FROM "data-set-id"
+  WHERE total_count = [ANY|ALL] (SELECT COUNT(customer_id) FROM "data-set-id2")
 ```
 
 <div class="center-column"></div>
 ```sql
   SELECT *
-  FROM (SELECT customer_id, parent_account_id, purchase_total FROM "data-set-id2/en-1")
+  FROM (SELECT customer_id, parent_account_id, purchase_total FROM "data-set-id2")
   AS subSelect
   WHERE purchase_total > 1500
 ```
@@ -278,7 +278,7 @@ Here's an example in which `geometry_property` is a property from the data set o
 <div class="center-column"></div>
 ```sql
   SELECT ST_AsGeoJSON(ST_GeomFromText(geometry_property))
-  FROM "data-set-id/en-0"
+  FROM "data-set-id"
 ```
 
 ### Supported Functions
@@ -324,3 +324,11 @@ Like the Data API, a maximum number of rows will be returned on each query. If t
 For results larger than the allowed amount, manual pagination in subsequent requests will have to be used.
 
 The default limit is `250` rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.
+
+## Advanced Features: Versioning
+
+We have created "Version Locking" in the event that it's important to maintain the properties from a previous version of the data set. Simply add `/{VERSION}` after the data set ID in your queries.
+
+For example, if we needed the first version of the data set with the ID `2a6412c0-b3c9-420e-9487-abd21b664ac1`, our query would say `FROM "2a6412c0-b3c9-420e-9487-abd21b664ac1/en-0"`. In order to view which version was used in the NiQL query, see the `X-Namara-Query-Meta` response header.
+
+Making a query to `https://api.namara.io/v0/data_sets/{DATA_SET_ID}` will allow you to see all imported versions for the data set.
