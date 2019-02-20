@@ -324,11 +324,3 @@ Like the Data API, a maximum number of rows will be returned on each query. If t
 For results larger than the allowed amount, manual pagination in subsequent requests will have to be used.
 
 The default limit is `250` rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.
-
-## Advanced Features: Versioning
-
-We have created "Version Locking" in the event that it's important to maintain the properties from a previous version of the data set. Simply add `/{VERSION}` after the data set ID in your queries.
-
-For example, if we needed the first version of the data set with the ID `2a6412c0-b3c9-420e-9487-abd21b664ac1`, our query would say `FROM "2a6412c0-b3c9-420e-9487-abd21b664ac1/en-0"`. In order to view which version was used in the NiQL query, see the `X-Namara-Query-Meta` response header.
-
-Making a query to `https://api.namara.io/v0/data_sets/{DATA_SET_ID}` will allow you to see all imported versions for the data set.

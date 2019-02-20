@@ -16,6 +16,7 @@ includes:
   - basics
   - data_api
   - query_api
+  - advanced
   - contact
 
 search: true
