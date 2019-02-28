@@ -1,19 +1,18 @@
 # Data API
 
-> https://{NAMARA_API_HOST}/v0/data_sets/{DATA_SET_ID}/data/{VERSION}
+> https://{NAMARA_API_HOST}/v0/data_sets/{DATA_SET_ID}/data
 
 Each data set can be accessed at the API URL. In Namara, click on the "API Info" tab when viewing a data set to see all information regarding data set ID, version, and properties.
 
 ##<div class="colour-pill"><span class="get">GET</span> Data Query</div>
 
-> https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/{VERSION}
+> https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data
 
 This endpoint is used for creating selection and aggregation views on a single data set. For full SQL access to the Namara catalog, see the <a href="#query-api">Query API</a>.
 
 Path Parameters | Type | Description
 ---------- | ---- | -----------
 data_set_id (required) | `string` | UUID for accessing the data set
-version (required) | `string` | Version identifier, eg: `en-0`
 
 Query Parameters | Type | Description
 ---------------- | ---- | -----------
@@ -108,9 +107,9 @@ IN |  | Works for values in a specified list of items | `p0 IN (100, 'foo', true
 
 ### Operator Examples
 
->**1)** <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=co2_emissions_g_km lt 200</code><br/><br/>**2a)** <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make IN ("CHEVROLET","CADILLAC")</code><br/><br/>
+>**1)** <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&where=co2_emissions_g_km<200</code> <br/>**or**<br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&where=co2_emissions_g_km lt 200</code><br/><br/>**2a)** <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&where=make IN ("CHEVROLET","CADILLAC")</code><br/><br/>
 **2b)**
-<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>**3)** <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key={YOUR_API_KEY}&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
+<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&where=make="CHEVROLET" OR make="CADILLAC"</code><br/><br/>**3)** <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&where=(make="CHEVROLET" OR make="CADILLAC") AND (fuel_consumption_city_l_100km<=12 AND fuel_consumption_hwy_l_100km<=9)</code>
 
   1. List all vehicles with CO<sub>2</sub> emissions less than 200g/km
 
@@ -147,14 +146,13 @@ Exporting is almost identical to the Data Query endpoint, with the difference be
 
 ### Request
 
->https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/{VERSION}/export
+>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/export
 
 Export path and query parameters look a lot like the parameters for accessing the data set. Let's look at the requests you can make:
 
 Path Parameters | Type | Description
 --------------- | ---- | -----------
 data_set_id (required) | `string` | UUID for accessing the data set
-version (required) | `string` | Version identifier, eg: `en-0`
 
 Query Parameters | Type | Description
 ---------------- | ---- | -----------
@@ -201,12 +199,11 @@ Use aggregation functions to retrieve data set-level information.
 
 ### Request
 
->https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/{VERSION}/aggregation
+>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/aggregation
 
 Parameter | Type | Description
 --------- | ---- | -----------
 data_set_id (required) | `string` | UUID for accessing the data set
-version (required) | `string` | Version identifier, eg. `en-0`
 operation (required) | `string` | Operation function to perform (see <a href="#operations">Operations</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
 
@@ -222,11 +219,11 @@ max | The maximum value in a column | `max(p0)`
 
 ### Operator Examples
 
->1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key={YOUR_API_KEY}&operation=avg(co2_emissions_g_km)&where=make="CADILLAC"</code>
+>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&operation=avg(co2_emissions_g_km)&where=make="CADILLAC"</code>
 
->2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key={YOUR_API_KEY}&operation=min(co2_emissions_g_km)&where=make="CADILLAC"</code>
+>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&operation=min(co2_emissions_g_km)&where=make="CADILLAC"</code>
 
->3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key={YOUR_API_KEY}&operation=count(*)&where=make="CADILLAC"</code>
+>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&operation=count(*)&where=make="CADILLAC"</code>
 
 1. Reveals the average CO<sub>2</sub> emissions of Cadillac vehicles
 
