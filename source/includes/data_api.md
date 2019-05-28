@@ -31,9 +31,9 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
 
 The Namara Data API produces results in different formats, `json`, `csv`, or `geojson`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format. Here's how they look:
 
-<button class="see-json">JSON</button> 
-<button class="see-csv">CSV</button> 
-<button class="see-geojson">GeoJSON</button> 
+<button class="see-json">json</button> 
+<button class="see-csv">csv</button> 
+<button class="see-geojson">geojson</button> 
 
 <div class="center-column response-json"></div>
 ```
