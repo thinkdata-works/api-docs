@@ -16,9 +16,9 @@ data_set_id (required) | `string` | UUID for accessing the data set
 
 Query Parameters | Type | Description
 ---------------- | ---- | -----------
-result_format | `string` | Query response format: `CSV`, `JSON`, or `GeoJSON` (default is `JSON`)
-geometry_format | `string` | Either `WKT` or `GeoJSON` for all geometry values (default is `GeoJSON`)
-geojson_feature_key | `string` | Property name to use as geometry when rendering `GeoJSON`
+result_format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
+geometry_format | `string` | Either `wkt` or `geojson` for all geometry values (default is `geojson`)
+geojson_feature_key | `string` | Property name to use as geometry when rendering `geojson`
 limit | `integer` | Number of rows to return - the default value is also the maximum: 250 (see <a href="#pagination">Pagination</a>)
 offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)
 select | `string` | Comma-separated list of column names to return
@@ -29,7 +29,7 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
 
 ### Results Format
 
-The Namara Data API produces results in different formats, `JSON`, `CSV`, or `GeoJSON`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format. Here's how they look:
+The Namara Data API produces results in different formats, `json`, `csv`, or `geojson`, depending on the value you pass into the `result_format` parameter in your query. In examples of results, you'll see three buttons above the code block which will show example results in your preferred format. Here's how they look:
 
 <button class="see-json">JSON</button> 
 <button class="see-csv">CSV</button> 
@@ -156,9 +156,9 @@ data_set_id (required) | `string` | UUID for accessing the data set
 
 Query Parameters | Type | Description
 ---------------- | ---- | -----------
-result_format | `string` | Query response format: `CSV`, `JSON`, or `GeoJSON` (default is `JSON`)
-geometry_format | `string` | Either `WKT` or `GeoJSON` for all geometry values (default is `GeoJSON`)
-geojson_feature_key | `string` | Property name to use as geometry when rendering `GeoJSON`
+result_format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
+geometry_format | `string` | Either `wkt` or `geojson` for all geometry values (default is `geojson`)
+geojson_feature_key | `string` | Property name to use as geometry when rendering `geojson`
 compress_with | `string` | Compression options for final export
 limit | `integer` | Number of rows to export
 offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)
