@@ -28,13 +28,13 @@ A call here dispatches a query and returns the result.
 
 Parameter | Type | Description
 --------- | ---- | -----------
-format | `string` | Query response format: `CSV`, `JSON`, or `GeoJSON` (default is `JSON`)
+format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
 project_id | `string` | Project ID to use for subscription lookup. If not provided, it is inferred from API Key
 organization_id | `string` | Organization ID to use for subscription lookup. If not provided, it is inferred from API Key
 query (required) | `string` | NiQL query string
-geojson_feature_key (may be required) | `string` | Property name to use as geometry when rendering `GeoJSON`
+geojson_feature_key (may be required) | `string` | Property name to use as geometry when rendering `geojson`
 
-The <code>geojson_feature_key</code> is required if the requested format is <code>GeoJSON</code> - otherwise, it is not needed.
+The <code>geojson_feature_key</code> is required if the requested format is <code>geojson</code> - otherwise, it is not needed.
 
 ### Responses
 
@@ -42,9 +42,9 @@ The <code>geojson_feature_key</code> is required if the requested format is <cod
 
 Query executed successfully.
 
-<button class="see-json">JSON</button> 
-<button class="see-csv">CSV</button> 
-<button class="see-geojson">GeoJSON</button> 
+<button class="see-json">json</button>
+<button class="see-csv">csv</button>
+<button class="see-geojson">geojson</button>
 
 <div class="center-column response-json"></div>
 ```
