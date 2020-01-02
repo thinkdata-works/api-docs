@@ -2,7 +2,7 @@
 
 While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the Data API. We wrote **NiQL** (**N**amara.<strong>i</strong>o **Q**uery **L**anguage) to view, aggregate, and join data sets. It's very similar to SQL, so it's easy to manipulate.
 
-<aside class="notice">This feature is currently in beta - to request early access, <a href="https://namara.io/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
+<aside class="notice">This feature is currently in beta - to request early access, <a href="https://www.thinkdataworks.com/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
 
 ##<div class="colour-pill"><span class="get">GET</span> Meta</div>
 
@@ -313,7 +313,7 @@ Here's an example in which `geometry_property` is a property from the data set o
 >`ST_YMax`<br/>
 >`ST_YMin`<br/>
 
-We are very interested in expanding the geospatial capabilities of **NiQL**. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.
+We are very interested in expanding the geospatial capabilities of **NiQL**. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://www.thinkdataworks.com/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.
 
 <aside class="notice">Please refer to the <a href="https://postgis.net/docs/reference.html" target="_blank" rel="noreferrer noopener">PostGIS documentation</a> for the functional specifics</aside>
 
