@@ -5,6 +5,18 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Namara API Documentation" />
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/5/5e/Namara_logo-horizontal.png" />
+    <meta property="og:image:width" content="500" />
+    <meta property="og:image:height" content="114" />
+    <meta property="og:image:alt" content="the Namara logo" />
+    <meta property="og:site_name" content="Namara" />
+    <meta name="keywords" content="Namara, Data, API, Documentation, Help" />
+    <meta name="description" content="This webpage outlines the instructions and conventions for using the Namara API. Access and integrate data easily and simply." >
+    <meta property="og:description" content="This webpage outlines the instructions and conventions for using the Namara API. Access and integrate data easily and simply." />
+    <meta name="author" content="ThinkData Works, info@thinkdataworks.com">
+
     <link href="images/Namaradrop.png" rel="icon" type="image/png" />
     <title>The Namara API</title>
 
@@ -261,7 +273,13 @@
             <a href="#api-introduction" class="toc-h1 toc-link" data-title="API Introduction">API Introduction</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#api-fundamentals" class="toc-h2 toc-link" data-title="API Fundamentals">API Fundamentals</a>
+                  </li>
+                  <li>
                     <a href="#our-rest-api" class="toc-h2 toc-link" data-title="Our REST API">Our REST API</a>
+                  </li>
+                  <li>
+                    <a href="#data-set-versions" class="toc-h2 toc-link" data-title="Data Set Versions">Data Set Versions</a>
                   </li>
                   <li>
                     <a href="#get-generic-endpoint" class="toc-h2 toc-link" data-title="
@@ -269,10 +287,21 @@ GET Generic Endpoint"><div class="colour-pill">
 <span class="get">GET</span> Generic Endpoint</div></a>
                   </li>
                   <li>
-                    <a href="#api-keys" class="toc-h2 toc-link" data-title="API Keys">API Keys</a>
+                    <a href="#making-requests" class="toc-h2 toc-link" data-title="Making Requests">Making Requests</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#api-keys" class="toc-h1 toc-link" data-title="API Keys">API Keys</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#organization-api-keys" class="toc-h2 toc-link" data-title="Organization API Keys">Organization API Keys</a>
                   </li>
                   <li>
-                    <a href="#making-requests" class="toc-h2 toc-link" data-title="Making Requests">Making Requests</a>
+                    <a href="#project-api-keys" class="toc-h2 toc-link" data-title="Project API Keys">Project API Keys</a>
+                  </li>
+                  <li>
+                    <a href="#personal-api-keys" class="toc-h2 toc-link" data-title="Personal API Keys">Personal API Keys</a>
                   </li>
               </ul>
           </li>
@@ -342,6 +371,14 @@ POST Query"><div class="colour-pill">
               </ul>
           </li>
           <li>
+            <a href="#advanced-features" class="toc-h1 toc-link" data-title="Advanced Features">Advanced Features</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#version-locking" class="toc-h2 toc-link" data-title="Version Locking">Version Locking</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#get-in-touch" class="toc-h1 toc-link" data-title="Get In Touch">Get In Touch</a>
           </li>
       </ul>
@@ -355,17 +392,33 @@ POST Query"><div class="colour-pill">
       <div class="content">
         <h1 id='api-introduction'>API Introduction</h1>
 <p>If you&#39;re looking to interact with the Namara API, you&#39;ve come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.</p>
+<h3 id='api-fundamentals'>API Fundamentals</h3>
+<blockquote>
+<p>https://<span style="text-decoration:underline;text-decoration-color:#b52c2c">api.namara.io</span>/v0/<span style="text-decoration:underline;text-decoration-color:#17609f">data_sets/{DATA_SET_ID}/data/{VERSION}</span>?<span style="text-decoration:underline;text-decoration-color:#f7931d">api_key={YOUR_API_KEY}</span>&amp;<span style="text-decoration:underline;text-decoration-color:#2fa821">query_parameters={VALUE}</span></p>
+</blockquote>
+
+<p>On the right is a basic template for a call made to our <a href="#data-api">Data API</a>. If it&#39;s confusing at first, don&#39;t worry - these docs are here to make sure you understand all the moving parts.</p>
+
+<p>The <a href="#our-rest-api" style="text-decoration:underline;color:#b52c2c">API host</a> is where we serve the data from. The <a href="#data-api" style="text-decoration:underline;color:#17609f">data set and version</a> can be found under the API tab in any data set, and are required for every API call. </p>
+
+<p>Everything following the question mark (?) is a query parameter. <a href="#api-keys" style="text-decoration:underline;color:#f7931d">Your API key</a> is required to complete a call. <span style="color:#2fa821">Other parameters</span> can be added using an ampersand (&amp;) and give you the ability to filter and refine the results. </p>
+
+<p>Query parameters change depending on the type of data set and the operation: <a href="#data-api" style="text-decoration:underline;color:#2fa821">basic parameters</a>, <a href="#geospatial-operators" style="text-decoration:underline;color:#2fa821">geospatial parameters</a>, <a href="#get-export" style="text-decoration:underline;color:#2fa821">exports</a>, and <a href="#get-aggregate" style="text-decoration:underline;color:#2fa821">aggregates</a> each show a chart with the different operations.</p>
 <h3 id='our-rest-api'>Our REST API</h3>
 <p>The Namara API is a REST-based service that accepts and returns <code>JSON</code> in most cases (we&#39;ll cover <a href="#formats-pagination-amp-ordering">response formats</a> later). Requests should be made to:</p>
 
-<p><code>https://:namara_api_host/v0/:endpoint</code></p>
+<p><code>https://{NAMARA_API_HOST}/v0/{ENDPOINT}</code></p>
 
 <p>Unless indicated otherwise, the Namara API host is <code>api.namara.io</code>, which will be used throughout the documentation. </p>
 
 <p>The responses will be outlined for each endpoint.</p>
+<h2 id='data-set-versions'>Data Set Versions</h2>
+<p>Our data is updated regularly and automatically, so values in rows and columns may change. The data set version is a snapshot of the data set&#39;s structure and properties. When that structure changes, we create a new version of the data set. </p>
+
+<p>It is crucial that you include both the data set ID and the version in your queries. Both are found under the API tab for the data set.</p>
 <h2 id='get-generic-endpoint'><div class="colour-pill"><span class="get">GET</span> Generic Endpoint</div></h2>
 <blockquote>
-<p>https://api.namara.io/v0/:endpoint</p>
+<p>https://api.namara.io/v0/{ENDPOINT}</p>
 </blockquote>
 
 <p>In the code column on the right is a generic endpoint, and the foundation of almost every call to our API. The chart below displays standard response codes:</p>
@@ -401,21 +454,7 @@ POST Query"><div class="colour-pill">
 <td>User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>)</td>
 </tr>
 </tbody></table>
-<h2 id='api-keys'>API Keys</h2>
-<p>Three kinds of API Keys can be created for accessing the Namara API - <em>Organization Keys</em>, <em>Project Keys</em>, and <em>Personal Keys</em>. This is an overview of managing all three types, and we&#39;ll outline the different use cases for each.</p>
-
-<!-- we don't actually outline use cases here -->
-<h3 id='organization-api-keys'>Organization API Keys</h3>
-<p>For any non-personal Organization, visit the &quot;Settings&quot; tab and create API Keys for that Organization. Calls made with this API Key will be limited to Data Sets and Projects that your Organization has access to.</p>
-<h3 id='project-api-keys'>Project API Keys</h3>
-<p>For any project, visit the &quot;Settings&quot; tab and create API Keys for yourself for that Project. Calls made with this API Key will be limited to Data Sets that your Project has access to.</p>
-<h3 id='personal-api-keys'>Personal API Keys</h3>
-<p>The Personal Namara API Key can be obtained by clicking on the Organization tab at the bottom of the left sidebar, then clicking &quot;Account Settings&quot;. Copy this from the &quot;API Key&quot; tab and use it for any API calls.</p>
-
-<aside class="warning">Your Personal Key gives its user access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
-<h3 id='rate-limiting'>Rate Limiting</h3>
-<p>Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return <code>status: 429</code>. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.</p>
-<h2 id='making-requests'>Making Requests</h2><h3 id='parameter-authentication'>Parameter Authentication</h3><pre class="highlight shell tab-shell"><code>curl -XGET https://api.namara.io/v0/data_sets/:data_set_id?api_key<span class="o">=</span>:YOUR_API_KEY
+<h2 id='making-requests'>Making Requests</h2><h3 id='parameter-authentication'>Parameter Authentication</h3><pre class="highlight shell tab-shell"><code>curl -XGET https://api.namara.io/v0/data_sets/<span class="o">{</span>DATA_SET_ID<span class="o">}</span>?api_key<span class="o">={</span>YOUR_API_KEY<span class="o">}</span>
 
   or
 
@@ -424,7 +463,7 @@ curl -i <span class="se">\</span>
 -H <span class="s2">"X-API-Key: {YOUR_API_KEY}"</span> <span class="se">\</span>
 -X POST <span class="se">\</span>
 -d <span class="s1">'{"query":"..."}'</span> <span class="se">\</span>
-https://api.namara.io/v0/query.:format
+https://api.namara.io/v0/query.<span class="o">{</span>FORMAT<span class="o">}</span>
 </code></pre>
 <p>Append the key as <code>api_key</code> to any request body (either <code>GET</code> or <code>POST</code>) as long as it is included in the parameters.</p>
 <h3 id='header-authentication'>Header Authentication</h3>
@@ -435,10 +474,10 @@ https://api.namara.io/v0/query.:format
 <p>Ping the API at <code>http://api.namara.io/v0/users/verify_token</code> to ensure that the API token is valid for the user.</p>
 
 <blockquote>
-<p>1)
+<p><strong>1)</strong>
 <code>{ &quot;status&quot;: true }</code></p>
 
-<p>2)
+<p><strong>2)</strong>
 <code>{ &quot;status&quot;: false }</code></p>
 </blockquote>
 
@@ -457,15 +496,27 @@ https://api.namara.io/v0/query.:format
 <td>API does not correspond to any user (<em>example 2</em>)</td>
 </tr>
 </tbody></table>
+<h3 id='rate-limiting'>Rate Limiting</h3>
+<p>Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. When you exceed this limit, the API will return <code>status: 429</code>. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.</p>
+<h1 id='api-keys'>API Keys</h1>
+<p>Three kinds of API Keys can be created for accessing the Namara API - <em>Organization Keys</em>, <em>Project Keys</em>, and <em>Personal Keys</em>. This is an overview of managing all three types, and we&#39;ll outline the different use cases for each.</p>
+<h2 id='organization-api-keys'>Organization API Keys</h2>
+<p>For any non-personal Organization, visit the &quot;Settings&quot; tab and click &quot;API Keys&quot; to create API Keys for that Organization. Calls made with this API Key will be limited to Data Sets and Projects that your Organization has access to.</p>
+<h2 id='project-api-keys'>Project API Keys</h2>
+<p>For any Project, visit the &quot;Settings&quot; tab and click &quot;API Keys&quot; to create API Keys for yourself for that Project. Calls made with this API Key will be limited to Data Sets that your Project has access to.</p>
+<h2 id='personal-api-keys'>Personal API Keys</h2>
+<p>The Personal Namara API Key can be obtained by clicking your user icon at the bottom of the left sidebar, then clicking &quot;Account Settings&quot;. Copy this from the &quot;API Key&quot; tab and use it for any API calls.</p>
+
+<aside class="warning">Your Personal Key gives its user access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
 <h1 id='data-api'>Data API</h1>
 <blockquote>
-<p>https://:namara_api_host/v0/data_sets/:data_set_id/data/:version</p>
+<p>https://{NAMARA_API_HOST}/v0/data_sets/{DATA_SET_ID}/data</p>
 </blockquote>
 
-<p>Each data set can be accessed at the API URL. In Namara, click on the &quot;API Info&quot; tab when viewing a data set to see all information regarding ID, version, and properties.</p>
+<p>Each data set can be accessed at the API URL. In Namara, click on the &quot;API Info&quot; tab when viewing a data set to see all information regarding data set ID, version, and properties.</p>
 <h2 id='get-data-query'><div class="colour-pill"><span class="get">GET</span> Data Query</div></h2>
 <blockquote>
-<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version</p>
+<p>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data</p>
 </blockquote>
 
 <p>This endpoint is used for creating selection and aggregation views on a single data set. For full SQL access to the Namara catalog, see the <a href="#query-api">Query API</a>.</p>
@@ -482,11 +533,6 @@ https://api.namara.io/v0/query.:format
 <td><code>string</code></td>
 <td>UUID for accessing the data set</td>
 </tr>
-<tr>
-<td>version (required)</td>
-<td><code>string</code></td>
-<td>Version identifier, eg: <code>en-0</code></td>
-</tr>
 </tbody></table>
 
 <table><thead>
@@ -499,17 +545,17 @@ https://api.namara.io/v0/query.:format
 <tr>
 <td>result_format</td>
 <td><code>string</code></td>
-<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+<td>Query response format: <code>csv</code>, <code>json</code>, or <code>geojson</code> (default is <code>json</code>)</td>
 </tr>
 <tr>
 <td>geometry_format</td>
 <td><code>string</code></td>
-<td>Either <code>WKT</code> or <code>GeoJSON</code> for all geometry values (default is <code>GeoJSON</code>)</td>
+<td>Either <code>wkt</code> or <code>geojson</code> for all geometry values (default is <code>geojson</code>)</td>
 </tr>
 <tr>
 <td>geojson_feature_key</td>
 <td><code>string</code></td>
-<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+<td>Property name to use as geometry when rendering <code>geojson</code></td>
 </tr>
 <tr>
 <td>limit</td>
@@ -538,11 +584,11 @@ https://api.namara.io/v0/query.:format
 </tr>
 </tbody></table>
 <h2 id='formats-pagination-amp-ordering'>Formats, Pagination, &amp; Ordering</h2><h3 id='results-format'>Results Format</h3>
-<p>The Namara Data API produces results in different formats, <code>JSON</code>, <code>CSV</code>, or <code>GeoJSON</code>, depending on the value you pass into the <code>result_format</code> parameter in your query. In examples of results, you&#39;ll see three buttons above the code block which will show example results in your preferred format. Here&#39;s how they look:</p>
+<p>The Namara Data API produces results in different formats, <code>json</code>, <code>csv</code>, or <code>geojson</code>, depending on the value you pass into the <code>result_format</code> parameter in your query. In examples of results, you&#39;ll see three buttons above the code block which will show example results in your preferred format. Here&#39;s how they look:</p>
 
-<p><button class="see-json">JSON</button> 
-<button class="see-csv">CSV</button> 
-<button class="see-geojson">GeoJSON</button> </p>
+<p><button class="see-json">json</button> 
+<button class="see-csv">csv</button> 
+<button class="see-geojson">geojson</button> </p>
 
 <div class="center-column response-json"></div>
 <pre class="highlight plaintext"><code>  {
@@ -667,9 +713,9 @@ https://api.namara.io/v0/query.:format
 <aside class="notice">Note the spaces around the aliases in the queries.</aside>
 <h3 id='operator-examples'>Operator Examples</h3>
 <blockquote>
-<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=co2_emissions_g_km<200</code> <br/><strong>or</strong><br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=make IN (&quot;CHEVROLET&quot;,&quot;CADILLAC&quot;)</code><br/><br/>
-2b)
-<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=(make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;) AND (fuel_consumption_city_l_100km&lt;=12 AND fuel_consumption_hwy_l_100km&lt;=9)</code></p>
+<p><strong>1)</strong> <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=co2_emissions_g_km<200</code> <br/><strong>or</strong><br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=co2_emissions_g_km lt 200</code><br/><br/><strong>2a)</strong> <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=make IN (&quot;CHEVROLET&quot;,&quot;CADILLAC&quot;)</code><br/><br/>
+<strong>2b)</strong>
+<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;</code><br/><br/><strong>3)</strong> <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=(make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;) AND (fuel_consumption_city_l_100km&lt;=12 AND fuel_consumption_hwy_l_100km&lt;=9)</code></p>
 </blockquote>
 
 <ol>
@@ -697,7 +743,7 @@ https://api.namara.io/v0/query.:format
 <p>Exporting is almost identical to the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.</p>
 <h3 id='request'>Request</h3>
 <blockquote>
-<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version/export</p>
+<p>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/export</p>
 </blockquote>
 
 <p>Export path and query parameters look a lot like the parameters for accessing the data set. Let&#39;s look at the requests you can make:</p>
@@ -714,11 +760,6 @@ https://api.namara.io/v0/query.:format
 <td><code>string</code></td>
 <td>UUID for accessing the data set</td>
 </tr>
-<tr>
-<td>version (required)</td>
-<td><code>string</code></td>
-<td>Version identifier, eg: <code>en-0</code></td>
-</tr>
 </tbody></table>
 
 <table><thead>
@@ -731,22 +772,22 @@ https://api.namara.io/v0/query.:format
 <tr>
 <td>result_format</td>
 <td><code>string</code></td>
-<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+<td>Query response format: <code>csv</code>, <code>json</code>, or <code>geojson</code> (default is <code>json</code>)</td>
 </tr>
 <tr>
 <td>geometry_format</td>
 <td><code>string</code></td>
-<td>Either <code>WKT</code> or <code>GeoJSON</code> for all geometry values (default is <code>GeoJSON</code>)</td>
+<td>Either <code>wkt</code> or <code>geojson</code> for all geometry values (default is <code>geojson</code>)</td>
 </tr>
 <tr>
 <td>geojson_feature_key</td>
 <td><code>string</code></td>
-<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+<td>Property name to use as geometry when rendering <code>geojson</code></td>
 </tr>
 <tr>
 <td>compress_with</td>
 <td><code>string</code></td>
-<td>Compression options for final export (see <a href="#compression-options">Compression Options</a>)</td>
+<td>Compression options for final export</td>
 </tr>
 <tr>
 <td>limit</td>
@@ -813,7 +854,7 @@ https://api.namara.io/v0/query.:format
 <p>Use aggregation functions to retrieve data set-level information.</p>
 <h3 id='request-2'>Request</h3>
 <blockquote>
-<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version/aggregation</p>
+<p>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/aggregation</p>
 </blockquote>
 
 <table><thead>
@@ -827,11 +868,6 @@ https://api.namara.io/v0/query.:format
 <td>data_set_id (required)</td>
 <td><code>string</code></td>
 <td>UUID for accessing the data set</td>
-</tr>
-<tr>
-<td>version (required)</td>
-<td><code>string</code></td>
-<td>Version identifier, eg. <code>en-0</code></td>
 </tr>
 <tr>
 <td>operation (required)</td>
@@ -880,11 +916,11 @@ https://api.namara.io/v0/query.:format
 </tbody></table>
 <h3 id='operator-examples-2'>Operator Examples</h3>
 <blockquote>
-<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=avg(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&amp;operation=avg(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
 
-<p>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=min(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+<p>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&amp;operation=min(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
 
-<p>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=count(*)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+<p>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&amp;operation=count(*)&amp;where=make=&quot;CADILLAC&quot;</code></p>
 </blockquote>
 
 <ol>
@@ -895,7 +931,7 @@ https://api.namara.io/v0/query.:format
 <h1 id='query-api-beta'>Query API (beta)</h1>
 <p>While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the Data API. We wrote <strong>NiQL</strong> (<strong>N</strong>amara.<strong>i</strong>o <strong>Q</strong>uery <strong>L</strong>anguage) to view, aggregate, and join data sets. It&#39;s very similar to SQL, so it&#39;s easy to manipulate.</p>
 
-<aside class="notice">This feature is currently in beta - to request early access, <a href="https://namara.io/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
+<aside class="notice">This feature is currently in beta - to request early access, <a href="https://www.thinkdataworks.com/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
 <h2 id='get-meta'><div class="colour-pill"><span class="get">GET</span> Meta</div></h2>
 <blockquote>
 <p>https://api.namara.io/v0/query/meta</p>
@@ -909,7 +945,7 @@ https://api.namara.io/v0/query.:format
 <p>This endpoint provides the meta information for querying this Namara instance. It includes the limit per query, the supported formats, and the default format if none is specified. This information may differ, depending on which deployment of Namara you&#39;re using. </p>
 <h2 id='post-query'><div class="colour-pill"><span class="post">POST</span> Query</div></h2>
 <blockquote>
-<p>https://api.namara.io/v0/query.:format</p>
+<p>https://api.namara.io/v0/query.{FORMAT}</p>
 </blockquote>
 
 <p>A call here dispatches a query and returns the result.</p>
@@ -924,7 +960,7 @@ https://api.namara.io/v0/query.:format
 <tr>
 <td>format</td>
 <td><code>string</code></td>
-<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+<td>Query response format: <code>csv</code>, <code>json</code>, or <code>geojson</code> (default is <code>json</code>)</td>
 </tr>
 <tr>
 <td>project_id</td>
@@ -944,17 +980,17 @@ https://api.namara.io/v0/query.:format
 <tr>
 <td>geojson_feature_key (may be required)</td>
 <td><code>string</code></td>
-<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+<td>Property name to use as geometry when rendering <code>geojson</code></td>
 </tr>
 </tbody></table>
 
-<p>The <code>geojson_feature_key</code> is required if the requested format is <code>GeoJSON</code> - otherwise, it is not needed.</p>
+<p>The <code>geojson_feature_key</code> is required if the requested format is <code>geojson</code> - otherwise, it is not needed.</p>
 <h3 id='responses'>Responses</h3><h3 id='200-ok'>200: OK</h3>
 <p>Query executed successfully.</p>
 
-<p><button class="see-json">JSON</button> 
-<button class="see-csv">CSV</button> 
-<button class="see-geojson">GeoJSON</button> </p>
+<p><button class="see-json">json</button>
+<button class="see-csv">csv</button>
+<button class="see-geojson">geojson</button></p>
 
 <div class="center-column response-json"></div>
 <pre class="highlight plaintext"><code>  {
@@ -1005,10 +1041,10 @@ https://api.namara.io/v0/query.:format
 -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\ </span>
 -H <span class="s2">"X-API-Key: {YOUR_API_KEY}"</span> <span class="se">\ </span>
 -X POST <span class="se">\ </span>
--d <span class="s1">'{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1/en-1 AS BramptonHomes"}'</span> <span class="se">\ </span>
+-d <span class="s1">'{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1 AS BramptonHomes"}'</span> <span class="se">\ </span>
 https://api.namara.io/v0/query.json
 </code></pre>
-<p>For example, if we were looking to query a data set with an id of <code>2a6412c0-b3c9-420e-9487-abd21b664ac1</code> and the version <code>en-1</code>, our minimum query would look like the example in the code column.</p>
+<p>For example, if we were looking to query a data set with an ID of <code>2a6412c0-b3c9-420e-9487-abd21b664ac1</code>, our minimum query would look like the example in the code column.</p>
 
 <p>The parser will verify the table name and handle queries that reference it, but using aliases and quotes whenever possible is recommended.</p>
 
@@ -1016,30 +1052,30 @@ https://api.namara.io/v0/query.json
 <h2 id='select-features'>SELECT Features</h2><h3 id='count'>COUNT</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 
   <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='distinct'>DISTINCT</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">column1</span><span class="p">,</span> <span class="n">column2</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='count-distinct'>COUNT DISTINCT</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">column1</span><span class="p">)</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='min-and-max'>MIN AND MAX</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">minColumn1</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">column2</span><span class="p">)</span> <span class="k">AS</span> <span class="n">maxColumn2</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='avg-and-sum'>AVG AND SUM</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avgColumn1</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sumColumn1</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h2 id='from-features'>FROM Features</h2><h3 id='joins'>JOINS</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">city</span><span class="p">,</span> <span class="n">DataSet2</span><span class="p">.</span><span class="n">country</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span> <span class="k">AS</span> <span class="n">DataSet1</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="nv">"data-set-id2/en-1"</span> <span class="k">AS</span> <span class="n">DataSet2</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span> <span class="k">AS</span> <span class="n">DataSet1</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="nv">"data-set-id2"</span> <span class="k">AS</span> <span class="n">DataSet2</span>
   <span class="k">ON</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">foreign_id</span> <span class="o">=</span> <span class="n">DataSet2</span><span class="p">.</span><span class="n">external_id</span>
 </code></pre>
 <p><br />
@@ -1054,50 +1090,50 @@ Supports:</p>
 <h3 id='unions'>UNIONS</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">id</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">UNION</span>
   <span class="k">SELECT</span> <span class="n">objectid</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id2"</span>
 </code></pre><h2 id='where-features'>WHERE Features</h2><h3 id='conditions'>Conditions</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">city</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="n">country</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="p">(</span><span class="n">country</span> <span class="o">=</span> <span class="s1">'Canada'</span> <span class="k">AND</span> <span class="n">province</span> <span class="o">=</span> <span class="s1">'Manitoba'</span> <span class="k">AND</span> <span class="k">NOT</span> <span class="n">city</span> <span class="o">=</span> <span class="s1">'Winnipeg'</span><span class="p">)</span> <span class="k">OR</span> <span class="n">country</span> <span class="o">=</span><span class="s1">'Mexico'</span>
 </code></pre><h3 id='like'>LIKE</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="n">country</span> <span class="k">LIKE</span> <span class="s1">'C_%'</span>
 </code></pre><h3 id='order-by'>ORDER BY</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">country</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="p">...</span> <span class="p">[</span><span class="k">ASC</span><span class="o">|</span><span class="k">DESC</span><span class="p">]</span>
 </code></pre><h3 id='in'>IN</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="n">country</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'Mexico'</span><span class="p">,</span> <span class="s1">'Canada'</span><span class="p">,</span> <span class="p">...)</span>
 </code></pre><h3 id='between'>BETWEEN</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="n">liquidation_date</span> <span class="k">BETWEEN</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="k">AND</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
 </code></pre><h2 id='group-by-and-having'>GROUP BY and HAVING</h2>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">),</span> <span class="n">country</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">country</span>
   <span class="k">HAVING</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span> 
 </code></pre><h3 id='subselects'>Subselects</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
-  <span class="k">WHERE</span> <span class="n">total_count</span> <span class="o">=</span> <span class="p">[</span><span class="k">ANY</span><span class="o">|</span><span class="k">ALL</span><span class="p">]</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
+  <span class="k">WHERE</span> <span class="n">total_count</span> <span class="o">=</span> <span class="p">[</span><span class="k">ANY</span><span class="o">|</span><span class="k">ALL</span><span class="p">]</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="k">FROM</span> <span class="nv">"data-set-id2"</span><span class="p">)</span>
 </code></pre>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">parent_account_id</span><span class="p">,</span> <span class="n">purchase_total</span> <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">parent_account_id</span><span class="p">,</span> <span class="n">purchase_total</span> <span class="k">FROM</span> <span class="nv">"data-set-id2"</span><span class="p">)</span>
   <span class="k">AS</span> <span class="n">subSelect</span>
   <span class="k">WHERE</span> <span class="n">purchase_total</span> <span class="o">&gt;</span> <span class="mi">1500</span>
 </code></pre><h2 id='geospatial-features'>Geospatial Features</h2>
@@ -1107,7 +1143,7 @@ Supports:</p>
 
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">ST_AsGeoJSON</span><span class="p">(</span><span class="n">ST_GeomFromText</span><span class="p">(</span><span class="n">geometry_property</span><span class="p">))</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='supported-functions'>Supported Functions</h3>
 <blockquote>
 <p><code>ST_AsGeoJSON</code><br/>
@@ -1141,7 +1177,7 @@ Supports:</p>
 <code>ST_YMin</code><br/></p>
 </blockquote>
 
-<p>We are very interested in expanding the geospatial capabilities of <strong>NiQL</strong>. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.</p>
+<p>We are very interested in expanding the geospatial capabilities of <strong>NiQL</strong>. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://www.thinkdataworks.com/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.</p>
 
 <aside class="notice">Please refer to the <a href="https://postgis.net/docs/reference.html" target="_blank" rel="noreferrer noopener">PostGIS documentation</a> for the functional specifics</aside>
 <h2 id='pagination-with-niql'>Pagination with <strong>NiQL</strong></h2>
@@ -1150,8 +1186,24 @@ Supports:</p>
 <p>For results larger than the allowed amount, manual pagination in subsequent requests will have to be used.</p>
 
 <p>The default limit is <code>250</code> rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.</p>
+<h1 id='advanced-features'>Advanced Features</h1><h2 id='version-locking'>Version Locking</h2>
+<p>We have created <strong>Version Locking</strong> in the event that it&#39;s important to maintain the properties from a previous version of the data set. Simply add <code>/data/{VERSION}</code> after the data set ID for the Data API, or <code>/{VERSION}</code> after the data set ID for the Query API.</p>
+
+<p>For example, if we needed the first version of the data set with the ID <code>2a6412c0-b3c9-420e-9487-abd21b664ac1</code>, our query to the Data API would read: </p>
+
+<div class="center-column"></div>
+<pre class="highlight plaintext"><code>https://api.namara.io/v0/data_sets/2a6412c0-b3c9-420e-9487-abd21b664ac1/data/en-0
+</code></pre>
+<p><br />
+Or, for the Query API:</p>
+
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code><span class="k">FROM</span> <span class="nv">"2a6412c0-b3c9-420e-9487-abd21b664ac1/en-0"</span>
+</code></pre>
+<p><br />
+Making a query to <code>https://api.namara.io/v0/data_sets/{DATA_SET_ID}</code> will allow you to see all imported versions for the data set.</p>
 <h1 id='get-in-touch'>Get In Touch</h1>
-<p>We&#39;re easy to reach - visit our <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">contact page</a>, or talk directly to us while you use <a href="https://app.namara.io/#/" target="_blank" rel="noreferrer noopener">Namara</a> by clicking the chat button in the bottom right. Please get in touch with us if you:</p>
+<p>We&#39;re easy to reach – visit our <a href="https://www.thinkdataworks.com/contact" target="_blank" rel="noreferrer noopener">contact page</a> and be in touch with us if you:</p>
 
 <ul>
 <li>are experiencing any problems with the API;</li>

@@ -1,0 +1,16 @@
+<h1 id='advanced-features'>Advanced Features</h1><h2 id='version-locking'>Version Locking</h2>
+<p>We have created <strong>Version Locking</strong> in the event that it&#39;s important to maintain the properties from a previous version of the data set. Simply add <code>/data/{VERSION}</code> after the data set ID for the Data API, or <code>/{VERSION}</code> after the data set ID for the Query API.</p>
+
+<p>For example, if we needed the first version of the data set with the ID <code>2a6412c0-b3c9-420e-9487-abd21b664ac1</code>, our query to the Data API would read: </p>
+
+<div class="center-column"></div>
+<pre class="highlight plaintext"><code>https://api.namara.io/v0/data_sets/2a6412c0-b3c9-420e-9487-abd21b664ac1/data/en-0
+</code></pre>
+<p><br />
+Or, for the Query API:</p>
+
+<div class="center-column"></div>
+<pre class="highlight sql tab-sql"><code><span class="k">FROM</span> <span class="nv">"2a6412c0-b3c9-420e-9487-abd21b664ac1/en-0"</span>
+</code></pre>
+<p><br />
+Making a query to <code>https://api.namara.io/v0/data_sets/{DATA_SET_ID}</code> will allow you to see all imported versions for the data set.</p>

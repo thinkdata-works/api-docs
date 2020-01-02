@@ -1,16 +1,32 @@
 <h1 id='api-introduction'>API Introduction</h1>
 <p>If you&#39;re looking to interact with the Namara API, you&#39;ve come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.</p>
+<h3 id='api-fundamentals'>API Fundamentals</h3>
+<blockquote>
+<p>https://<span style="text-decoration:underline;text-decoration-color:#b52c2c">api.namara.io</span>/v0/<span style="text-decoration:underline;text-decoration-color:#17609f">data_sets/{DATA_SET_ID}/data/{VERSION}</span>?<span style="text-decoration:underline;text-decoration-color:#f7931d">api_key={YOUR_API_KEY}</span>&amp;<span style="text-decoration:underline;text-decoration-color:#2fa821">query_parameters={VALUE}</span></p>
+</blockquote>
+
+<p>On the right is a basic template for a call made to our <a href="#data-api">Data API</a>. If it&#39;s confusing at first, don&#39;t worry - these docs are here to make sure you understand all the moving parts.</p>
+
+<p>The <a href="#our-rest-api" style="text-decoration:underline;color:#b52c2c">API host</a> is where we serve the data from. The <a href="#data-api" style="text-decoration:underline;color:#17609f">data set and version</a> can be found under the API tab in any data set, and are required for every API call. </p>
+
+<p>Everything following the question mark (?) is a query parameter. <a href="#api-keys" style="text-decoration:underline;color:#f7931d">Your API key</a> is required to complete a call. <span style="color:#2fa821">Other parameters</span> can be added using an ampersand (&amp;) and give you the ability to filter and refine the results. </p>
+
+<p>Query parameters change depending on the type of data set and the operation: <a href="#data-api" style="text-decoration:underline;color:#2fa821">basic parameters</a>, <a href="#geospatial-operators" style="text-decoration:underline;color:#2fa821">geospatial parameters</a>, <a href="#get-export" style="text-decoration:underline;color:#2fa821">exports</a>, and <a href="#get-aggregate" style="text-decoration:underline;color:#2fa821">aggregates</a> each show a chart with the different operations.</p>
 <h3 id='our-rest-api'>Our REST API</h3>
 <p>The Namara API is a REST-based service that accepts and returns <code>JSON</code> in most cases (we&#39;ll cover <a href="#formats-pagination-amp-ordering">response formats</a> later). Requests should be made to:</p>
 
-<p><code>https://:namara_api_host/v0/:endpoint</code></p>
+<p><code>https://{NAMARA_API_HOST}/v0/{ENDPOINT}</code></p>
 
 <p>Unless indicated otherwise, the Namara API host is <code>api.namara.io</code>, which will be used throughout the documentation. </p>
 
 <p>The responses will be outlined for each endpoint.</p>
+<h2 id='data-set-versions'>Data Set Versions</h2>
+<p>Our data is updated regularly and automatically, so values in rows and columns may change. The data set version is a snapshot of the data set&#39;s structure and properties. When that structure changes, we create a new version of the data set. </p>
+
+<p>It is crucial that you include both the data set ID and the version in your queries. Both are found under the API tab for the data set.</p>
 <h2 id='get-generic-endpoint'><div class="colour-pill"><span class="get">GET</span> Generic Endpoint</div></h2>
 <blockquote>
-<p>https://api.namara.io/v0/:endpoint</p>
+<p>https://api.namara.io/v0/{ENDPOINT}</p>
 </blockquote>
 
 <p>In the code column on the right is a generic endpoint, and the foundation of almost every call to our API. The chart below displays standard response codes:</p>
@@ -46,21 +62,7 @@
 <td>User has exceeded the monthly maximum for requests or downloads (see <a href="#rate-limiting">Rate Limiting</a>)</td>
 </tr>
 </tbody></table>
-<h2 id='api-keys'>API Keys</h2>
-<p>Three kinds of API Keys can be created for accessing the Namara API - <em>Organization Keys</em>, <em>Project Keys</em>, and <em>Personal Keys</em>. This is an overview of managing all three types, and we&#39;ll outline the different use cases for each.</p>
-
-<!-- we don't actually outline use cases here -->
-<h3 id='organization-api-keys'>Organization API Keys</h3>
-<p>For any non-personal Organization, visit the &quot;Settings&quot; tab and create API Keys for that Organization. Calls made with this API Key will be limited to Data Sets and Projects that your Organization has access to.</p>
-<h3 id='project-api-keys'>Project API Keys</h3>
-<p>For any project, visit the &quot;Settings&quot; tab and create API Keys for yourself for that Project. Calls made with this API Key will be limited to Data Sets that your Project has access to.</p>
-<h3 id='personal-api-keys'>Personal API Keys</h3>
-<p>The Personal Namara API Key can be obtained by clicking on the Organization tab at the bottom of the left sidebar, then clicking &quot;Account Settings&quot;. Copy this from the &quot;API Key&quot; tab and use it for any API calls.</p>
-
-<aside class="warning">Your Personal Key gives its user access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>
-<h3 id='rate-limiting'>Rate Limiting</h3>
-<p>Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. If you exceed this limit, the API will return <code>status: 429</code>. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.</p>
-<h2 id='making-requests'>Making Requests</h2><h3 id='parameter-authentication'>Parameter Authentication</h3><pre class="highlight shell tab-shell"><code>curl -XGET https://api.namara.io/v0/data_sets/:data_set_id?api_key<span class="o">=</span>:YOUR_API_KEY
+<h2 id='making-requests'>Making Requests</h2><h3 id='parameter-authentication'>Parameter Authentication</h3><pre class="highlight shell tab-shell"><code>curl -XGET https://api.namara.io/v0/data_sets/<span class="o">{</span>DATA_SET_ID<span class="o">}</span>?api_key<span class="o">={</span>YOUR_API_KEY<span class="o">}</span>
 
   or
 
@@ -69,7 +71,7 @@ curl -i <span class="se">\</span>
 -H <span class="s2">"X-API-Key: {YOUR_API_KEY}"</span> <span class="se">\</span>
 -X POST <span class="se">\</span>
 -d <span class="s1">'{"query":"..."}'</span> <span class="se">\</span>
-https://api.namara.io/v0/query.:format
+https://api.namara.io/v0/query.<span class="o">{</span>FORMAT<span class="o">}</span>
 </code></pre>
 <p>Append the key as <code>api_key</code> to any request body (either <code>GET</code> or <code>POST</code>) as long as it is included in the parameters.</p>
 <h3 id='header-authentication'>Header Authentication</h3>
@@ -80,10 +82,10 @@ https://api.namara.io/v0/query.:format
 <p>Ping the API at <code>http://api.namara.io/v0/users/verify_token</code> to ensure that the API token is valid for the user.</p>
 
 <blockquote>
-<p>1)
+<p><strong>1)</strong>
 <code>{ &quot;status&quot;: true }</code></p>
 
-<p>2)
+<p><strong>2)</strong>
 <code>{ &quot;status&quot;: false }</code></p>
 </blockquote>
 
@@ -102,3 +104,15 @@ https://api.namara.io/v0/query.:format
 <td>API does not correspond to any user (<em>example 2</em>)</td>
 </tr>
 </tbody></table>
+<h3 id='rate-limiting'>Rate Limiting</h3>
+<p>Users are limited to 10,000 requests per month, as well as 100 data set downloads per month. When you exceed this limit, the API will return <code>status: 429</code>. If you find yourself meeting the limits, contact your account manager or <a href="mailto:info@thinkdataworks.com" target="_blank" rel="noreferrer noopener">email us</a> to find a solution.</p>
+<h1 id='api-keys'>API Keys</h1>
+<p>Three kinds of API Keys can be created for accessing the Namara API - <em>Organization Keys</em>, <em>Project Keys</em>, and <em>Personal Keys</em>. This is an overview of managing all three types, and we&#39;ll outline the different use cases for each.</p>
+<h2 id='organization-api-keys'>Organization API Keys</h2>
+<p>For any non-personal Organization, visit the &quot;Settings&quot; tab and click &quot;API Keys&quot; to create API Keys for that Organization. Calls made with this API Key will be limited to Data Sets and Projects that your Organization has access to.</p>
+<h2 id='project-api-keys'>Project API Keys</h2>
+<p>For any Project, visit the &quot;Settings&quot; tab and click &quot;API Keys&quot; to create API Keys for yourself for that Project. Calls made with this API Key will be limited to Data Sets that your Project has access to.</p>
+<h2 id='personal-api-keys'>Personal API Keys</h2>
+<p>The Personal Namara API Key can be obtained by clicking your user icon at the bottom of the left sidebar, then clicking &quot;Account Settings&quot;. Copy this from the &quot;API Key&quot; tab and use it for any API calls.</p>
+
+<aside class="warning">Your Personal Key gives its user access to the entire Namara account. If you are thinking about sharing an API Key with another user, consider an Organization API Key or a Project API Key in order to limit their access to your account.</aside>

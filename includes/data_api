@@ -1,12 +1,12 @@
 <h1 id='data-api'>Data API</h1>
 <blockquote>
-<p>https://:namara_api_host/v0/data_sets/:data_set_id/data/:version</p>
+<p>https://{NAMARA_API_HOST}/v0/data_sets/{DATA_SET_ID}/data</p>
 </blockquote>
 
-<p>Each data set can be accessed at the API URL. In Namara, click on the &quot;API Info&quot; tab when viewing a data set to see all information regarding ID, version, and properties.</p>
+<p>Each data set can be accessed at the API URL. In Namara, click on the &quot;API Info&quot; tab when viewing a data set to see all information regarding data set ID, version, and properties.</p>
 <h2 id='get-data-query'><div class="colour-pill"><span class="get">GET</span> Data Query</div></h2>
 <blockquote>
-<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version</p>
+<p>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data</p>
 </blockquote>
 
 <p>This endpoint is used for creating selection and aggregation views on a single data set. For full SQL access to the Namara catalog, see the <a href="#query-api">Query API</a>.</p>
@@ -23,11 +23,6 @@
 <td><code>string</code></td>
 <td>UUID for accessing the data set</td>
 </tr>
-<tr>
-<td>version (required)</td>
-<td><code>string</code></td>
-<td>Version identifier, eg: <code>en-0</code></td>
-</tr>
 </tbody></table>
 
 <table><thead>
@@ -40,17 +35,17 @@
 <tr>
 <td>result_format</td>
 <td><code>string</code></td>
-<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+<td>Query response format: <code>csv</code>, <code>json</code>, or <code>geojson</code> (default is <code>json</code>)</td>
 </tr>
 <tr>
 <td>geometry_format</td>
 <td><code>string</code></td>
-<td>Either <code>WKT</code> or <code>GeoJSON</code> for all geometry values (default is <code>GeoJSON</code>)</td>
+<td>Either <code>wkt</code> or <code>geojson</code> for all geometry values (default is <code>geojson</code>)</td>
 </tr>
 <tr>
 <td>geojson_feature_key</td>
 <td><code>string</code></td>
-<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+<td>Property name to use as geometry when rendering <code>geojson</code></td>
 </tr>
 <tr>
 <td>limit</td>
@@ -79,11 +74,11 @@
 </tr>
 </tbody></table>
 <h2 id='formats-pagination-amp-ordering'>Formats, Pagination, &amp; Ordering</h2><h3 id='results-format'>Results Format</h3>
-<p>The Namara Data API produces results in different formats, <code>JSON</code>, <code>CSV</code>, or <code>GeoJSON</code>, depending on the value you pass into the <code>result_format</code> parameter in your query. In examples of results, you&#39;ll see three buttons above the code block which will show example results in your preferred format. Here&#39;s how they look:</p>
+<p>The Namara Data API produces results in different formats, <code>json</code>, <code>csv</code>, or <code>geojson</code>, depending on the value you pass into the <code>result_format</code> parameter in your query. In examples of results, you&#39;ll see three buttons above the code block which will show example results in your preferred format. Here&#39;s how they look:</p>
 
-<p><button class="see-json">JSON</button> 
-<button class="see-csv">CSV</button> 
-<button class="see-geojson">GeoJSON</button> </p>
+<p><button class="see-json">json</button> 
+<button class="see-csv">csv</button> 
+<button class="see-geojson">geojson</button> </p>
 
 <div class="center-column response-json"></div>
 <pre class="highlight plaintext"><code>  {
@@ -208,9 +203,9 @@
 <aside class="notice">Note the spaces around the aliases in the queries.</aside>
 <h3 id='operator-examples'>Operator Examples</h3>
 <blockquote>
-<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=co2_emissions_g_km<200</code> <br/><strong>or</strong><br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=co2_emissions_g_km lt 200</code><br/><br/>2a) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=make IN (&quot;CHEVROLET&quot;,&quot;CADILLAC&quot;)</code><br/><br/>
-2b)
-<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;</code><br/><br/>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3?api_key=:YOUR_API_KEY&amp;where=(make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;) AND (fuel_consumption_city_l_100km&lt;=12 AND fuel_consumption_hwy_l_100km&lt;=9)</code></p>
+<p><strong>1)</strong> <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=co2_emissions_g_km<200</code> <br/><strong>or</strong><br/><code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=co2_emissions_g_km lt 200</code><br/><br/><strong>2a)</strong> <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=make IN (&quot;CHEVROLET&quot;,&quot;CADILLAC&quot;)</code><br/><br/>
+<strong>2b)</strong>
+<code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;</code><br/><br/><strong>3)</strong> <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data?api_key={YOUR_API_KEY}&amp;where=(make=&quot;CHEVROLET&quot; OR make=&quot;CADILLAC&quot;) AND (fuel_consumption_city_l_100km&lt;=12 AND fuel_consumption_hwy_l_100km&lt;=9)</code></p>
 </blockquote>
 
 <ol>
@@ -238,7 +233,7 @@
 <p>Exporting is almost identical to the Data Query endpoint, with the difference being that the complete result of the query will be saved to a file, and that file will be served up.</p>
 <h3 id='request'>Request</h3>
 <blockquote>
-<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version/export</p>
+<p>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/export</p>
 </blockquote>
 
 <p>Export path and query parameters look a lot like the parameters for accessing the data set. Let&#39;s look at the requests you can make:</p>
@@ -255,11 +250,6 @@
 <td><code>string</code></td>
 <td>UUID for accessing the data set</td>
 </tr>
-<tr>
-<td>version (required)</td>
-<td><code>string</code></td>
-<td>Version identifier, eg: <code>en-0</code></td>
-</tr>
 </tbody></table>
 
 <table><thead>
@@ -272,22 +262,22 @@
 <tr>
 <td>result_format</td>
 <td><code>string</code></td>
-<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+<td>Query response format: <code>csv</code>, <code>json</code>, or <code>geojson</code> (default is <code>json</code>)</td>
 </tr>
 <tr>
 <td>geometry_format</td>
 <td><code>string</code></td>
-<td>Either <code>WKT</code> or <code>GeoJSON</code> for all geometry values (default is <code>GeoJSON</code>)</td>
+<td>Either <code>wkt</code> or <code>geojson</code> for all geometry values (default is <code>geojson</code>)</td>
 </tr>
 <tr>
 <td>geojson_feature_key</td>
 <td><code>string</code></td>
-<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+<td>Property name to use as geometry when rendering <code>geojson</code></td>
 </tr>
 <tr>
 <td>compress_with</td>
 <td><code>string</code></td>
-<td>Compression options for final export (see <a href="#compression-options">Compression Options</a>)</td>
+<td>Compression options for final export</td>
 </tr>
 <tr>
 <td>limit</td>
@@ -354,7 +344,7 @@
 <p>Use aggregation functions to retrieve data set-level information.</p>
 <h3 id='request-2'>Request</h3>
 <blockquote>
-<p>https://api.namara.io/v0/data_sets/:data_set_id/data/:version/aggregation</p>
+<p>https://api.namara.io/v0/data_sets/{DATA_SET_ID}/data/aggregation</p>
 </blockquote>
 
 <table><thead>
@@ -368,11 +358,6 @@
 <td>data_set_id (required)</td>
 <td><code>string</code></td>
 <td>UUID for accessing the data set</td>
-</tr>
-<tr>
-<td>version (required)</td>
-<td><code>string</code></td>
-<td>Version identifier, eg. <code>en-0</code></td>
 </tr>
 <tr>
 <td>operation (required)</td>
@@ -421,11 +406,11 @@
 </tbody></table>
 <h3 id='operator-examples-2'>Operator Examples</h3>
 <blockquote>
-<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=avg(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+<p>1) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&amp;operation=avg(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
 
-<p>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=min(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+<p>2) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&amp;operation=min(co2_emissions_g_km)&amp;where=make=&quot;CADILLAC&quot;</code></p>
 
-<p>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/en-3/aggregation?api_key=:YOUR_API_KEY&amp;operation=count(*)&amp;where=make=&quot;CADILLAC&quot;</code></p>
+<p>3) <code>https://api.namara.io/v0/data_sets/057d7914-839e-4625-b8f8-2aa109f11e5a/data/aggregation?api_key={YOUR_API_KEY}&amp;operation=count(*)&amp;where=make=&quot;CADILLAC&quot;</code></p>
 </blockquote>
 
 <ol>

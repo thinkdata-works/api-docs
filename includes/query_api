@@ -1,7 +1,7 @@
 <h1 id='query-api-beta'>Query API (beta)</h1>
 <p>While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the Data API. We wrote <strong>NiQL</strong> (<strong>N</strong>amara.<strong>i</strong>o <strong>Q</strong>uery <strong>L</strong>anguage) to view, aggregate, and join data sets. It&#39;s very similar to SQL, so it&#39;s easy to manipulate.</p>
 
-<aside class="notice">This feature is currently in beta - to request early access, <a href="https://namara.io/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
+<aside class="notice">This feature is currently in beta - to request early access, <a href="https://www.thinkdataworks.com/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
 <h2 id='get-meta'><div class="colour-pill"><span class="get">GET</span> Meta</div></h2>
 <blockquote>
 <p>https://api.namara.io/v0/query/meta</p>
@@ -15,7 +15,7 @@
 <p>This endpoint provides the meta information for querying this Namara instance. It includes the limit per query, the supported formats, and the default format if none is specified. This information may differ, depending on which deployment of Namara you&#39;re using. </p>
 <h2 id='post-query'><div class="colour-pill"><span class="post">POST</span> Query</div></h2>
 <blockquote>
-<p>https://api.namara.io/v0/query.:format</p>
+<p>https://api.namara.io/v0/query.{FORMAT}</p>
 </blockquote>
 
 <p>A call here dispatches a query and returns the result.</p>
@@ -30,7 +30,7 @@
 <tr>
 <td>format</td>
 <td><code>string</code></td>
-<td>Query response format: <code>CSV</code>, <code>JSON</code>, or <code>GeoJSON</code> (default is <code>JSON</code>)</td>
+<td>Query response format: <code>csv</code>, <code>json</code>, or <code>geojson</code> (default is <code>json</code>)</td>
 </tr>
 <tr>
 <td>project_id</td>
@@ -50,17 +50,17 @@
 <tr>
 <td>geojson_feature_key (may be required)</td>
 <td><code>string</code></td>
-<td>Property name to use as geometry when rendering <code>GeoJSON</code></td>
+<td>Property name to use as geometry when rendering <code>geojson</code></td>
 </tr>
 </tbody></table>
 
-<p>The <code>geojson_feature_key</code> is required if the requested format is <code>GeoJSON</code> - otherwise, it is not needed.</p>
+<p>The <code>geojson_feature_key</code> is required if the requested format is <code>geojson</code> - otherwise, it is not needed.</p>
 <h3 id='responses'>Responses</h3><h3 id='200-ok'>200: OK</h3>
 <p>Query executed successfully.</p>
 
-<p><button class="see-json">JSON</button> 
-<button class="see-csv">CSV</button> 
-<button class="see-geojson">GeoJSON</button> </p>
+<p><button class="see-json">json</button>
+<button class="see-csv">csv</button>
+<button class="see-geojson">geojson</button></p>
 
 <div class="center-column response-json"></div>
 <pre class="highlight plaintext"><code>  {
@@ -111,10 +111,10 @@
 -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\ </span>
 -H <span class="s2">"X-API-Key: {YOUR_API_KEY}"</span> <span class="se">\ </span>
 -X POST <span class="se">\ </span>
--d <span class="s1">'{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1/en-1 AS BramptonHomes"}'</span> <span class="se">\ </span>
+-d <span class="s1">'{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1 AS BramptonHomes"}'</span> <span class="se">\ </span>
 https://api.namara.io/v0/query.json
 </code></pre>
-<p>For example, if we were looking to query a data set with an id of <code>2a6412c0-b3c9-420e-9487-abd21b664ac1</code> and the version <code>en-1</code>, our minimum query would look like the example in the code column.</p>
+<p>For example, if we were looking to query a data set with an ID of <code>2a6412c0-b3c9-420e-9487-abd21b664ac1</code>, our minimum query would look like the example in the code column.</p>
 
 <p>The parser will verify the table name and handle queries that reference it, but using aliases and quotes whenever possible is recommended.</p>
 
@@ -122,30 +122,30 @@ https://api.namara.io/v0/query.json
 <h2 id='select-features'>SELECT Features</h2><h3 id='count'>COUNT</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 
   <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='distinct'>DISTINCT</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">column1</span><span class="p">,</span> <span class="n">column2</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='count-distinct'>COUNT DISTINCT</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">column1</span><span class="p">)</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='min-and-max'>MIN AND MAX</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">minColumn1</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">column2</span><span class="p">)</span> <span class="k">AS</span> <span class="n">maxColumn2</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='avg-and-sum'>AVG AND SUM</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avgColumn1</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">column1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sumColumn1</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h2 id='from-features'>FROM Features</h2><h3 id='joins'>JOINS</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">city</span><span class="p">,</span> <span class="n">DataSet2</span><span class="p">.</span><span class="n">country</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span> <span class="k">AS</span> <span class="n">DataSet1</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="nv">"data-set-id2/en-1"</span> <span class="k">AS</span> <span class="n">DataSet2</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span> <span class="k">AS</span> <span class="n">DataSet1</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="nv">"data-set-id2"</span> <span class="k">AS</span> <span class="n">DataSet2</span>
   <span class="k">ON</span> <span class="n">DataSet1</span><span class="p">.</span><span class="n">foreign_id</span> <span class="o">=</span> <span class="n">DataSet2</span><span class="p">.</span><span class="n">external_id</span>
 </code></pre>
 <p><br />
@@ -160,50 +160,50 @@ Supports:</p>
 <h3 id='unions'>UNIONS</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">id</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">UNION</span>
   <span class="k">SELECT</span> <span class="n">objectid</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id2"</span>
 </code></pre><h2 id='where-features'>WHERE Features</h2><h3 id='conditions'>Conditions</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">city</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="n">country</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="p">(</span><span class="n">country</span> <span class="o">=</span> <span class="s1">'Canada'</span> <span class="k">AND</span> <span class="n">province</span> <span class="o">=</span> <span class="s1">'Manitoba'</span> <span class="k">AND</span> <span class="k">NOT</span> <span class="n">city</span> <span class="o">=</span> <span class="s1">'Winnipeg'</span><span class="p">)</span> <span class="k">OR</span> <span class="n">country</span> <span class="o">=</span><span class="s1">'Mexico'</span>
 </code></pre><h3 id='like'>LIKE</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="n">country</span> <span class="k">LIKE</span> <span class="s1">'C_%'</span>
 </code></pre><h3 id='order-by'>ORDER BY</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">country</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="p">...</span> <span class="p">[</span><span class="k">ASC</span><span class="o">|</span><span class="k">DESC</span><span class="p">]</span>
 </code></pre><h3 id='in'>IN</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="n">country</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'Mexico'</span><span class="p">,</span> <span class="s1">'Canada'</span><span class="p">,</span> <span class="p">...)</span>
 </code></pre><h3 id='between'>BETWEEN</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">WHERE</span> <span class="n">liquidation_date</span> <span class="k">BETWEEN</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="k">AND</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
 </code></pre><h2 id='group-by-and-having'>GROUP BY and HAVING</h2>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">),</span> <span class="n">country</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
   <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">country</span>
   <span class="k">HAVING</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span> 
 </code></pre><h3 id='subselects'>Subselects</h3>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
-  <span class="k">WHERE</span> <span class="n">total_count</span> <span class="o">=</span> <span class="p">[</span><span class="k">ANY</span><span class="o">|</span><span class="k">ALL</span><span class="p">]</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
+  <span class="k">WHERE</span> <span class="n">total_count</span> <span class="o">=</span> <span class="p">[</span><span class="k">ANY</span><span class="o">|</span><span class="k">ALL</span><span class="p">]</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span> <span class="k">FROM</span> <span class="nv">"data-set-id2"</span><span class="p">)</span>
 </code></pre>
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">parent_account_id</span><span class="p">,</span> <span class="n">purchase_total</span> <span class="k">FROM</span> <span class="nv">"data-set-id2/en-1"</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">parent_account_id</span><span class="p">,</span> <span class="n">purchase_total</span> <span class="k">FROM</span> <span class="nv">"data-set-id2"</span><span class="p">)</span>
   <span class="k">AS</span> <span class="n">subSelect</span>
   <span class="k">WHERE</span> <span class="n">purchase_total</span> <span class="o">&gt;</span> <span class="mi">1500</span>
 </code></pre><h2 id='geospatial-features'>Geospatial Features</h2>
@@ -213,7 +213,7 @@ Supports:</p>
 
 <div class="center-column"></div>
 <pre class="highlight sql tab-sql"><code>  <span class="k">SELECT</span> <span class="n">ST_AsGeoJSON</span><span class="p">(</span><span class="n">ST_GeomFromText</span><span class="p">(</span><span class="n">geometry_property</span><span class="p">))</span>
-  <span class="k">FROM</span> <span class="nv">"data-set-id/en-0"</span>
+  <span class="k">FROM</span> <span class="nv">"data-set-id"</span>
 </code></pre><h3 id='supported-functions'>Supported Functions</h3>
 <blockquote>
 <p><code>ST_AsGeoJSON</code><br/>
@@ -247,7 +247,7 @@ Supports:</p>
 <code>ST_YMin</code><br/></p>
 </blockquote>
 
-<p>We are very interested in expanding the geospatial capabilities of <strong>NiQL</strong>. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://namara.io/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.</p>
+<p>We are very interested in expanding the geospatial capabilities of <strong>NiQL</strong>. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://www.thinkdataworks.com/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.</p>
 
 <aside class="notice">Please refer to the <a href="https://postgis.net/docs/reference.html" target="_blank" rel="noreferrer noopener">PostGIS documentation</a> for the functional specifics</aside>
 <h2 id='pagination-with-niql'>Pagination with <strong>NiQL</strong></h2>
