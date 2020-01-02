@@ -434,10 +434,6 @@ html, body {
       padding: 10px;
     }
 
-    // tr:last-child {
-    //   border-bottom: 1px solid #2980b9;
-    // }
-
     tr:nth-child(odd)>td {
       background-color: lighten($main-bg,4.2%);
     }
