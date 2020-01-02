@@ -58,6 +58,7 @@ html, body {
   left: 0;
   bottom: 0;
   width: $nav-width;
+  background: left top/auto 100vh no-repeat url('https://cdn2.hubspot.net/hubfs/5507284/abstract-dots-sidebar.png') fixed;
   background-color: $nav-bg;
   font-size: 15px;
   font-weight: bold;
@@ -262,7 +263,6 @@ html, body {
   z-index: 10;
   background-color: $main-bg;
   min-height: 100%;
-
   padding-bottom: 1px; // prevent margin overflow
 
   // The dark box is what gives the code samples their dark background.
@@ -426,16 +426,12 @@ html, body {
 
     th {
       padding: 5px 10px;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #2980b9;
       vertical-align: bottom;
     }
 
     td {
       padding: 10px;
-    }
-
-    tr:last-child {
-      border-bottom: 1px solid #ccc;
     }
 
     tr:nth-child(odd)>td {
