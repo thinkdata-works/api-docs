@@ -32,7 +32,13 @@ resp = namara.delete_organization(organization)
 ```
 
 ```go
-
+org := &namara.Organization{Title: "Some Org"}
+	
+orgs, _ := client.ListOrganizations(ctx, namara.OrganizationFilter{})
+org, _ = client.CreateOrganization(ctx, org)
+org, _ = client.GetOrganization(ctx, "org-1")
+org, _ = client.UpdateOrganization(ctx, org)
+_ = client.DeleteOrganization(ctx, org)
 ```
 
 ## Organization Members
@@ -47,6 +53,7 @@ to manage members to perform add/remove/update operations on its members.
 - **GetOrganizationMember** - Get a member by user id.   Useful to query the permission of
 the Organization Member.
 - **UpdateOrganizationMember** - Update a member's permission.
+- **RemoveOrganizationMember** - Remove a member from the organization.
 
 ```ruby
 member = {organization_id: 'org-1', user_id: 'u-1', permission: 1}
@@ -55,6 +62,7 @@ members = namara.list_organization_members('org-1')
 member = namara.add_organization_member(member)
 member = namara.get_organization_member('org-1', 'u-1')
 member = namara.update_organization_member(member)
+member = namara.remove_organization_member(member)
 ```
 
 ```python
@@ -62,7 +70,13 @@ member = namara.update_organization_member(member)
 ```
 
 ```go
+mem := &namara.OrganizationMember{OrganizationId: "org-1", UserId: "u-1", Permission: 1}
 
+mems, _ := client.ListOrganizationMembers(ctx, "org-1", &namara.OrganizationMembersFilter{})
+mem, _ = client.AddOrganizationMember(ctx, mem)
+mem, _ = client.GetOrganizationMember(ctx, "org-1", "u-1")
+mem, _ = client.UpdateOrganizationMember(ctx, mem)
+_ = client.RemoveOrganizationMember(ctx, mem)
 ```
 
 ## Groups
@@ -91,7 +105,13 @@ response = namara.delete_group(group)
 ```
 
 ```go
+grp := &namara.Group{OrganizationId: "org-1", Title: "Some Group"}
 
+grps, _ := client.ListGroups(ctx, []string{"org-1"}, &namara.GroupsFilter{})
+grp, _ = client.CreateGroup(ctx, grp)
+grp, _ = client.GetGroup(ctx, "org-1", "grp-1")
+grp, _ = client.UpdateGroup(ctx, grp)
+_ = client.DeleteGroup(ctx, grp)
 ```
 
 ## Group Members
@@ -105,6 +125,7 @@ perform add/remove/update operations.
 - **AddGroupMember** - Add a member to an organization.
 - **GetGroupMember** - Get a member by user id.   Useful to query the permission of the Group Member.
 - **UpdateGroupMember** - Update a member's permission.
+- **RemoveGroupMember** - Remove a member from the group.
 
 ```ruby
 member = {group_id: 'grp-1', user_id: 'u-1', permission: 1}
@@ -121,7 +142,13 @@ response = namara.remove_group_member(member)
 ```
 
 ```go
+grpMem := &namara.GroupMember{GroupId: "grp-1", UserId: "u-1", Permission: 1}
 
+grpMems, _ := client.ListGroupMembers(ctx, &namara.GroupMembersFilter{}, "grp-1")
+grpMem, _ = client.AddGroupMember(ctx, grpMem)
+grpMem, _ = client.GetGroupMember(ctx, "u-1", "grp-1")
+grpMem, _ = client.UpdateGroupMember(ctx, grpMem)
+_ = client.RemoveGroupMember(ctx, grpMem)
 ```
 
 ## Datasets
@@ -145,7 +172,10 @@ dataset = namara.get_dataset('ds-1')
 ```
 
 ```go
-
+datasets, _ := client.ListDatasets(ctx, namara.DatasetFilter{Limit: 10, Offset: 0, Query: "my search"})
+datasets, _ = client.ListOrganizationDatasets(ctx, "org-1", 
+    &namara.OrganizationDatasetFilter{Limit: 10, Offset: 0, Query: "my search"})
+dataset, _ := client.GetDataset(ctx, "ds-1")
 ```
 
 ## Query
@@ -164,7 +194,11 @@ results = namara.query('SELECT ... FROM ...')
 ```
 
 ```go
-
+results, _ := client.Query(ctx, "SELECT col1 FROM ...")
+for results.Next() {
+    row, _ := results.Result()
+    row.GetString("col1")
+}
 ```
 
 ## Other
