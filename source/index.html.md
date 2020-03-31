@@ -3,8 +3,9 @@ title: The Namara API
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell: cURL
-  # - python
-  # - javascript: JS
+  - python
+  - ruby
+  - go
 
 toc_footers:
   - <a href='https://app.namara.io/#/' target='_blank' rel='noreferrer noopener'>Go to Namara</a>
@@ -14,9 +15,8 @@ toc_footers:
 
 includes:
   - basics
-  - data_api
   - query_api
-  - advanced
+  - catalog
   - contact
 
 search: true

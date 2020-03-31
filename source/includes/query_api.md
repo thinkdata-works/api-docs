@@ -1,122 +1,30 @@
-# Query API (beta)
+# Query API (NiQL)
 
-While the Data API allows query behaviour over a single data set, the Query API allows broader control over the Namara data catalog. This is a new API that will eventually replace the Data API. We wrote **NiQL** (**N**amara.<strong>i</strong>o **Q**uery **L**anguage) to view, aggregate, and join data sets. It's very similar to SQL, so it's easy to manipulate.
+To make querying our data catalog easier, we have created a query language Namara.io Query Language, or NiQL for short.
+If you have used SQL in your past, you should fine this language very familiar as it was based off of standard SQL.  The
+largest difference between NiQL and standard SQL is that the only supported queries start with the keyword `SELECT`.  
+All keywords that mutate the underlying data such as `INSERT`, `UPDATE`, `DELETE`, etc. are not supported.
 
-<aside class="notice">This feature is currently in beta - to request early access, <a href="https://www.thinkdataworks.com/contact/" rel="noopener noreferrer" target="_blank">contact us</a>.</aside>
+## Creating a Query
 
-##<div class="colour-pill"><span class="get">GET</span> Meta</div>
-
->https://api.namara.io/v0/query/meta
-
-```
-{
-  "query_limit_maximum": 250,
-  "formats": ["geojson", "csv", "json"],
-  "default_format": "json"
-}
-```
-
-This endpoint provides the meta information for querying this Namara instance. It includes the limit per query, the supported formats, and the default format if none is specified. This information may differ, depending on which deployment of Namara you're using. 
-
-##<div class="colour-pill"><span class="post">POST</span> Query</div>
-
->https://api.namara.io/v0/query.{FORMAT}
-
-A call here dispatches a query and returns the result.
-
-### Request
-
-Parameter | Type | Description
---------- | ---- | -----------
-format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
-project_id | `string` | Project ID to use for subscription lookup. If not provided, it is inferred from API Key
-organization_id | `string` | Organization ID to use for subscription lookup. If not provided, it is inferred from API Key
-query (required) | `string` | NiQL query string
-geojson_feature_key (may be required) | `string` | Property name to use as geometry when rendering `geojson`
-
-The <code>geojson_feature_key</code> is required if the requested format is <code>geojson</code> - otherwise, it is not needed.
-
-### Responses
-
-### 200: OK
-
-Query executed successfully.
-
-<button class="see-json">json</button>
-<button class="see-csv">csv</button>
-<button class="see-geojson">geojson</button>
-
-<div class="center-column response-json"></div>
-```
-  {
-    "results":[
-      {
-        "c0":"foo",
-        "c1":22,
-        "c2":"xx",
-        "c3":"POINT (-79.4 43.7)"
-      },
-      ...
-    ]
-  }
-```
-
-<div class="center-column response-csv"></div>
-```
-  c0,c1,c2,c3
-  foo,22,xx,POINT (-79.4 43.7)
-  bar,66,yy,POINT (-78.4 42.7)
-  baz,11,xx,POINT (-70.4 35.7)
-```
-
-<div class="center-column response-geojson"></div>
-```
-  {
-    "type":"FeatureCollection",
-    "features":[
-      {
-        "type":"Feature",
-        "geometry":{
-          "type":"Point",
-          "coordinates": [ -79.4, 43.7 ]
-        },
-        "properties":{
-          "c0":"foo",
-          "c1":22,
-          "c2":"xx"
-        }
-      },
-      ...
-    ]
-  }
-```
-
-### 422: Unprocessable Entity
-
-Something went wrong with the request.
+A query follow the basic form you would be familiar with in SQL.  
 
 <div class="center-column"></div>
-```
-{ "error": <Error message> }
-```
-## Query Specification
-
-**NiQL** is modelled after standard SQL, but only supports read-only `SELECT` statements. A traditional query must at minimum have a `SELECT` and `FROM` clause in order to execute. While the `SELECT` clause can be anything, the `FROM` clause must specify a data set and version to query. 
-
-```shell
-curl -i \
--H "Content-Type: application/json" \ 
--H "X-API-Key: {YOUR_API_KEY}" \ 
--X POST \ 
--d '{"query": "SELECT * FROM 2a6412c0-b3c9-420e-9487-abd21b664ac1 AS BramptonHomes"}' \ 
-https://api.namara.io/v0/query.json
+```sql
+SELECT {columns} FROM {dataset_id} WHERE {condition} LIMIT {limit}
 ```
 
-For example, if we were looking to query a data set with an ID of `2a6412c0-b3c9-420e-9487-abd21b664ac1`, our minimum query would look like the example in the code column.
+When using a dataset ID, it is possible to pass in either the dataset UUID on it's own, or 
+optionally include a dataset version along with it.  For more information on dataset versions,
+please see the [Dataset Versions](#dataset-versions) documentation.
 
-The parser will verify the table name and handle queries that reference it, but using aliases and quotes whenever possible is recommended.
+Using a dataset id or including a version would look like so:
 
-Below is a summary of supported features:
+<div class="center-column"></div>
+```sql
+SELECT ... FROM "de1049a3-e356-4251-b8f9-7a628b8b3b97"
+SELECT ... FROM "de1049a3-e356-4251-b8f9-7a628b8b3b97/0"
+```
 
 ## SELECT Features
 
@@ -283,35 +191,38 @@ Here's an example in which `geometry_property` is a property from the data set o
 
 ### Supported Functions
 
->`ST_AsGeoJSON`<br/>
->`ST_AsJson`<br/>
->`ST_AsText`<br/>
->`ST_Buffer`<br/>
->`ST_Contains`<br/>
->`ST_Crosses`<br/>
->`ST_Difference`<br/>
->`ST_Disjoint`<br/>
->`ST_Distance`<br/>
->`ST_DWithin`<br/>
->`ST_Envelope`<br/>
->`ST_Equals`<br/>
->`ST_GeomFromText`<br/>
->`ST_GeomFromTextSrid`<br/>
->`ST_Intersects`<br/>
->`ST_Overlaps`<br/>
->`ST_PointFunc`<br/>
->`ST_Relate`<br/>
->`ST_Touches`<br/>
->`ST_Transform`<br/>
->`ST_Union`<br/>
->`ST_UnionAggregate`<br/>
->`ST_Within`<br/>
->`ST_XFunc`<br/>
->`ST_XMax`<br/>
->`ST_XMin`<br/>
->`ST_YFunc`<br/>
->`ST_YMax`<br/>
->`ST_YMin`<br/>
+<div class="center-column"></div>
+```
+ST_AsGeoJSON
+ST_AsJson
+ST_AsText
+ST_Buffer
+ST_Contains
+ST_Crosses
+ST_Difference
+ST_Disjoint
+ST_Distance
+ST_DWithin
+ST_Envelope
+ST_Equals
+ST_GeomFromText
+ST_GeomFromTextSrid
+ST_Intersects
+ST_Overlaps
+ST_PointFunc
+ST_Relate
+ST_Touches
+ST_Transform
+ST_Union
+ST_UnionAggregate
+ST_Within
+ST_XFunc
+ST_XMax
+ST_XMin
+ST_YFunc
+ST_YMax
+ST_YMin
+```
 
 We are very interested in expanding the geospatial capabilities of **NiQL**. If there is additional functionality you need, or there are any issues with the the implementations, please do not hesitate to <a href="https://www.thinkdataworks.com/contact" target="_blank" rel="noreferrer noopener">reach out to us</a>.
 
