@@ -12,7 +12,7 @@ About the Documentation
 
 * **Data API** — Learn how to easily create selection and aggregation views on individual data sets.
 
-* **Query API** — Our team created **NiQL**, a query language specifically for Namara, giving users full SQL-access to the Namara catalog.
+* **Query API** — Our team created **NiQL** (**N**amara.io **Q**uery **L**anguage), a query language specifically for Namara, giving users full SQL-access to the Namara catalog.
 
 * **Editable** — see something inaccurate or unclear? Feel free to submit a PR through github. We'll take a look and bring in any changes that make our documentation better.
 

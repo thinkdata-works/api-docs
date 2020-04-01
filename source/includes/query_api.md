@@ -16,7 +16,7 @@ SELECT {columns} FROM {dataset_id} WHERE {condition} LIMIT {limit}
 
 When using a dataset ID, it is possible to pass in either the dataset UUID on it's own, or 
 optionally include a dataset version along with it.  For more information on dataset versions,
-please see the [Dataset Versions](#dataset-versions) documentation.
+please see the [Dataset Versions](#dataset-versions) documentation. To ensure that your integration is compatible with live data, we recommend that you lock your dataset queries to a version.
 
 Using a dataset id or including a version would look like so:
 
@@ -234,4 +234,4 @@ Like the Data API, a maximum number of rows will be returned on each query. If t
 
 For results larger than the allowed amount, manual pagination in subsequent requests will have to be used.
 
-The default limit is `250` rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.
+The default limit is `1000` rows, but this may vary depending on which deployment of Namara you are interacting with. Refer to the <a href="#get-meta">Meta endpoint</a> for instructions on how to obtain this information.
