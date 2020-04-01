@@ -36,7 +36,7 @@ Your API key must be used when initializing the client for our supported languag
 
 ## Our Legacy API
 
-TODO: Add Delorean docs
+TODO: Add Docs for Legacy API
 
 ## Dataset Versions
 
@@ -45,24 +45,6 @@ snapshot of the data set's structure and properties. When that structure changes
 
 It is crucial that you include both the data set ID and the version in your queries. Both are found under the API tab 
 for the data set.
-
-## Temporary Header
-
-```shell
-# shell
-```
-
-```python
-# python
-```
-
-```ruby
-# ruby
-```
-
-```go
-// go
-```
 
 ## Adding Packages
 
