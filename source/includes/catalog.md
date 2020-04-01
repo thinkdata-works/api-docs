@@ -121,8 +121,8 @@ For list/get/add/update/remove operations on Group Members.
 Note: A user must be a member of the group to perform read operations on its users and be an admin of the group to
 perform add/remove/update operations.
 
-- **ListGroupMembers** - Lists organization members for a given organization.
-- **AddGroupMember** - Add a member to an organization.
+- **ListGroupMembers** - Lists group members for a given organization.
+- **AddGroupMember** - Add a member to an group.
 - **GetGroupMember** - Get a member by user id.   Useful to query the permission of the Group Member.
 - **UpdateGroupMember** - Update a member's permission.
 - **RemoveGroupMember** - Remove a member from the group.

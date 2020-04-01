@@ -5,32 +5,30 @@ and conventions for using our API, with language-specific examples.
 
 ## API Fundamentals
 
-There is an API available for all functions that are available on the app itself is available on the `api` subdomain of 
-the specific Namara deployment you use.  So if you are used to accessing Namara at `app.namara.io` then the API 
-subdomain would be `api.namara.io`. Or if you use Namara on a custom domain, such as `app.custom-domain.com` then the
-API would be available at `api.custom-domain.com`.
+The Namara API is built on an RPC Framework called [Twirp](https://github.com/twitchtv/twirp). Twirp runs on Protobuf and offers JSON compatibility. It generates server files and client code in almost any language, making it quick and easy to develop on. This allows us to launch with a selection of client libraries, and will allow us to create additional language options over time.
 
-The API itself uses an RPC Framework called Twirp which was originally developed by Twitch.tv.  We decided to use Twirp
-to build our API because it was not only easy and quick for us to develop on but very user friendly for anyone using it
-as it offered very efficient communication using Protobuf or easier-to-use communication using JSON.  Fortunately, if
-you are interfacing with Namara using a programming language we have support for, you don't even need to know about
-the differences here as we have taken that for you.
+### Client Library and Language Offerings
 
-Currently, we have supported libraries in Python, Ruby and Go with more being added all the time. If you are using a
-programming language that we don't already support, don't hesitate to reach out to us and we can look at getting support
-for it soon.  A few caveats if you are using an unsupported language or making requests directly are:
-- This is not a REST API but is instead using RPC so everything is a POST request
-- For making a request without a client library, it is recommended to use the JSON version of the API
-- Endpoints always follow: `/twirp/<service>.<Service>Service/<method>`. So for example, when making the 
-ListOrganizationDatasets API call from the Catalog service, the endpoint is 
-`/twirp/catalog.CatalogService/ListOrganizationDatasets`.  An example using this service is shown in the 
-[Creating the Client](#creating-the-client) section of the docs.
+We primarily support Python, Ruby and Go libraries, but are planning on adding more all the time. If you are using a programming language that we don't already support, please don't hesitate to reach out to us.
+
+### Pointing to a Namara Domain
+
+An API provides all functionality available to the app itself. This is available on the `api` subdomain of whichever Namara deployment you are using.
+
+If you are used to accessing Namara at `app.namara.io`, then your API subdomain would be `api.namara.io`. Otherwise, if you are using a custom domain such as `app.custom-domain.com`, then the API is avilable at `api.custom-domain.com`
+
+
+### Tips for accessing through cURL
+
+- This is not a REST API, but an RPC one. Every request needs to be a `POST` request
+- It is recommend to use the JSON version of the API, by sending `application/json` as `Content-Type` and `Accept` headers
+- Endpoints will always follow a `/twirp/<service>.<Service>Service/<method>` naming convention. See [Creating the Client](#creating-the-client) for examples
+
 
 ## Your API Key
 
 Your individual API key is required to make requests to the Namara API and is available in the account section of the
-app which is accessible if you click on the user section in the top right corner of the app, and then navigate to 
-Account Settings > Token.  Please copy this token and store it in a secure location and do not share it with out users.
+app. To access this, click on the user icon in the top corner of the application at any time, and navigate to `Account Settings > Token`. Please copy this token and store it in a secure location where it won't be shared with other users. We do not recommend committing this value to any publicly available repo.
 
 Your API key must be used when initializing the client for our supported languages, or to be passed in the HTTP header
 `X-API-Key: YOUR_KEY` if you are commmunicating with the API directly or using the legacy API.
@@ -66,8 +64,6 @@ for the data set.
 // go
 ```
 
-# Getting Started
-
 ## Adding Packages
 
 To the right you will see the various entries that will need to be added in the language specific package managers.
@@ -93,6 +89,10 @@ gem "namara", github: "thinkdata-works/namara-ruby"
 require github.com/thinkdata-works/namara-go v0.1.10
 ```
 
+## Release notes
+
+TODO point to release notes
+
 ## Making a Request
 
 The following examples show how to make a request using our Data API.  Please change the examples to the right to
@@ -100,7 +100,8 @@ include your API key as well as the specific query you are trying to make.  For 
 Data API, please see the [Data API](#data-api) section.
 
 ```shell
-curl -H 'X-API-Key: <key>' \
+curl -XPOST 
+    -H 'X-API-Key: <key>' \
     -H 'Content-type: application/json' \
     -d '{"statement": "SELECT ... FROM ..."}' \ 
     https://api.namara.io/twirp/query.QueryService/Query
