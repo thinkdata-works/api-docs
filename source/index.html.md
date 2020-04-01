@@ -17,6 +17,7 @@ includes:
   - basics
   - query_api
   - catalog
+  - legacy_api
   - contact
 
 search: true

@@ -5,6 +5,10 @@ If you have used SQL in your past, you should fine this language very familiar a
 largest difference between NiQL and standard SQL is that the only supported queries start with the keyword `SELECT`.  
 All keywords that mutate the underlying data such as `INSERT`, `UPDATE`, `DELETE`, etc. are not supported.
 
+## Handling Pagination
+
+Every request that returns a list of results will have pagination parameters that should be provided. `1000` results is both the default and maximum per request. For limits exceeding `1000`, either an error will be returned or a forced `1000` result limit will be applied. This may vary depending on the service. In any case, it is recommend that all listing requests have a pagination strategy.
+
 ## Creating a Query
 
 A query follow the basic form you would be familiar with in SQL.  

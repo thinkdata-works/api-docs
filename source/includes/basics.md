@@ -33,11 +33,6 @@ app. To access this, click on the user icon in the top corner of the application
 Your API key must be used when initializing the client for our supported languages, or to be passed in the HTTP header
 `X-API-Key: YOUR_KEY` if you are commmunicating with the API directly or using the legacy API.
 
-
-## Our Legacy API
-
-TODO: Add Docs for Legacy API
-
 ## Dataset Versions
 
 Our data is updated regularly and automatically, so values in rows and columns may change. The dataset version is a 
@@ -134,3 +129,7 @@ func main() {
 	fmt.Println(resp)
 }
 ```
+
+## Handling Pagination
+
+Every request that returns a list of results will have pagination parameters that should be provided. `1000` results is both the default and maximum per request. For limits exceeding `1000`, either an error will be returned or a forced `1000` result limit will be applied. This may vary depending on the service. In any case, it is recommend that all listing requests have a pagination strategy.

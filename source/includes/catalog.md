@@ -4,6 +4,10 @@ We have gone through the process of getting a client setup and querying the data
 stop there.  All functions of the Namara Catalog are available through the API and a complete list
 of the supported functions are listed here.
 
+## Handling Pagination
+
+Every request that returns a list of results will have pagination parameters that should be provided. `1000` results is both the default and maximum per request. For limits exceeding `1000`, either an error will be returned or a forced `1000` result limit will be applied. This may vary depending on the service. In any case, it is recommend that all listing requests have a pagination strategy.
+
 ## Organizations
 
 The organization is the highest unit.  A user can be a member of many organizations and an organization
