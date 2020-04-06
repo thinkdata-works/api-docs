@@ -165,6 +165,8 @@ offset | `integer` | Results will be returned starting at the row number specifi
 select | `string` | Comma-separated list of column names to return
 order | `string` | Specify the order of the returned results (see <a href="#ordering">Ordering</a>)
 where | `string` | Conditions for performing query (see <a href="#conditions">Conditions</a>)
+redirect | `boolean` | On a successful export, HTTP response will just redirect to resource for downloading, rather than rendering link to file
+proxy | `boolean` | If specified, and if the namara environment is configured, resource will redirect through a proxy for downloading
 
 ### Responses
 
