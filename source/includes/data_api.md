@@ -156,10 +156,8 @@ data_set_id (required) | `string` | UUID for accessing the data set
 
 Query Parameters | Type | Description
 ---------------- | ---- | -----------
-result_format | `string` | Query response format: `csv`, `json`, or `geojson` (default is `json`)
 geometry_format | `string` | Either `wkt` or `geojson` for all geometry values (default is `geojson`)
 geojson_feature_key | `string` | Property name to use as geometry when rendering `geojson`
-compress_with | `string` | Compression options for final export
 limit | `integer` | Number of rows to export
 offset | `integer` | Results will be returned starting at the row number specified (see <a href="#pagination">Pagination</a>)
 select | `string` | Comma-separated list of column names to return
@@ -173,7 +171,6 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
   {
     "message": "Exported",
     "url": "<url to file>",
-    "compressed_with": "none"
   }
 
 2)
