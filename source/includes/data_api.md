@@ -170,7 +170,7 @@ where | `string` | Conditions for performing query (see <a href="#conditions">Co
 1)
   {
     "message": "Exported",
-    "url": "<url to file>",
+    "url": "<url to file>"
   }
 
 2)
