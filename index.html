@@ -770,11 +770,6 @@ https://api.namara.io/v0/query.<span class="o">{</span>FORMAT<span class="o">}</
 </tr>
 </thead><tbody>
 <tr>
-<td>result_format</td>
-<td><code>string</code></td>
-<td>Query response format: <code>csv</code>, <code>json</code>, or <code>geojson</code> (default is <code>json</code>)</td>
-</tr>
-<tr>
 <td>geometry_format</td>
 <td><code>string</code></td>
 <td>Either <code>wkt</code> or <code>geojson</code> for all geometry values (default is <code>geojson</code>)</td>
@@ -783,11 +778,6 @@ https://api.namara.io/v0/query.<span class="o">{</span>FORMAT<span class="o">}</
 <td>geojson_feature_key</td>
 <td><code>string</code></td>
 <td>Property name to use as geometry when rendering <code>geojson</code></td>
-</tr>
-<tr>
-<td>compress_with</td>
-<td><code>string</code></td>
-<td>Compression options for final export</td>
 </tr>
 <tr>
 <td>limit</td>
@@ -818,8 +808,7 @@ https://api.namara.io/v0/query.<span class="o">{</span>FORMAT<span class="o">}</
 <h3 id='responses'>Responses</h3><pre class="highlight plaintext"><code>1)
   {
     "message": "Exported",
-    "url": "&lt;url to file&gt;",
-    "compressed_with": "none"
+    "url": "&lt;url to file&gt;"
   }
 
 2)
