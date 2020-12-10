@@ -1,3 +1,10 @@
+# Deprecation Notice
+
+<div class="deprecation-banner">
+  <p><strong>This version of Namara will be deprecated on December 31, 2020</strong>.</p>
+  <p>You can use our new <a href="https://marketplace.namara.io/" target="_blank" rel="noopener">Namara Marketplace</a> to access data from our data providers as well as the world of open data. If you would like to continue using organizations, projects, account creation, and our API, please contact us at <a href="mailto:info@thinkdataworks.com">info@thinkdataworks.com</a>.</p>
+</div>
+
 # API Introduction
 
 If you're looking to interact with the Namara API, you've come to the right place. This guide will cover instructions and conventions for using our API, with language-specific examples.
